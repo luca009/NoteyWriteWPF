@@ -1,0 +1,25 @@
+﻿<Window x:Name="mainWindow" x:Class="NoteyWriteWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NoteyWriteWPF"
+        mc:Ignorable="d"
+        Title="NoteyWriteWPF Alpha 0.1" Height="480" Width="640" MinWidth="256" MinHeight="144">
+    <Grid>
+        <ToolBar x:Name="tbFile" Height="26" VerticalAlignment="Top">
+            <Menu x:Name="menu" VerticalAlignment="Top" Background="#00F0F0F0">
+                <MenuItem x:Name="miFile" Header="File" Margin="0" BorderThickness="0" ClipToBounds="True">
+                    <MenuItem x:Name="miSaveAs" Header="Save As..." Click="anySaveAs_Click"/>
+                    <MenuItem x:Name="miOpen" Header="Open" HorizontalAlignment="Left" Margin="0" Click="anyOpen_Click"/>
+                    <MenuItem x:Name="miExit" Header="Exit"/>
+                </MenuItem>
+            </Menu>
+        </ToolBar>
+        <RichTextBox x:Name="rtbMain" Margin="0,26,0,0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <FlowDocument>
+                <Paragraph/>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+</Window>
