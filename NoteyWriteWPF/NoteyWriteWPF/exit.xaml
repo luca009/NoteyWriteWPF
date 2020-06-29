@@ -1,0 +1,17 @@
+﻿<Window x:Name="exit1" x:Class="NoteyWriteWPF.exit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NoteyWriteWPF"
+        mc:Ignorable="d"
+        Title="Unsaved changes - NoteyWrite" Height="185" Width="260" ResizeMode="NoResize">
+    <Grid>
+        <Label x:Name="lUnsaved" Content="You have unsaved changes." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lWantToSave" Content="Do you want to save before exiting?" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="bSave" Content="Save" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Width="224" Click="bSave_Click"/>
+        <Button x:Name="bExit" Content="Exit anyway" HorizontalAlignment="Left" Margin="124,116,0,0" VerticalAlignment="Top" Width="110" Click="bExit_Click"/>
+        <Button x:Name="bCancel" Content="Don't exit" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="109.5" Click="bCancel_Click"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg857" Width="16" Height="16">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: metadata-->
+    <!--Unknown tag: sodipodi:namedview-->
+    <Canvas Name="g851">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.1237997 0 0 0.15300387 0.4321448 -0.50491277"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path849" Fill="#FFFFFFFF" StrokeThickness="4.46" Stroke="#FF000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+        <Path.Data>
+          <PathGeometry Figures="M 114.338 5.53 H 39.319 L 14.313 25.86 v 79.695 h 100.025 z" FillRule="EvenOdd"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+    <Canvas Name="g855">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.12383116 0 0 0.12442474 -1.3099933 5.8823072"/>
+      </Canvas.RenderTransform>
+      <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="144" FontFamily="ArialMT, Arial, sans-serif" Canvas.Left="36.331001" Canvas.Top="-76.3" Name="text853">+</TextBlock>
+    </Canvas>
+  </Canvas>
+</Viewbox>

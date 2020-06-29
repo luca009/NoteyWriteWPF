@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg6" Width="16" Height="16">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: metadata-->
+    <!--Unknown tag: sodipodi:namedview-->
+    <Canvas Name="g4">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.11971008 0 0 0.11971008 -3.6947059 2.2993299"/>
+      </Canvas.RenderTransform>
+      <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="188" FontWeight="Bold" FontFamily="Cambria-Bold, Cambria, serif" Canvas.Left="36.188" Canvas.Top="-77.7" Name="text2">B</TextBlock>
+    </Canvas>
+  </Canvas>
+</Viewbox>
