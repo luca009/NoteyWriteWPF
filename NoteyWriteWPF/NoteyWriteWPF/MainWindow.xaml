@@ -9,86 +9,8 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="icons.xaml" />
+                <ResourceDictionary Source="icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconUnderline2">
-                <Canvas x:Name="svg8" Width="16" Height="16">
-                    <Canvas.RenderTransform>
-                        <TranslateTransform X="0" Y="0"/>
-                    </Canvas.RenderTransform>
-                    <Canvas x:Name="g6">
-                        <Canvas.RenderTransform>
-                            <MatrixTransform Matrix="1 0 0 1 1.8041 -3.33887"/>
-                        </Canvas.RenderTransform>
-                        <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="20" FontFamily="Cambria, Cambria, serif" Canvas.Left="-0.5" Canvas.Top="-3" x:Name="text4"><Run Text="U"/></TextBlock>
-                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0.254" Canvas.Top="17" Width="11.916" Height="1.208" x:Name="rect4" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                    </Canvas>
-                </Canvas>
-            </Viewbox>
-            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconAlignLeft2">
-                <Canvas x:Name="svg18" Width="16" Height="16">
-                    <Canvas.RenderTransform>
-                        <TranslateTransform X="0" Y="0"/>
-                    </Canvas.RenderTransform>
-                    <Canvas x:Name="g7">
-                        <Canvas.RenderTransform>
-                            <MatrixTransform Matrix="1 0 0 1 0 -0.5"/>
-                        </Canvas.RenderTransform>
-                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="12" Height="2" x:Name="rect2" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                    </Canvas>
-                    <Canvas x:Name="g8">
-                        <Canvas.RenderTransform>
-                            <MatrixTransform Matrix="1 0 0 1 0 8.25"/>
-                        </Canvas.RenderTransform>
-                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="12" Height="2" x:Name="rect6" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                    </Canvas>
-                    <Canvas x:Name="g12">
-                        <Canvas.RenderTransform>
-                            <MatrixTransform Matrix="0.666667 0 0 1 0 3.75"/>
-                        </Canvas.RenderTransform>
-                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="12" Height="2" x:Name="rect10" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                    </Canvas>
-                    <Canvas x:Name="g16">
-                        <Canvas.RenderTransform>
-                            <MatrixTransform Matrix="0.666667 0 0 1 0 12.5"/>
-                        </Canvas.RenderTransform>
-                        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="12" Height="2" x:Name="rect14" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                    </Canvas>
-                </Canvas>
-            </Viewbox>
-            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconAlignCenter2">
-                <Canvas x:Name="svg4562" Width="16" Height="16">
-                    <Canvas.RenderTransform>
-                        <TranslateTransform X="0" Y="0"/>
-                    </Canvas.RenderTransform>
-                    <Canvas x:Name="g4560">
-                        <Canvas x:Name="g4546">
-                            <Canvas.RenderTransform>
-                                <MatrixTransform Matrix="1 0 0 1 2 1"/>
-                            </Canvas.RenderTransform>
-                            <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="12" Height="2" x:Name="rect4544" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                        </Canvas>
-                        <Canvas x:Name="g4550">
-                            <Canvas.RenderTransform>
-                                <MatrixTransform Matrix="1 0 0 1 2 9"/>
-                            </Canvas.RenderTransform>
-                            <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="12" Height="2" x:Name="rect4548" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                        </Canvas>
-                        <Canvas x:Name="g4554">
-                            <Canvas.RenderTransform>
-                                <MatrixTransform Matrix="0.666667 0 0 1 4 5"/>
-                            </Canvas.RenderTransform>
-                            <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="12" Height="2" x:Name="rect4552" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                        </Canvas>
-                        <Canvas x:Name="g4558">
-                            <Canvas.RenderTransform>
-                                <MatrixTransform Matrix="0.666667 0 0 1 4 13"/>
-                            </Canvas.RenderTransform>
-                            <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="12" Height="2" x:Name="rect4556" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
-                        </Canvas>
-                    </Canvas>
-                </Canvas>
-            </Viewbox>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -101,10 +23,18 @@
                     <MenuItem x:Name="miSaveAs" Header="Save As..." Click="anySaveAs_Click" Margin="0,1,-2,0" Background="Transparent" Foreground="Black" Icon="{StaticResource iconSaveAs}"/>
                     <MenuItem x:Name="miExit" Header="Exit" Margin="0,1,-2,0" Click="anyExit_Click" Icon="{StaticResource iconExit}"/>
                 </MenuItem>
+                <MenuItem x:Name="miEdit" Header="Edit" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22" GotFocus="miEdit_Focus" GotKeyboardFocus="miEdit_Focus">
+                    <MenuItem x:Name="miUndo" Header="Undo" Click="anyUndo_Click" Icon="{StaticResource iconUndo}"/>
+                    <MenuItem x:Name="miRedo" Header="Redo" Click="anyRedo_Click" Margin="0" Icon="{StaticResource iconRedo}"/>
+                </MenuItem>
             </Menu>
         </ToolBar>
         <RichTextBox x:Name="rtbMain" Margin="0,56,0,0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" SpellCheck.IsEnabled="True" AcceptsTab="True"/>
         <ToolBar x:Name="tbFormatting" Height="30" Margin="0,26,0,0" VerticalAlignment="Top">
+            <MenuItem x:Name="miNewBar" Icon="{StaticResource iconNewBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyNew_Click"/>
+            <MenuItem x:Name="miOpenBar" Icon="{StaticResource iconOpenBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyOpen_Click"/>
+            <MenuItem x:Name="miSaveBar" Icon="{StaticResource iconSaveBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anySave_Click"/>
+            <Separator/>
             <ComboBox x:Name="cbFont" Height="25" Margin="0" VerticalAlignment="Top" Width="140" DropDownClosed="anyFont_DropDownClosed"/>
             <ComboBox x:Name="cbFontSize" Height="25" Margin="0" VerticalAlignment="Top" Width="80" DropDownClosed="anyFontSize_DropDownClosed"/>
             <Separator/>
@@ -115,6 +45,7 @@
             <MenuItem x:Name="miAlignLeft" Icon="{StaticResource iconAlignLeft}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignLeft" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" IsCheckable="True"/>
             <MenuItem x:Name="miAlignCenter" Icon="{StaticResource iconAlignCenter}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignCenter" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" IsCheckable="True"/>
             <MenuItem x:Name="miAlignRight" Icon="{StaticResource iconAlignRight}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignRight" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown"/>
+            <MenuItem x:Name="miAlignJustify" Icon="{StaticResource iconAlignJustify}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignJustify" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown"/>
         </ToolBar>
     </Grid>
 </Window>

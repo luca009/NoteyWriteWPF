@@ -24,7 +24,7 @@ namespace NoteyWriteWPF
     public partial class MainWindow : Window
     {
         // Define Variables
-        public string currentVersion = "Alpha 0.2";
+        public string currentVersion = "Alpha 0.2.1";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
         public string currentlyOpenPath;
@@ -123,12 +123,16 @@ namespace NoteyWriteWPF
                     miAlignCenter.IsChecked = true;
                 if (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Right)
                     miAlignRight.IsChecked = true;
+                if (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Justify)
+                    miAlignJustify.IsChecked = true;
                 if (rtbMain.Selection.Start.Paragraph.TextAlignment != TextAlignment.Left)
                     miAlignLeft.IsChecked = false;
                 if (rtbMain.Selection.Start.Paragraph.TextAlignment != TextAlignment.Center)
                     miAlignCenter.IsChecked = false;
                 if (rtbMain.Selection.Start.Paragraph.TextAlignment != TextAlignment.Right)
                     miAlignRight.IsChecked = false;
+                if (rtbMain.Selection.Start.Paragraph.TextAlignment != TextAlignment.Justify)
+                    miAlignJustify.IsChecked = false;
             }
         }
 
@@ -270,6 +274,28 @@ namespace NoteyWriteWPF
                 rtbMain.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cbFontSize.SelectedItem);
             }
             rtbMain.Focus();
+        }
+
+        private void anyUndo_Click(object sender, RoutedEventArgs e)
+        {
+            if (rtbMain.CanUndo)
+                rtbMain.Undo();
+        }
+
+        private void anyRedo_Click(object sender, RoutedEventArgs e)
+        {
+            if (rtbMain.CanRedo)
+                rtbMain.Redo();
+        }
+
+        private void miEdit_Focus(object sender, RoutedEventArgs e)
+        {
+            miUndo.IsEnabled = false;
+            miRedo.IsEnabled = false;
+            if (rtbMain.CanUndo)
+                miUndo.IsEnabled = true;
+            if (rtbMain.CanRedo)
+                miRedo.IsEnabled = true;
         }
     }
 }
