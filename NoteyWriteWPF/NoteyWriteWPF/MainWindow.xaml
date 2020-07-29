@@ -26,26 +26,37 @@
                 <MenuItem x:Name="miEdit" Header="Edit" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22" GotFocus="miEdit_Focus" GotKeyboardFocus="miEdit_Focus">
                     <MenuItem x:Name="miUndo" Header="Undo" Click="anyUndo_Click" Icon="{StaticResource iconUndo}"/>
                     <MenuItem x:Name="miRedo" Header="Redo" Click="anyRedo_Click" Margin="0" Icon="{StaticResource iconRedo}"/>
+                    <Separator/>
+                    <MenuItem x:Name="miFindReplace" Header="Find &amp; Replace (non-functional)" Click="miFindReplace_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="miCorrectSpelling" Header="Correct Spelling Error" Command="EditingCommands.CorrectSpellingError"/>
+                    <MenuItem x:Name="miIgnoreSpelling" Header="Ignore Spelling Error" Command="EditingCommands.IgnoreSpellingError"/>
                 </MenuItem>
             </Menu>
         </ToolBar>
-        <RichTextBox x:Name="rtbMain" Margin="0,56,0,0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" SpellCheck.IsEnabled="True" AcceptsTab="True"/>
+        <RichTextBox x:Name="rtbMain" Margin="0,56,0,0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" SpellCheck.IsEnabled="True" AcceptsTab="True" RenderTransformOrigin="0.5,0.5"/>
         <ToolBar x:Name="tbFormatting" Height="30" Margin="0,26,0,0" VerticalAlignment="Top">
-            <MenuItem x:Name="miNewBar" Icon="{StaticResource iconNewBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyNew_Click"/>
-            <MenuItem x:Name="miOpenBar" Icon="{StaticResource iconOpenBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyOpen_Click"/>
-            <MenuItem x:Name="miSaveBar" Icon="{StaticResource iconSaveBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anySave_Click"/>
+            <MenuItem x:Name="miNewBar" Icon="{StaticResource iconNewBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyNew_Click" ToolTip="Create a new document."/>
+            <MenuItem x:Name="miOpenBar" Icon="{StaticResource iconOpenBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyOpen_Click" ToolTip="Open an existing document."/>
+            <MenuItem x:Name="miSaveBar" Icon="{StaticResource iconSaveBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anySave_Click" ToolTip="Save this document."/>
             <Separator/>
             <ComboBox x:Name="cbFont" Height="25" Margin="0" VerticalAlignment="Top" Width="140" DropDownClosed="anyFont_DropDownClosed"/>
             <ComboBox x:Name="cbFontSize" Height="25" Margin="0" VerticalAlignment="Top" Width="80" DropDownClosed="anyFontSize_DropDownClosed"/>
             <Separator/>
-            <MenuItem x:Name="miBold" Icon="{StaticResource iconBold}" Width="23" Margin="0,2,0,0" IsCheckable="True" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.ToggleBold" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown"/>
-            <MenuItem x:Name="miItalic" Icon="{StaticResource iconItalic}" Width="23" Margin="0,2,0,0" IsCheckable="True" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.ToggleItalic" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown"/>
-            <MenuItem x:Name="miUnderline" Icon="{StaticResource iconUnderline}" Width="23" Margin="0,2,0,0" IsCheckable="True" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.ToggleUnderline" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown"/>
+            <MenuItem x:Name="miBold" Icon="{StaticResource iconBold}" Width="23" Margin="0,2,0,0" IsCheckable="True" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.ToggleBold" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="{StaticResource tooltipBold}"/>
+            <MenuItem x:Name="miItalic" Icon="{StaticResource iconItalic}" Width="23" Margin="0,2,0,0" IsCheckable="True" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.ToggleItalic" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="{StaticResource tooltipItalic}"/>
+            <MenuItem x:Name="miUnderline" Icon="{StaticResource iconUnderline}" Width="23" Margin="0,2,0,0" IsCheckable="True" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.ToggleUnderline" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="{StaticResource tooltipUnderline}"/>
             <Separator/>
-            <MenuItem x:Name="miAlignLeft" Icon="{StaticResource iconAlignLeft}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignLeft" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" IsCheckable="True"/>
-            <MenuItem x:Name="miAlignCenter" Icon="{StaticResource iconAlignCenter}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignCenter" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" IsCheckable="True"/>
-            <MenuItem x:Name="miAlignRight" Icon="{StaticResource iconAlignRight}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignRight" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown"/>
-            <MenuItem x:Name="miAlignJustify" Icon="{StaticResource iconAlignJustify}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignJustify" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown"/>
+            <MenuItem x:Name="miForeground" Icon="{StaticResource iconForeground}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="anyFormat_MouseDown" ToolTip="Change the selected text's foreground color." Click="miForeground_Click"/>
+            <MenuItem x:Name="miBackground" Icon="{StaticResource iconBackground}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="anyFormat_MouseDown" ToolTip="Change the selected text's foreground color." Click="miBackground_Click"/>
+            <Separator/>
+            <MenuItem x:Name="miAlignLeft" Icon="{StaticResource iconAlignLeft}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignLeft" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" IsCheckable="True" ToolTip="Align the selected text to the left. (Ctrl+L)"/>
+            <MenuItem x:Name="miAlignCenter" Icon="{StaticResource iconAlignCenter}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignCenter" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" IsCheckable="True" ToolTip="Align the selected text to the center. (Ctrl+E)"/>
+            <MenuItem x:Name="miAlignRight" Icon="{StaticResource iconAlignRight}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignRight" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Align the selected text to the right. (Ctrl+R)"/>
+            <MenuItem x:Name="miAlignJustify" Icon="{StaticResource iconAlignJustify}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignJustify" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Align the selected text justified. (Ctrl+J)"/>
+            <Separator Margin="0,2"/>
+            <MenuItem x:Name="miIncreaseIndent" Icon="{StaticResource iconIncreaseIndent}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.IncreaseIndentation" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Increase the line indentation. (Ctrl+T)"/>
+            <MenuItem x:Name="miDecreaseIndent" Icon="{StaticResource iconDecreaseIndent}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.DecreaseIndentation" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Decrease the line indentation. (Ctrl+Shift+T)" Header="DecreaseIndentation"/>
         </ToolBar>
     </Grid>
 </Window>

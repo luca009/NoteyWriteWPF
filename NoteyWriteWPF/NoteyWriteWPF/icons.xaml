@@ -489,4 +489,165 @@
             </Canvas>
         </Canvas>
     </Viewbox>
+
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconIncreaseIndent">
+        <Canvas Name="svg881" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Canvas Name="g81463">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.9375 0 0 1 1 -0.5"/>
+                </Canvas.RenderTransform>
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect1356861" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+            <Canvas Name="g75867">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.3125 0 0 1 11 12.5"/>
+                </Canvas.RenderTransform>
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect86675" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+            <Canvas Name="g873561">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.3125 0 0 1 11 6"/>
+                </Canvas.RenderTransform>
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect83469" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+            <Canvas Name="g83675">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1 0 0 1 0 -3"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path873" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M1 10L8.5 10" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g879">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1 0 0 1 0 -4"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path84677" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M6 8L9 11L6 14" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconDecreaseIndent">
+        <Canvas Name="svg863" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Canvas Name="g845">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.3125 0 0 1 11 -0.5"/>
+                </Canvas.RenderTransform>
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect843" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+            <Canvas Name="g849">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.9375 0 0 1 1 12.5"/>
+                </Canvas.RenderTransform>
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect847" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+            <Canvas Name="g853">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.3125 0 0 1 11 6"/>
+                </Canvas.RenderTransform>
+                <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect851" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+            <Canvas Name="g8537">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1 0 0 1 1 -3"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path855" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M1 10L8.5 10" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g8651">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="-1 -1.22465e-16 1.22465e-16 -1 10 18"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path859" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M6 8L9 11L6 14" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconBackground">
+        <Canvas Name="svg865" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources>
+                <LinearGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="_Linear1" MappingMode="Absolute" StartPoint="0,0" EndPoint="1,0">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FF000000" Offset="0"/>
+                            <GradientStop Color="#FF808080" Offset="1"/>
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                    <LinearGradientBrush.Transform>
+                        <MatrixTransform Matrix="18 0 0 18 0 8"/>
+                    </LinearGradientBrush.Transform>
+                </LinearGradientBrush>
+            </Canvas.Resources>
+            <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="-0.65" Canvas.Top="-2" Width="18" Height="18" Name="rect852" Fill="{StaticResource _Linear1}" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
+            <Canvas Name="g8556">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1.16371 0 0 1.1483 0.74061 -2.60626"/>
+                </Canvas.RenderTransform>
+                <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="20" FontFamily="Cambria, serif" Foreground="#EBEBEB" Canvas.Left="0.071" Canvas.Top="-4" Name="text85254">A</TextBlock>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconForeground">
+        <Canvas Name="svg86671" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources>
+                <LinearGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="_Linear1" MappingMode="Absolute" StartPoint="0,-16" EndPoint="1,-16">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#FF000000" Offset="0"/>
+                            <GradientStop Color="#FF808080" Offset="1"/>
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                    <LinearGradientBrush.Transform>
+                        <MatrixTransform Matrix="6.94 0 0 6.94845 2.95301 10.4236"/>
+                    </LinearGradientBrush.Transform>
+                </LinearGradientBrush>
+            </Canvas.Resources>
+            <Canvas Name="g8352">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1.16371 0 0 1.1483 0.74061 -2.60626"/>
+                </Canvas.RenderTransform>
+                <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="20" FontFamily="Cambria, serif" Foreground="{StaticResource _Linear1}" Canvas.Left="0.071" Canvas.Top="-4" Name="text850">A</TextBlock>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+    <!-- new icons above, tooltips below -->
+
+    <ToolTip x:Key="tooltipBold">
+        <TextBlock>Make the selected text bold. <Italic>(Ctrl+B)</Italic><LineBreak/><Bold>Like this.</Bold></TextBlock>
+    </ToolTip>
+    <ToolTip x:Key="tooltipItalic">
+        <TextBlock>Make the selected text italic. <Italic>(Ctrl+I)<LineBreak/>Like this.</Italic></TextBlock>
+    </ToolTip>
+    <ToolTip x:Key="tooltipUnderline">
+        <TextBlock>Make the selected text underlined. <Italic>(Ctrl+U)</Italic><LineBreak/><Underline>Like this.</Underline></TextBlock>
+    </ToolTip>
 </ResourceDictionary>

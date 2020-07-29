@@ -1,0 +1,15 @@
+﻿<Window x:Name="find1" x:Class="NoteyWriteWPF.find"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NoteyWriteWPF"
+        mc:Ignorable="d"
+        Title="Find &amp; Replace - NoteyWrite" Height="180" Width="330" ResizeMode="NoResize">
+    <Grid Margin="0">
+        <TextBox x:Name="tbFind" HorizontalAlignment="Left" Height="22" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310"/>
+        <TextBox x:Name="tbReplace" HorizontalAlignment="Left" Height="23" Margin="10,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310"/>
+        <Button x:Name="bFind" Content="Find Next" HorizontalAlignment="Left" Margin="240,65,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button x:Name="bTrue" Content="Find Next" HorizontalAlignment="Left" Margin="210,108,0,0" VerticalAlignment="Top" Width="74" Click="bTrue_Click"/>
+    </Grid>
+</Window>

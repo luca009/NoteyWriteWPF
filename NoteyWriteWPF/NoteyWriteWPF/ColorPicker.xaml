@@ -1,0 +1,35 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NoteyWriteWPF"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="NoteyWriteWPF.ColorPicker"
+        mc:Ignorable="d"
+        Title="ColorPicker" Height="140" Width="245" ResizeMode="NoResize" WindowStyle="None" Loaded="Window_Loaded">
+    <Grid>
+        <Button x:Name="bOK" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="225" Click="bOK_Click"/>
+        <Button x:Name="bCancel" Content="X" HorizontalAlignment="Left" Margin="225,0,0,0" VerticalAlignment="Top" Width="20" Click="bCancel_Click"/>
+        <Slider x:Name="slHue" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="200" Maximum="360" TickPlacement="BottomRight" ValueChanged="slHue_ValueChanged"/>
+        <Image HorizontalAlignment="Left" Height="5" Margin="15,43,0,0" VerticalAlignment="Top" Width="190" Source="wheelHue.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1" ScaleX="-1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <TextBox x:Name="tbHue" HorizontalAlignment="Left" Height="23" Margin="210,26,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="30" TextChanged="tbHue_TextChanged" UndoLimit="5"/>
+        <Slider x:Name="slSaturation" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Width="200" Maximum="100" TickPlacement="BottomRight" ValueChanged="slSaturation_ValueChanged" Value="100"/>
+        <Image HorizontalAlignment="Left" Height="5" Margin="15,71,0,0" VerticalAlignment="Top" Width="190" Source="wheelSaturation.png" Stretch="Fill"/>
+        <TextBox x:Name="tbSaturation" HorizontalAlignment="Left" Height="23" Margin="210,54,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="30" TextChanged="tbSaturation_TextChanged" UndoLimit="5"/>
+        <Slider x:Name="slValue" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Width="200" Maximum="100" TickPlacement="BottomRight" ValueChanged="slValue_ValueChanged" Value="100"/>
+        <Image HorizontalAlignment="Left" Height="5" Margin="15,99,0,0" VerticalAlignment="Top" Width="190" Source="wheelValue.png" Stretch="Fill"/>
+        <TextBox x:Name="tbValue" HorizontalAlignment="Left" Height="23" Margin="210,82,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="30" TextChanged="tbValue_TextChanged" UndoLimit="5"/>
+        <Rectangle x:Name="rectPreview" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="23" Margin="59,109,0,0" Stroke="Black" VerticalAlignment="Top" Width="181"/>
+        <Label Content="Preview" HorizontalAlignment="Left" Margin="15,109,0,0" VerticalAlignment="Top" FontSize="10"/>
+    </Grid>
+</Window>

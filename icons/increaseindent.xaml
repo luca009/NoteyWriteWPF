@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg881" Width="16" Height="16">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: metadata-->
+    <!--Unknown tag: sodipodi:namedview-->
+    <Canvas Name="g863">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.9375 0 0 1 1 1"/>
+      </Canvas.RenderTransform>
+      <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect861" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    </Canvas>
+    <Canvas Name="g867">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.3125 0 0 1 11 13"/>
+      </Canvas.RenderTransform>
+      <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect865" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    </Canvas>
+    <Canvas Name="g871">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.3125 0 0 1 11 7"/>
+      </Canvas.RenderTransform>
+      <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="16" Height="2" Name="rect869" Fill="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    </Canvas>
+    <Canvas Name="g875">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="1 0 0 1 0 -2"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path873" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+        <Path.Data>
+          <PathGeometry Figures="M1 10L8.5 10" FillRule="EvenOdd"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+    <Canvas Name="g879">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="1 0 0 1 0 -3"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path877" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+        <Path.Data>
+          <PathGeometry Figures="M6 8L9 11L6 14" FillRule="EvenOdd"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </Canvas>
+</Viewbox>

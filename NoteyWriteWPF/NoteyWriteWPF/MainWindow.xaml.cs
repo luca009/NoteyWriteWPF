@@ -9,12 +9,13 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft;
 using Microsoft.Win32;
+using System.Windows.Media;
+using System.Net;
 
 namespace NoteyWriteWPF
 {
@@ -24,7 +25,7 @@ namespace NoteyWriteWPF
     public partial class MainWindow : Window
     {
         // Define Variables
-        public string currentVersion = "Alpha 0.2.1";
+        public string currentVersion = "Alpha 0.3";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
         public string currentlyOpenPath;
@@ -41,7 +42,7 @@ namespace NoteyWriteWPF
             ofdOpen.Title = "Open a document | NoteyWriteWPF";
 
             List<string> fonts = new List<string>();
-            foreach (FontFamily font in System.Drawing.FontFamily.Families)
+            foreach (System.Drawing.FontFamily font in System.Drawing.FontFamily.Families)
             {
                 fonts.Add(font.Name);
             }
@@ -91,7 +92,7 @@ namespace NoteyWriteWPF
         public bool saveDocumentFromRawRtf(string filePath, string rawRtf)
         {
             string fileExtension = System.IO.Path.GetExtension(filePath);
-            FileStream stream;
+            //FileStream stream;
 
             if (fileExtension == ".rtf")
             { System.IO.File.WriteAllText(filePath, rawRtf); }
@@ -117,23 +118,49 @@ namespace NoteyWriteWPF
         {
             if (rtbMain.Selection.Start.Paragraph != null)
             {
-                if (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Left)
-                    miAlignLeft.IsChecked = true;
-                if (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Center)
-                    miAlignCenter.IsChecked = true;
-                if (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Right)
-                    miAlignRight.IsChecked = true;
-                if (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Justify)
-                    miAlignJustify.IsChecked = true;
-                if (rtbMain.Selection.Start.Paragraph.TextAlignment != TextAlignment.Left)
-                    miAlignLeft.IsChecked = false;
-                if (rtbMain.Selection.Start.Paragraph.TextAlignment != TextAlignment.Center)
-                    miAlignCenter.IsChecked = false;
-                if (rtbMain.Selection.Start.Paragraph.TextAlignment != TextAlignment.Right)
-                    miAlignRight.IsChecked = false;
-                if (rtbMain.Selection.Start.Paragraph.TextAlignment != TextAlignment.Justify)
-                    miAlignJustify.IsChecked = false;
+                miAlignLeft.IsChecked = (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Left);
+                miAlignCenter.IsChecked = (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Center);
+                miAlignRight.IsChecked = (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Right);
+                miAlignJustify.IsChecked = (rtbMain.Selection.Start.Paragraph.TextAlignment == TextAlignment.Justify);
             }
+        }
+
+        public static Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value = value * 255;
+            byte v = Convert.ToByte(value);
+            byte p = Convert.ToByte(value * (1 - saturation));
+            byte q = Convert.ToByte(value * (1 - f * saturation));
+            byte t = Convert.ToByte(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return Color.FromArgb(255, t, p, v);
+            else
+                return Color.FromArgb(255, v, p, q);
+        }
+
+        internal void selectFromIndex(RichTextBox rtb, int index, int length)
+        {
+            TextRange textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+
+            if (textRange.Text.Length >= (index + length))
+            {
+                TextPointer start = textRange.Start.GetPositionAtOffset(index, LogicalDirection.Forward);
+                TextPointer end = textRange.Start.GetPositionAtOffset(index + length, LogicalDirection.Backward);
+                rtb.Selection.Select(start, end);
+            }
+            return;
         }
 
         private void anyNew_Click(object sender, RoutedEventArgs e)
@@ -296,6 +323,53 @@ namespace NoteyWriteWPF
                 miUndo.IsEnabled = true;
             if (rtbMain.CanRedo)
                 miRedo.IsEnabled = true;
+        }
+
+        private void miFindReplace_Click(object sender, RoutedEventArgs e)
+        {
+            find find = new find();
+            string comparisonString = "test";
+            if (find.ShowDialog() == true)
+            {
+                rtbMain.SelectAll();
+                if (rtbMain.Selection.Text.IndexOf(comparisonString, StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    //rtbMain.Selection.Text.Substring(rtbMain.Selection.Text.IndexOf(comparisonString, StringComparison.OrdinalIgnoreCase), comparisonString.Length);
+                    selectFromIndex(rtbMain, rtbMain.Selection.Text.IndexOf(comparisonString, StringComparison.OrdinalIgnoreCase), comparisonString.Length);
+                }
+            }
+        }
+
+        private void miForeground_Click(object sender, RoutedEventArgs e)
+        {
+            ColorPicker colorPicker = new ColorPicker();
+            if (colorPicker.ShowDialog() == true)
+            {
+                double hue = Convert.ToByte(colorPicker.slHue.Value);
+                double saturation = Convert.ToByte(colorPicker.slSaturation.Value);
+                double value = Convert.ToByte(colorPicker.slValue.Value);
+                Color color = new Color();
+
+                color = ColorFromHSV(hue, saturation / 100, value / 100);
+
+                rtbMain.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, new SolidColorBrush(color));
+            }
+        }
+
+        private void miBackground_Click(object sender, RoutedEventArgs e)
+        {
+            ColorPicker colorPicker = new ColorPicker();
+            if (colorPicker.ShowDialog() == true)
+            {
+                double hue = Convert.ToByte(colorPicker.slHue.Value);
+                double saturation = Convert.ToByte(colorPicker.slSaturation.Value);
+                double value = Convert.ToByte(colorPicker.slValue.Value);
+                Color color = new Color();
+
+                color = ColorFromHSV(hue, saturation / 100, value / 100);
+                
+                rtbMain.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, new SolidColorBrush(color));
+            }
         }
     }
 }

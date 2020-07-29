@@ -95,7 +95,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="exit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="find.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,8 +119,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="exit.xaml.cs">
       <DependentUpon>exit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="find.xaml.cs">
+      <DependentUpon>find.xaml</DependentUpon>
     </Compile>
     <Compile Include="mainWindow.xaml.cs">
       <DependentUpon>mainWindow.xaml</DependentUpon>
@@ -158,6 +172,15 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="wheelHue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="wheelValue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="wheelSaturation.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
