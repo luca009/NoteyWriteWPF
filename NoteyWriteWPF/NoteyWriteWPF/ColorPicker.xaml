@@ -7,7 +7,7 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="NoteyWriteWPF.ColorPicker"
         mc:Ignorable="d"
-        Title="ColorPicker" Height="140" Width="245" ResizeMode="NoResize" WindowStyle="None" Loaded="Window_Loaded">
+        Title="ColorPicker" Height="140" Width="245" ResizeMode="NoResize" WindowStyle="None" Loaded="Window_Loaded" AllowsTransparency="True">
     <Grid>
         <Button x:Name="bOK" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="225" Click="bOK_Click"/>
         <Button x:Name="bCancel" Content="X" HorizontalAlignment="Left" Margin="225,0,0,0" VerticalAlignment="Top" Width="20" Click="bCancel_Click"/>
@@ -29,7 +29,7 @@
         <Slider x:Name="slValue" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Width="200" Maximum="100" TickPlacement="BottomRight" ValueChanged="slValue_ValueChanged" Value="100"/>
         <Image HorizontalAlignment="Left" Height="5" Margin="15,99,0,0" VerticalAlignment="Top" Width="190" Source="wheelValue.png" Stretch="Fill"/>
         <TextBox x:Name="tbValue" HorizontalAlignment="Left" Height="23" Margin="210,82,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="30" TextChanged="tbValue_TextChanged" UndoLimit="5"/>
-        <Rectangle x:Name="rectPreview" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="23" Margin="59,109,0,0" Stroke="Black" VerticalAlignment="Top" Width="181"/>
+        <Rectangle x:Name="rectPreview" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="23" Margin="59,109,0,0" Stroke="Black" VerticalAlignment="Top" Width="181" Opacity="1.15"/>
         <Label Content="Preview" HorizontalAlignment="Left" Margin="15,109,0,0" VerticalAlignment="Top" FontSize="10"/>
     </Grid>
 </Window>

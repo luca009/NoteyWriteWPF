@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteyWriteWPF"
         mc:Ignorable="d"
-        Title="Find &amp; Replace - NoteyWrite" Height="180" Width="330" ResizeMode="NoResize">
+        Title="Find &amp; Replace - NoteyWrite" Height="180" Width="330" ResizeMode="NoResize" Closing="find1_Closing" WindowStyle="ToolWindow">
     <Grid Margin="0">
         <TextBox x:Name="tbFind" HorizontalAlignment="Left" Height="22" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310"/>
         <TextBox x:Name="tbReplace" HorizontalAlignment="Left" Height="23" Margin="10,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310"/>
-        <Button x:Name="bFind" Content="Find Next" HorizontalAlignment="Left" Margin="240,65,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button x:Name="bFind" Content="Find Next" HorizontalAlignment="Left" Margin="240,65,0,0" VerticalAlignment="Top" Width="74" Click="bFind_Click"/>
         <Button x:Name="bTrue" Content="Find Next" HorizontalAlignment="Left" Margin="210,108,0,0" VerticalAlignment="Top" Width="74" Click="bTrue_Click"/>
     </Grid>
 </Window>

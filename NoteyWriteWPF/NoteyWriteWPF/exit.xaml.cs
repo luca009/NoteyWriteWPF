@@ -19,8 +19,9 @@ namespace NoteyWriteWPF
     /// </summary>
     public partial class exit : Window
     {
-        private string mWCurrentlyOpenFile;
-        private string mWRawRtf;
+        public string mWCurrentlyOpenFile;
+        public string mWRawRtf;
+        public RichTextBox mWRichTextBox;
 
         public void getArguments(string currentlyOpenPath, string rawRtf)
         {
@@ -35,7 +36,8 @@ namespace NoteyWriteWPF
 
         private void bExit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            //Application.Current.Shutdown();
+            this.DialogResult = false;
         }
 
         private void bSave_Click(object sender, RoutedEventArgs e)
@@ -46,9 +48,9 @@ namespace NoteyWriteWPF
                 Nullable<bool> result = mainWindow.sfdSave.ShowDialog();
                 if (result == true)
                 {
-                    if (mainWindow.saveDocumentFromRawRtf(mainWindow.sfdSave.FileName, mWRawRtf))
+                    if (mainWindow.saveDocument(mainWindow.sfdSave.FileName, mWRichTextBox))
                     {
-                        Application.Current.Shutdown();
+                        this.DialogResult = false;
                     }
                 }
             }
@@ -56,20 +58,20 @@ namespace NoteyWriteWPF
             {
                 try
                 {
-                    mainWindow.saveDocumentFromRawRtf(mWCurrentlyOpenFile, mWRawRtf);
+                    mainWindow.saveDocument(mainWindow.sfdSave.FileName, mWRichTextBox);
+                    this.DialogResult = false;
                 }
                 catch (Exception ex)
                 {
                     nwDebug.nwError(ex.ToString());
                     throw;
                 }
-                Application.Current.Shutdown();
             }
         }
 
         private void bCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            this.DialogResult = true;
         }
     }
 }
