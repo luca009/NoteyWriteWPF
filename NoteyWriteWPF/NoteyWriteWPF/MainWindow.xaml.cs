@@ -28,13 +28,13 @@ namespace NoteyWriteWPF
     {
         private Storyboard animationStoryboard;
         // Define Variables
-        public string currentVersion = "Alpha 0.4.1";
+        public string currentVersion = "Alpha 0.4.1.1";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
         public string currentlyOpenPath;
         private bool unsavedChanges = false;
         private string[] arguments;
-        private int performanceModeMinSize = 4096;
+        private int performanceModeMinSize = 6144;
 
         public MainWindow()
         {

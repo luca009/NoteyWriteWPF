@@ -73,7 +73,7 @@ namespace NoteyWriteWPF
             openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
             openFileDialog.Title = "Open a document | NoteyWrite";
-            if (openFileDialog.ShowDialog() == DialogResult.Yes)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
                 openDocument(openFileDialog.FileName);
         }
 
