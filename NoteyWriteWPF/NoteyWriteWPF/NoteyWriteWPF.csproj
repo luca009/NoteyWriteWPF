@@ -128,6 +128,12 @@
     <Compile Include="find.xaml.cs">
       <DependentUpon>find.xaml</DependentUpon>
     </Compile>
+    <Compile Include="performanceMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="performanceMode.Designer.cs">
+      <DependentUpon>performanceMode.cs</DependentUpon>
+    </Compile>
     <Compile Include="mainWindow.xaml.cs">
       <DependentUpon>mainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -148,6 +154,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="performanceMode.resx">
+      <DependentUpon>performanceMode.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

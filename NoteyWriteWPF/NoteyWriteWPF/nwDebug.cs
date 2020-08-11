@@ -18,7 +18,7 @@ namespace NoteyWriteWPF
             switch (level)
             {
                 case 0:
-                    MessageBox.Show("Error!\nDescription: " + info + "\nNoteyWrite will attempt to continue and autosave your work.", "Error - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Error!\nDescription: " + info + "\nNoteyWrite will attempt to continue operating.", "Error - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                 case 1:
                     MessageBox.Show("Information: " + info, "Information - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Information);

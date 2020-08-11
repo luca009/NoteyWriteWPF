@@ -28,12 +28,13 @@ namespace NoteyWriteWPF
     {
         private Storyboard animationStoryboard;
         // Define Variables
-        public string currentVersion = "Alpha 0.4";
+        public string currentVersion = "Alpha 0.4.1";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
         public string currentlyOpenPath;
         private bool unsavedChanges = false;
         private string[] arguments;
+        private int performanceModeMinSize = 4096;
 
         public MainWindow()
         {
@@ -44,15 +45,31 @@ namespace NoteyWriteWPF
             {
                 if (File.Exists(arguments[1]))
                 {
+                    long length = new FileInfo(arguments[1]).Length;
+                    if (length > performanceModeMinSize)
+                    {
+                        switch (MessageBox.Show("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "NoteyWrite", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning))
+                        {
+                            case MessageBoxResult.Yes:
+                                performanceMode performanceMode = new performanceMode();
+                                performanceMode.openDocument(arguments[1]);
+                                performanceMode.Show();
+                                return;
+                            case MessageBoxResult.No:
+                                break;
+                            case MessageBoxResult.Cancel:
+                                return;
+                        }
+                    }
                     openDocument(arguments[1], rtbMain);
                     currentlyOpenPath = arguments[1];
                 }
             }
 
             mainWindow.Title = "NoteyWriteWPF " + currentVersion;
-            sfdSave.Filter = "Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt";
+            sfdSave.Filter = "Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
             sfdSave.Title = "Save a document | NoteyWriteWPF";
-            ofdOpen.Filter = "Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt";
+            ofdOpen.Filter = "Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
             ofdOpen.Title = "Open a document | NoteyWriteWPF";
 
             List<string> fonts = new List<string>();
@@ -211,6 +228,7 @@ namespace NoteyWriteWPF
             rtbMain.SelectAll();
             rtbMain.Selection.Text = "";
             unsavedChanges = false;
+            currentlyOpenPath = "";
         }
 
         private void anyOpen_Click(object sender, RoutedEventArgs e)
@@ -218,6 +236,22 @@ namespace NoteyWriteWPF
             Nullable<bool> result = ofdOpen.ShowDialog();
             if (result == true)
             {
+                long length = new FileInfo(ofdOpen.FileName).Length;
+                if (length > performanceModeMinSize)
+                {
+                    switch (MessageBox.Show("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "NoteyWrite", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning))
+                    {
+                        case MessageBoxResult.Yes:
+                            performanceMode performanceMode = new performanceMode();
+                            performanceMode.openDocument(ofdOpen.FileName);
+                            performanceMode.Show();
+                            return;
+                        case MessageBoxResult.No:
+                            break;
+                        case MessageBoxResult.Cancel:
+                            return;
+                    }
+                } 
                 openDocument(ofdOpen.FileName, rtbMain);
                 currentlyOpenPath = ofdOpen.FileName;
             }
@@ -503,6 +537,22 @@ namespace NoteyWriteWPF
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 animate(new DoubleAnimation(0, new Duration(TimeSpan.FromSeconds(0.25))), new PropertyPath(RichTextBox.OpacityProperty), animationStoryboard, canvasDragDrop.Name);
                 //Until multiple documents can be opened, only open the first one
+                long length = new FileInfo(files[0]).Length;
+                if (length > performanceModeMinSize)
+                {
+                    switch (MessageBox.Show("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "NoteyWrite", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning))
+                    {
+                        case MessageBoxResult.Yes:
+                            performanceMode performanceMode = new performanceMode();
+                            performanceMode.openDocument(files[0]);
+                            performanceMode.Show();
+                            return;
+                        case MessageBoxResult.No:
+                            break;
+                        case MessageBoxResult.Cancel:
+                            return;
+                    }
+                }
                 openDocument(files[0], rtbMain);
             }
         }
@@ -520,6 +570,12 @@ namespace NoteyWriteWPF
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) 
                 animate(new DoubleAnimation(0, new Duration(TimeSpan.FromSeconds(0.25))), new PropertyPath(RichTextBox.OpacityProperty), animationStoryboard, canvasDragDrop.Name);
+        }
+
+        private void miPerformanceMode_Click(object sender, RoutedEventArgs e)
+        {
+            performanceMode performanceMode = new performanceMode();
+            performanceMode.Show();
         }
     }
 }

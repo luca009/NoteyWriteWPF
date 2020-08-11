@@ -35,8 +35,11 @@
                     <MenuItem x:Name="miCorrectSpelling" Header="Correct Spelling Error" Command="EditingCommands.CorrectSpellingError"/>
                     <MenuItem x:Name="miIgnoreSpelling" Header="Ignore Spelling Error" Command="EditingCommands.IgnoreSpellingError"/>
                 </MenuItem>
-                <MenuItem x:Name="miView" Header="View" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22" GotFocus="miEdit_Focus" GotKeyboardFocus="miEdit_Focus">
+                <MenuItem x:Name="miView" Header="View" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
                     <MenuItem x:Name="miFormattingBar" Header="Formatting Bar" IsCheckable="True" IsChecked="True" Checked="miFormattingBar_Checked" Unchecked="miFormattingBar_Unchecked"/>
+                </MenuItem>
+                <MenuItem x:Name="miTools" Header="Tools" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
+                    <MenuItem x:Name="miPerformanceMode" Header="Performance Mode" Icon="{StaticResource iconPerformance}" Click="miPerformanceMode_Click"/>
                 </MenuItem>
             </Menu>
         </ToolBar>
