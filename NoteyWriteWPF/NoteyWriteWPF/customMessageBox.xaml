@@ -19,5 +19,6 @@
         <TextBlock x:Name="textDescription" Margin="10,47,10,45" TextWrapping="Wrap" Text="Error"/>
         <Button x:Name="bFirst" Content="OK" HorizontalAlignment="Left" Margin="209,141,0,0" VerticalAlignment="Top" Width="75" Click="bFirst_Click"/>
         <Button x:Name="bSecond" Content="OK" HorizontalAlignment="Left" Margin="129,141,0,0" VerticalAlignment="Top" Width="75" Click="bSecond_Click"/>
+        <Button x:Name="bThird" Content="OK" HorizontalAlignment="Left" Margin="49,141,0,0" VerticalAlignment="Top" Width="75" Click="bThird_Click"/>
     </Grid>
 </Window>

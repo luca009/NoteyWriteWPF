@@ -19,6 +19,8 @@ namespace NoteyWriteWPF
     /// </summary>
     public partial class customMessageBox : Window
     {
+        public object result = null;
+
         public customMessageBox()
         {
             InitializeComponent();
@@ -60,6 +62,17 @@ namespace NoteyWriteWPF
             bFirst.Content = firstButtonText;
             bSecond.Content = secondButtonText;
         }
+        public void SetupMsgBox(string content, string title, string firstButtonText, string secondButtonText, string thirdButtonText)
+        {
+            this.Title = title;
+            frameIcon.Visibility = Visibility.Hidden;
+            textTitle.Margin = new Thickness(10, 10, 10, 0);
+            textDescription.Text = content;
+            textTitle.Text = title;
+            bFirst.Content = firstButtonText;
+            bSecond.Content = secondButtonText;
+            bThird.Content = thirdButtonText;
+        }
         public void SetupMsgBox(string content, string title, object icon, string firstButtonText, string secondButtonText)
         {
             this.Title = title;
@@ -69,15 +82,33 @@ namespace NoteyWriteWPF
             bFirst.Content = firstButtonText;
             bSecond.Content = secondButtonText;
         }
+        public void SetupMsgBox(string content, string title, object icon, string firstButtonText, string secondButtonText, string thirdButtonText)
+        {
+            this.Title = title;
+            frameIcon.Content = icon;
+            textDescription.Text = content;
+            textTitle.Text = title;
+            bFirst.Content = firstButtonText;
+            bSecond.Content = secondButtonText;
+            bThird.Content = thirdButtonText;
+        }
 
         private void bFirst_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            result = bFirst.Content;
+            this.Close();
         }
 
         private void bSecond_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
+            result = bSecond.Content;
+            this.Close();
+        }
+
+        private void bThird_Click(object sender, RoutedEventArgs e)
+        {
+            result = bThird.Content;
+            this.Close();
         }
     }
 }

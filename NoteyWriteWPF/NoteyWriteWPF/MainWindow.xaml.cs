@@ -582,8 +582,10 @@ namespace NoteyWriteWPF
         private void miError_Click(object sender, RoutedEventArgs e)
         {
             messageBox = new customMessageBox();
-            messageBox.SetupMsgBox("This is the description.", "This is a title.", this.FindResource("iconError"), "retrun true", "return false");
+            messageBox.SetupMsgBox("This is the description.", "This is a title.", this.FindResource("iconError"), "Button1", "Button2", "Button3");
             messageBox.ShowDialog();
+            if (messageBox.result.ToString() == "Button3")
+                Console.WriteLine("Selected 3");
         }
     }
 }
