@@ -40,6 +40,7 @@
                 </MenuItem>
                 <MenuItem x:Name="miTools" Header="Tools" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
                     <MenuItem x:Name="miPerformanceMode" Header="Performance Mode" Icon="{StaticResource iconPerformance}" Click="miPerformanceMode_Click"/>
+                    <MenuItem x:Name="miError" Header="Error (example)" Click="miError_Click" Margin="0"/>
                 </MenuItem>
             </Menu>
         </ToolBar>

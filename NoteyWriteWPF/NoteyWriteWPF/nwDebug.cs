@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace NoteyWriteWPF
 {
-    public static class nwDebug
+    public class nwDebug
     {
+        customMessageBox messageBox = new customMessageBox();
         /// <summary>
         /// Shows MessageBox with content of info + extra details.
         /// level is 0 by default.
@@ -18,7 +19,8 @@ namespace NoteyWriteWPF
             switch (level)
             {
                 case 0:
-                    MessageBox.Show("Error!\nDescription: " + info + "\nNoteyWrite will attempt to continue operating.", "Error - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //MessageBox.Show("Error!\nDescription: " + info + "\nNoteyWrite will attempt to continue operating.", "Error - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //new customMessageBox().ShowDialog("Error!\nDescription: " + info + "\nNoteyWrite will attempt to continue operating.", "Error - NoteyWrite", "{StaticResource iconError}");
                     break;
                 case 1:
                     MessageBox.Show("Information: " + info, "Information - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Information);

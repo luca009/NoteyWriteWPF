@@ -26,8 +26,8 @@ namespace NoteyWriteWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Storyboard animationStoryboard;
         // Define Variables
+        private Storyboard animationStoryboard;
         public string currentVersion = "Alpha 0.4.1.1";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
@@ -35,6 +35,7 @@ namespace NoteyWriteWPF
         private bool unsavedChanges = false;
         private string[] arguments;
         private int performanceModeMinSize = 6144;
+        customMessageBox messageBox = new customMessageBox();
 
         public MainWindow()
         {
@@ -576,6 +577,13 @@ namespace NoteyWriteWPF
         {
             performanceMode performanceMode = new performanceMode();
             performanceMode.Show();
+        }
+
+        private void miError_Click(object sender, RoutedEventArgs e)
+        {
+            messageBox = new customMessageBox();
+            messageBox.SetupMsgBox("This is the description.", "This is a title.", this.FindResource("iconError"), "retrun true", "return false");
+            messageBox.ShowDialog();
         }
     }
 }
