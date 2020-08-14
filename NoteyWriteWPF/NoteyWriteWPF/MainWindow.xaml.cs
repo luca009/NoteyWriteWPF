@@ -27,7 +27,7 @@ namespace NoteyWriteWPF
     {
         // Define Variables
         private Storyboard animationStoryboard;
-        public string currentVersion = "Alpha 0.4.1.1";
+        public string currentVersion = "Alpha 0.4.2";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
         public string currentlyOpenPath;
@@ -135,7 +135,7 @@ namespace NoteyWriteWPF
             else
                 rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
 
-            nwDebug.nwLog("Opened File " + filePath, 1, logFile);
+            nwDebug.nwLog("Opened File.", 1, logFile);
             unsavedChanges = false;
             return true;
         }
@@ -154,7 +154,7 @@ namespace NoteyWriteWPF
             else
                 rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
 
-            nwDebug.nwLog("Saved File " + filePath, 1, logFile);
+            nwDebug.nwLog("Saved File.", 1, logFile);
             unsavedChanges = false;
             currentlyOpenPath = filePath;
             //while (stream Length != stream.Position){}
