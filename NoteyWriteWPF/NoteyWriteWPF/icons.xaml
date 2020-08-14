@@ -735,7 +735,58 @@
             </Canvas>
         </Canvas>
     </Viewbox>
-
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconWarning">
+        <Canvas Name="svg8543" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path847" Fill="#ffffff" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                <Path.Data>
+                    <PathGeometry Figures="M8 1L15 15L1 15L8 1Z" FillRule="EvenOdd"/>
+                </Path.Data>
+            </Path>
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8749" StrokeThickness="1" Stroke="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                <Path.Data>
+                    <PathGeometry Figures="M8 4L8 11" FillRule="EvenOdd"/>
+                </Path.Data>
+            </Path>
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path851" StrokeThickness="1" Stroke="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                <Path.Data>
+                    <PathGeometry Figures="M8 13L8 13.5" FillRule="EvenOdd"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Viewbox>
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconInformation">
+        <Canvas Name="svg8681" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1" Canvas.Top="1" Width="14" Height="14" Name="circle8515" Fill="#ffffff" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            <Canvas Name="g8535">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1 0 0 0.882353 0 3.79412"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8543" StrokeThickness="1.06" Stroke="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M8 2.5L8 11" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g8579">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1 0 0 1 8.88178e-16 -9.5"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8577" StrokeThickness="1" Stroke="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M8 12.5L8 13.5" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
 
     <!-- new icons above, tooltips below -->
 

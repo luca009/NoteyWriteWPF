@@ -13,6 +13,7 @@ namespace NoteyWriteWPF
     public partial class performanceMode : Form
     {
         string currentlyOpenFile = "";
+        customMessageBox messageBox;
 
         public performanceMode()
         {
@@ -42,7 +43,9 @@ namespace NoteyWriteWPF
             }
             catch (Exception ex)
             {
-                nwDebug.nwError(ex.Message);
+                messageBox = new customMessageBox();
+                messageBox.SetupMsgBox(ex.Message, "Error!");
+                messageBox.ShowDialog();
             }
         }
 

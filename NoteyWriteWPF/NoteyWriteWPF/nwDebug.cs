@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
 
 namespace NoteyWriteWPF
 {
     public class nwDebug
     {
-        customMessageBox messageBox = new customMessageBox();
         /// <summary>
         /// Shows MessageBox with content of info + extra details.
         /// level is 0 by default.
@@ -38,23 +39,25 @@ namespace NoteyWriteWPF
         /// <summary>
         /// Logs info with extra informnation to a text file. Work in progress.
         /// level is 0 by default.
-        /// level = 0 = Error, level = 1 = Info, level = 2 = Warning, level = 3 = Only info
+        /// level = 0 = Error, level = 1 = Info, level = 2 = Warning
         /// </summary>
         public static bool nwLog(string info, int level = 0, string filePath = "/log.txt", string special = null)
         {
+            if (!File.Exists(filePath))
+                File.AppendAllText(filePath, DateTime.UtcNow.ToString() + "UTC Start of new log file\n");
             switch (level)
             {
                 case 0:
-                    MessageBox.Show("Error!\nDescription: " + info + "\nNoteyWrite will attempt to continue and autosave your work.", "Error - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Error);
+                    File.AppendAllText(filePath, DateTime.UtcNow.ToString() + "UTC Error: " + info + "\n");
                     break;
                 case 1:
-                    MessageBox.Show("Information: " + info, "Information - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Information);
+                    File.AppendAllText(filePath, DateTime.UtcNow.ToString() + "UTC Info: " + info + "\n");
                     break;
                 case 2:
-                    MessageBox.Show("Warning: " + info + "\nNoteyWrite should continue normal operation.", "Warning - NoteyWrite", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    File.AppendAllText(filePath, DateTime.UtcNow.ToString() + "UTC Warning: " + info + "\n");
                     break;
-                case 3:
-                    MessageBox.Show(info, "NoteyWrite", MessageBoxButton.OK);
+                default:
+                    File.AppendAllText(filePath, DateTime.UtcNow.ToString() + "UTC Unknown Level! " + info + "\n");
                     break;
             }
             return true;

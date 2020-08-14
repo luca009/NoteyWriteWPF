@@ -11,7 +11,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft;
 using Microsoft.Win32;
 using System.Windows.Media;
@@ -36,34 +35,56 @@ namespace NoteyWriteWPF
         private string[] arguments;
         private int performanceModeMinSize = 6144;
         customMessageBox messageBox = new customMessageBox();
+        string errorPreset = "\nNoteyWrite will attempt to continue normal operation.";
+        string logFile;
 
         public MainWindow()
         {
             // Initialize
             InitializeComponent();
+            logFile = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\log" + DateTime.UtcNow.ToString().Replace(' ', '_').Replace('/', '-').Replace(':', '-') + ".nwlog";
+            //logFile = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            nwDebug.nwLog("NoteyWrite started.", 1, logFile);
             arguments = getArguments();
             if (arguments.Length > 1)
             {
+                nwDebug.nwLog("Opening from argument.", 0, logFile);
                 if (File.Exists(arguments[1]))
                 {
-                    long length = new FileInfo(arguments[1]).Length;
-                    if (length > performanceModeMinSize)
+                    nwDebug.nwLog("Argument file exists.", 1, logFile);
+                    try
                     {
-                        switch (MessageBox.Show("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "NoteyWrite", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning))
+                        long length = new FileInfo(arguments[1]).Length;
+                        if (length > performanceModeMinSize)
                         {
-                            case MessageBoxResult.Yes:
-                                performanceMode performanceMode = new performanceMode();
-                                performanceMode.openDocument(arguments[1]);
-                                performanceMode.Show();
-                                return;
-                            case MessageBoxResult.No:
-                                break;
-                            case MessageBoxResult.Cancel:
-                                return;
+                            nwDebug.nwLog("File is above performance treshold.", 1, logFile);
+                            messageBox = new customMessageBox();
+                            messageBox.SetupMsgBox("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "Performance Mode", this.FindResource("iconWarning"), "Yes", "No", "Cancel");
+                            messageBox.ShowDialog();
+                            switch (messageBox.result.ToString())
+                            {
+                                case "Yes":
+                                    nwDebug.nwLog("Attempting to open file in Performance Mode.", 1, logFile);
+                                    performanceMode performanceMode = new performanceMode();
+                                    performanceMode.openDocument(arguments[1]);
+                                    performanceMode.Show();
+                                    return;
+                                case "No":
+                                    break;
+                                case "Cancel":
+                                    return;
+                            }
                         }
+                        openDocument(arguments[1], rtbMain);
+                        currentlyOpenPath = arguments[1];
                     }
-                    openDocument(arguments[1], rtbMain);
-                    currentlyOpenPath = arguments[1];
+                    catch (Exception ex)
+                    {
+                        nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                        messageBox = new customMessageBox();
+                        messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
+                        messageBox.ShowDialog();
+                    }
                 }
             }
 
@@ -78,6 +99,7 @@ namespace NoteyWriteWPF
             {
                 fonts.Add(font.Name);
             }
+            nwDebug.nwLog("Added all fonts.", 1, logFile);
 
             cbFont.ItemsSource = fonts;
             cbFontSize.ItemsSource = new List<Double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72, 102, 144, 288 };
@@ -113,6 +135,7 @@ namespace NoteyWriteWPF
             else
                 rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
 
+            nwDebug.nwLog("Opened File " + filePath, 1, logFile);
             unsavedChanges = false;
             return true;
         }
@@ -131,33 +154,9 @@ namespace NoteyWriteWPF
             else
                 rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
 
+            nwDebug.nwLog("Saved File " + filePath, 1, logFile);
             unsavedChanges = false;
             currentlyOpenPath = filePath;
-            //while (stream Length != stream.Position){}
-
-            return true;
-        }
-
-        public bool saveDocumentFromRawRtf(string filePath, string rawRtf)
-        {
-            string fileExtension = System.IO.Path.GetExtension(filePath);
-            //FileStream stream;
-
-            if (fileExtension == ".rtf")
-            { System.IO.File.WriteAllText(filePath, rawRtf); }
-            else if (fileExtension == ".txt")
-            { 
-                nwDebug.nwError("File type .txt not supported using this function. File will be saved as .rtf. Later use NoteyWrite to convert it.", 2);
-                System.IO.File.WriteAllText(filePath + ".rtf", rawRtf);
-            }
-            else
-            {
-                nwDebug.nwError("File type " + fileExtension + " not supported using this function. File will be saved as .rtf. Later use NoteyWrite to convert it.", 2);
-                System.IO.File.WriteAllText(filePath + ".rtf", rawRtf); 
-            }
-
-            unsavedChanges = false;
-
             //while (stream Length != stream.Position){}
 
             return true;
@@ -230,6 +229,7 @@ namespace NoteyWriteWPF
             rtbMain.Selection.Text = "";
             unsavedChanges = false;
             currentlyOpenPath = "";
+            nwDebug.nwLog("New Document", 1, logFile);
         }
 
         private void anyOpen_Click(object sender, RoutedEventArgs e)
@@ -237,24 +237,40 @@ namespace NoteyWriteWPF
             Nullable<bool> result = ofdOpen.ShowDialog();
             if (result == true)
             {
-                long length = new FileInfo(ofdOpen.FileName).Length;
-                if (length > performanceModeMinSize)
+                nwDebug.nwLog("Opening from Open.", 1, logFile);
+                try
                 {
-                    switch (MessageBox.Show("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "NoteyWrite", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning))
+                    long length = new FileInfo(ofdOpen.FileName).Length;
+                    if (length > performanceModeMinSize)
                     {
-                        case MessageBoxResult.Yes:
-                            performanceMode performanceMode = new performanceMode();
-                            performanceMode.openDocument(ofdOpen.FileName);
-                            performanceMode.Show();
-                            return;
-                        case MessageBoxResult.No:
-                            break;
-                        case MessageBoxResult.Cancel:
-                            return;
+                        nwDebug.nwLog("File is above performance treshold.", 1, logFile);
+                        messageBox = new customMessageBox();
+                        messageBox.SetupMsgBox("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "Performance Mode", this.FindResource("iconWarning"), "Yes", "No", "Cancel");
+                        messageBox.ShowDialog();
+                        switch (messageBox.result.ToString())
+                        {
+                            case "Yes":
+                                nwDebug.nwLog("Attempting to open file in Performance Mode.", 1, logFile);
+                                performanceMode performanceMode = new performanceMode();
+                                performanceMode.openDocument(ofdOpen.FileName);
+                                performanceMode.Show();
+                                return;
+                            case "No":
+                                break;
+                            case "Cancel":
+                                return;
+                        }
                     }
-                } 
-                openDocument(ofdOpen.FileName, rtbMain);
-                currentlyOpenPath = ofdOpen.FileName;
+                    openDocument(ofdOpen.FileName, rtbMain);
+                    currentlyOpenPath = ofdOpen.FileName;
+                }
+                catch (Exception ex)
+                {
+                    messageBox = new customMessageBox();
+                    messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
+                    messageBox.ShowDialog();
+                    nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                }
             }
         }
 
@@ -270,8 +286,10 @@ namespace NoteyWriteWPF
                 }
                 catch (Exception ex)
                 {
-                    nwDebug.nwError(ex.Message);
-                    throw;
+                    messageBox = new customMessageBox();
+                    messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
+                    messageBox.ShowDialog();
+                    nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
                 }
             }
         }
@@ -281,13 +299,25 @@ namespace NoteyWriteWPF
             Nullable<bool> result = sfdSave.ShowDialog();
             if (result == true)
             {
-                saveDocument(sfdSave.FileName, rtbMain);
+                nwDebug.nwLog("Saving from Save.", 1, logFile);
+                try
+                {
+                    saveDocument(sfdSave.FileName, rtbMain);
+                }
+                catch (Exception ex)
+                {
+                    messageBox = new customMessageBox();
+                    messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
+                    messageBox.ShowDialog();
+                    nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                }
             }
         }
 
         private void anyExit_Click(object sender, RoutedEventArgs e)
         {
             //If there are unsaved changes, the "Unsaved Changes" dialog openes, if not, close the application
+            nwDebug.nwLog("Exiting", 1, logFile);
             if (unsavedChanges)
             {
                 exit exit = new exit();
@@ -346,6 +376,7 @@ namespace NoteyWriteWPF
         private void mainWindow_Close(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //If there are unsaved changes, the "Unsaved Changes" dialog openes, if not, close the application
+            nwDebug.nwLog("Exiting", 1, logFile);
             if (unsavedChanges)
             {
                 exit exit = new exit();
@@ -364,6 +395,7 @@ namespace NoteyWriteWPF
             //Apply the selected font family
             if (cbFont.SelectedItem != null)
                 rtbMain.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cbFont.SelectedItem);
+            nwDebug.nwLog("Changed font.", 1, logFile);
             rtbMain.Focus();
         }
 
@@ -371,9 +403,8 @@ namespace NoteyWriteWPF
         {
             //Apply the selected font size
             if (cbFontSize.SelectedItem != null)
-            {
                 rtbMain.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cbFontSize.SelectedItem);
-            }
+            nwDebug.nwLog("Canged font size.", 1, logFile);
             rtbMain.Focus();
         }
 
@@ -535,26 +566,43 @@ namespace NoteyWriteWPF
             //Check if the dropped data is a file to not override the existing functionality
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
+                nwDebug.nwLog("Opening from DragDrop.", 1, logFile);
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 animate(new DoubleAnimation(0, new Duration(TimeSpan.FromSeconds(0.25))), new PropertyPath(RichTextBox.OpacityProperty), animationStoryboard, canvasDragDrop.Name);
                 //Until multiple documents can be opened, only open the first one
-                long length = new FileInfo(files[0]).Length;
-                if (length > performanceModeMinSize)
+                try
                 {
-                    switch (MessageBox.Show("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "NoteyWrite", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning))
+                    long length = new FileInfo(files[0]).Length;
+                    if (length > performanceModeMinSize)
                     {
-                        case MessageBoxResult.Yes:
-                            performanceMode performanceMode = new performanceMode();
-                            performanceMode.openDocument(files[0]);
-                            performanceMode.Show();
-                            return;
-                        case MessageBoxResult.No:
-                            break;
-                        case MessageBoxResult.Cancel:
-                            return;
+                        nwDebug.nwLog("File is above performance treshold.", 1, logFile);
+                        messageBox = new customMessageBox();
+                        messageBox.SetupMsgBox("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "Performance Mode", this.FindResource("iconWarning"), "Yes", "No", "Cancel");
+                        messageBox.ShowDialog();
+                        switch (messageBox.result.ToString())
+                        {
+                            case "Yes":
+                                nwDebug.nwLog("Attempting to open file in Performance Mode.", 1, logFile);
+                                performanceMode performanceMode = new performanceMode();
+                                performanceMode.openDocument(files[0]);
+                                performanceMode.Show();
+                                return;
+                            case "No":
+                                break;
+                            case "Cancel":
+                                return;
+                        }
                     }
+                    openDocument(files[0], rtbMain);
+                    currentlyOpenPath = files[0];
                 }
-                openDocument(files[0], rtbMain);
+                catch (Exception ex)
+                {
+                    messageBox = new customMessageBox();
+                    messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
+                    messageBox.ShowDialog();
+                    nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                }
             }
         }
 
@@ -577,12 +625,13 @@ namespace NoteyWriteWPF
         {
             performanceMode performanceMode = new performanceMode();
             performanceMode.Show();
+            nwDebug.nwLog("Show Performance Mode.", 1, logFile);
         }
 
         private void miError_Click(object sender, RoutedEventArgs e)
         {
             messageBox = new customMessageBox();
-            messageBox.SetupMsgBox("This is the description.", "This is a title.", this.FindResource("iconError"), "Button1", "Button2", "Button3");
+            messageBox.SetupMsgBox("A user-initiated error has occured." + errorPreset, "Error!", this.FindResource("iconError"), "OK", "Cancel", "I'm special!");
             messageBox.ShowDialog();
             if (messageBox.result.ToString() == "Button3")
                 Console.WriteLine("Selected 3");

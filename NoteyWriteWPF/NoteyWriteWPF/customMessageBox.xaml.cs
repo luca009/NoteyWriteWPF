@@ -19,7 +19,7 @@ namespace NoteyWriteWPF
     /// </summary>
     public partial class customMessageBox : Window
     {
-        public object result = null;
+        public object result = "Close";
 
         public customMessageBox()
         {
@@ -37,7 +37,7 @@ namespace NoteyWriteWPF
         }
         public void SetupMsgBox(string content, string title)
         {
-            this.Title = title;
+            this.Title = title + " - NoteyWrite";
             frameIcon.Visibility = Visibility.Hidden;
             bSecond.Visibility = Visibility.Hidden;
             textTitle.Margin = new Thickness(10, 10, 10, 0);
@@ -46,7 +46,7 @@ namespace NoteyWriteWPF
         }
         public void SetupMsgBox(string content, string title, object icon)
         {
-            this.Title = title;
+            this.Title = title + " - NoteyWrite";
             bSecond.Visibility = Visibility.Hidden;
             textDescription.Text = content;
             textTitle.Text = title;
@@ -54,7 +54,7 @@ namespace NoteyWriteWPF
         }
         public void SetupMsgBox(string content, string title, string firstButtonText, string secondButtonText)
         {
-            this.Title = title;
+            this.Title = title + " - NoteyWrite";
             frameIcon.Visibility = Visibility.Hidden;
             textTitle.Margin = new Thickness(10, 10, 10, 0);
             textDescription.Text = content;
@@ -64,7 +64,7 @@ namespace NoteyWriteWPF
         }
         public void SetupMsgBox(string content, string title, string firstButtonText, string secondButtonText, string thirdButtonText)
         {
-            this.Title = title;
+            this.Title = title + " - NoteyWrite";
             frameIcon.Visibility = Visibility.Hidden;
             textTitle.Margin = new Thickness(10, 10, 10, 0);
             textDescription.Text = content;
@@ -75,7 +75,7 @@ namespace NoteyWriteWPF
         }
         public void SetupMsgBox(string content, string title, object icon, string firstButtonText, string secondButtonText)
         {
-            this.Title = title;
+            this.Title = title + " - NoteyWrite";
             frameIcon.Content = icon;
             textDescription.Text = content;
             textTitle.Text = title;
@@ -84,7 +84,7 @@ namespace NoteyWriteWPF
         }
         public void SetupMsgBox(string content, string title, object icon, string firstButtonText, string secondButtonText, string thirdButtonText)
         {
-            this.Title = title;
+            this.Title = title + " - NoteyWrite";
             frameIcon.Content = icon;
             textDescription.Text = content;
             textTitle.Text = title;
