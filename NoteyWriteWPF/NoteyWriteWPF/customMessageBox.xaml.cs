@@ -32,6 +32,7 @@ namespace NoteyWriteWPF
             frameIcon.Visibility = Visibility.Hidden;
             textTitle.Visibility = Visibility.Hidden;
             bSecond.Visibility = Visibility.Hidden;
+            bThird.Visibility = Visibility.Hidden;
             textDescription.Margin = new Thickness(10, 10, 10, 45);
             textDescription.Text = content;
         }
@@ -40,6 +41,7 @@ namespace NoteyWriteWPF
             this.Title = title + " - NoteyWrite";
             frameIcon.Visibility = Visibility.Hidden;
             bSecond.Visibility = Visibility.Hidden;
+            bThird.Visibility = Visibility.Hidden;
             textTitle.Margin = new Thickness(10, 10, 10, 0);
             textDescription.Text = content;
             textTitle.Text = title;
@@ -48,6 +50,7 @@ namespace NoteyWriteWPF
         {
             this.Title = title + " - NoteyWrite";
             bSecond.Visibility = Visibility.Hidden;
+            bThird.Visibility = Visibility.Hidden;
             textDescription.Text = content;
             textTitle.Text = title;
             frameIcon.Content = icon;
@@ -55,6 +58,7 @@ namespace NoteyWriteWPF
         public void SetupMsgBox(string content, string title, string firstButtonText, string secondButtonText)
         {
             this.Title = title + " - NoteyWrite";
+            bThird.Visibility = Visibility.Hidden;
             frameIcon.Visibility = Visibility.Hidden;
             textTitle.Margin = new Thickness(10, 10, 10, 0);
             textDescription.Text = content;
@@ -76,6 +80,7 @@ namespace NoteyWriteWPF
         public void SetupMsgBox(string content, string title, object icon, string firstButtonText, string secondButtonText)
         {
             this.Title = title + " - NoteyWrite";
+            bThird.Visibility = Visibility.Hidden;
             frameIcon.Content = icon;
             textDescription.Text = content;
             textTitle.Text = title;

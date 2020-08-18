@@ -43,6 +43,8 @@ namespace NoteyWriteWPF
         /// </summary>
         public static bool nwLog(string info, int level = 0, string filePath = "/log.txt", string special = null)
         {
+            if (filePath == null)
+                return false;
             if (!File.Exists(filePath))
                 File.AppendAllText(filePath, DateTime.UtcNow.ToString() + "UTC Start of new log file\n");
             switch (level)

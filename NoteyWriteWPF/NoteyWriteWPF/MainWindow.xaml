@@ -17,7 +17,7 @@
         <Canvas x:Name="canvasDragDrop" Background="#FFBDBDBD" Panel.ZIndex="5" Opacity="0" IsHitTestVisible="False" Visibility="Hidden" AutomationProperties.Name="canvasDragDrop" Margin="0,56,0,0" >
             <TextBlock TextWrapping="Wrap" Foreground="Black" Panel.ZIndex="1" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Drop to open file."/><LineBreak/><Run Text="This will overwrite anything else!"/></TextBlock>
         </Canvas>
-        <ToolBar x:Name="tbFile" Height="26" VerticalAlignment="Top">
+        <ToolBar x:Name="tbFile" Height="26" VerticalAlignment="Top" Background="{DynamicResource colorBlueBG}" Foreground="Black">
             <Menu x:Name="menu" VerticalAlignment="Top" Background="#00F0F0F0">
                 <MenuItem x:Name="miFile" Header="File" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
                     <MenuItem x:Name="miNew" Header="New" Margin="0" Click="anyNew_Click" Icon="{StaticResource iconNew}"/>
@@ -41,11 +41,12 @@
                 <MenuItem x:Name="miTools" Header="Tools" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
                     <MenuItem x:Name="miPerformanceMode" Header="Performance Mode" Icon="{StaticResource iconPerformance}" Click="miPerformanceMode_Click"/>
                     <MenuItem x:Name="miError" Header="Error (example)" Click="miError_Click" Margin="0"/>
+                    <MenuItem x:Name="miDebug" Header="Magic Button" Margin="0" Click="miDebug_Click"/>
                 </MenuItem>
             </Menu>
         </ToolBar>
         <RichTextBox x:Name="rtbMain" Margin="0,56,0,0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" SpellCheck.IsEnabled="True" AcceptsTab="True" RenderTransformOrigin="0.5,0.5" AutomationProperties.Name="rtbMain" AllowDrop="True" DragOver="rtbMain_DragOver" Drop="rtbMain_Drop" DragLeave="rtbMain_DragLeave" DragEnter="rtbMain_DragEnter" />
-        <ToolBar x:Name="tbFormatting" Height="30" Margin="0,26,0,0" VerticalAlignment="Top" AutomationProperties.Name="tbFormatting">
+        <ToolBar x:Name="tbFormatting" Height="30" Margin="0,26,0,0" VerticalAlignment="Top" AutomationProperties.Name="tbFormatting" Background="{DynamicResource colorBlueBG}">
             <MenuItem x:Name="miNewBar" Icon="{StaticResource iconNewBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyNew_Click" ToolTip="Create a new document."/>
             <MenuItem x:Name="miOpenBar" Icon="{StaticResource iconOpenBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyOpen_Click" ToolTip="Open an existing document."/>
             <MenuItem x:Name="miSaveBar" Icon="{StaticResource iconSaveBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anySave_Click" ToolTip="Save this document."/>

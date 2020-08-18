@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:NoteyWriteWPF">
+    <!--#region Icons-->
     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconNew">
         <Canvas Name="svg857" Width="16" Height="16">
             <Canvas.RenderTransform>
@@ -787,9 +788,9 @@
             </Canvas>
         </Canvas>
     </Viewbox>
+    <!--#endregion-->
 
-    <!-- new icons above, tooltips below -->
-
+    <!--#region ToolTips-->
     <ToolTip x:Key="tooltipBold">
         <TextBlock>Make the selected text bold. <Italic>(Ctrl+B)</Italic><LineBreak/><Bold>Like this.</Bold></TextBlock>
     </ToolTip>
@@ -799,4 +800,12 @@
     <ToolTip x:Key="tooltipUnderline">
         <TextBlock>Make the selected text underlined. <Italic>(Ctrl+U)</Italic><LineBreak/><Underline>Like this.</Underline></TextBlock>
     </ToolTip>
+    <!--#endregion-->
+
+    <!--#region Colors-->
+    <SolidColorBrush x:Key="colorBlueBG" Color="#FFE9F3FF" />
+    <SolidColorBrush x:Key="colorLightBorderFG" Color="Black" />
+    <SolidColorBrush x:Key="colorLightPrimaryFG" Color="White" />
+    <SolidColorBrush x:Key="colorLightSecondaryFG" Color="#808080" />
+    <!--#endregion-->
 </ResourceDictionary>

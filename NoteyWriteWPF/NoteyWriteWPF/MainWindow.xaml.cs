@@ -37,12 +37,13 @@ namespace NoteyWriteWPF
         customMessageBox messageBox = new customMessageBox();
         string errorPreset = "\nNoteyWrite will attempt to continue normal operation.";
         string logFile;
+        bool canDrop = true;
 
         public MainWindow()
         {
             // Initialize
             InitializeComponent();
-            logFile = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\log" + DateTime.UtcNow.ToString().Replace(' ', '_').Replace('/', '-').Replace(':', '-') + ".nwlog";
+            applySettings();
             //logFile = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             nwDebug.nwLog("NoteyWrite started.", 1, logFile);
             arguments = getArguments();
@@ -221,6 +222,26 @@ namespace NoteyWriteWPF
             Storyboard.SetTargetName(animation, objectName);
             Storyboard.SetTargetProperty(animation, propertyPath);
             storyboard.Begin(this);
+        }
+
+        private void applySettings()
+        {
+            string filePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
+            if (Properties.Settings.Default.doLogging)
+                logFile = filePath + "\\log" + DateTime.UtcNow.ToString().Replace(' ', '_').Replace('/', '-').Replace(':', '-') + ".nwlog";
+            else
+                logFile = null;
+            
+            if (Properties.Settings.Default.autoDeleteLogs)
+            {
+                //Delete all logs older than 2 days
+                foreach (var file in directoryInfo.GetFiles("*.nwlog"))
+                {
+                    if (file.CreationTimeUtc < DateTime.UtcNow.AddDays(-Properties.Settings.Default.autoDeleteLogsDays))
+                        file.Delete();
+                }
+            }
         }
 
         private void anyNew_Click(object sender, RoutedEventArgs e)
@@ -563,6 +584,13 @@ namespace NoteyWriteWPF
 
         private void rtbMain_Drop(object sender, DragEventArgs e)
         {
+            //Make sure the Drop event doesn't trigger twice, very hacky solution since nothing else worked
+            if (!canDrop)
+            {
+                canDrop = true;
+                return;
+            }
+            canDrop = false;
             //Check if the dropped data is a file to not override the existing functionality
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -591,6 +619,9 @@ namespace NoteyWriteWPF
                                 break;
                             case "Cancel":
                                 return;
+                            default:
+                                nwDebug.nwLog("Unknown result returned.", 2, logFile);
+                                return;
                         }
                     }
                     openDocument(files[0], rtbMain);
@@ -604,6 +635,7 @@ namespace NoteyWriteWPF
                     nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
                 }
             }
+            e.Handled = true;
         }
 
         private void rtbMain_DragEnter(object sender, DragEventArgs e)
@@ -635,6 +667,15 @@ namespace NoteyWriteWPF
             messageBox.ShowDialog();
             if (messageBox.result.ToString() == "Button3")
                 Console.WriteLine("Selected 3");
+        }
+
+        private void miDebug_Click(object sender, RoutedEventArgs e)
+        {
+            //var resourceIcons = new ResourceDictionary();
+            //resourceIcons.Source = new Uri("icons.xaml", UriKind.RelativeOrAbsolute);
+            settings settings = new settings();
+            if (settings.ShowDialog() == true)
+                applySettings();
         }
     }
 }
