@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Net;
 using System.Windows.Media.Animation;
 using System.Windows.Markup;
+using System.Xml;
 
 namespace NoteyWriteWPF
 {
@@ -90,9 +91,9 @@ namespace NoteyWriteWPF
             }
 
             mainWindow.Title = "NoteyWriteWPF " + currentVersion;
-            sfdSave.Filter = "Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
+            sfdSave.Filter = "XML Document (*.xml)|*.xml|Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
             sfdSave.Title = "Save a document | NoteyWriteWPF";
-            ofdOpen.Filter = "Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
+            ofdOpen.Filter = "XML Document (*.xml)|*.xml|Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
             ofdOpen.Title = "Open a document | NoteyWriteWPF";
 
             List<string> fonts = new List<string>();
@@ -133,6 +134,13 @@ namespace NoteyWriteWPF
                 rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Rtf);
             else if (fileExtension == ".txt")
                 rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
+            else if (fileExtension == ".xml")
+            {
+                XmlReader xmlReader = XmlReader.Create(filePath);
+                XamlReader xamlReader = new XamlReader();
+                rtbLoad.Document = new FlowDocument();
+                rtbLoad.Document = (FlowDocument)(XamlReader.Load(xmlReader));
+            }
             else
                 rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
 
@@ -152,6 +160,12 @@ namespace NoteyWriteWPF
                 rtbSave.Selection.Save(new FileStream(filePath, FileMode.Create), DataFormats.Rtf);
             else if (fileExtension == ".txt")
                 rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
+            else if (fileExtension == ".xml")
+            {
+                XmlDocument xdoc = new XmlDocument();
+                xdoc.LoadXml(XamlWriter.Save(rtbSave.Document));
+                xdoc.Save(filePath);
+            }
             else
                 rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
 
@@ -224,6 +238,26 @@ namespace NoteyWriteWPF
             storyboard.Begin(this);
         }
 
+        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
         private void applySettings()
         {
             string filePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -241,6 +275,27 @@ namespace NoteyWriteWPF
                     if (file.CreationTimeUtc < DateTime.UtcNow.AddDays(-Properties.Settings.Default.autoDeleteLogsDays))
                         file.Delete();
                 }
+            }
+
+            //Apply skins
+            IEnumerable<Control> skinables = FindVisualChildren<Control>(gridMain).Where(x => x.Tag != null && x.Tag.ToString() == "skinable");
+            switch (Properties.Settings.Default.themeName)
+            {
+                case "white":
+                    foreach (Control control in skinables)
+                        control.Background = (Brush)this.FindResource("colorWhiteBG");
+                    tbtrayTop.Background = (Brush)this.FindResource("colorWhiteBG");
+                    break;
+                case "blue":
+                    foreach (Control control in skinables)
+                        control.Background = (Brush)this.FindResource("colorBlueBG");
+                    tbtrayTop.Background = (Brush)this.FindResource("colorBlueBG");
+                    break;
+                case "green":
+                    foreach (Control control in skinables)
+                        control.Background = (Brush)this.FindResource("colorGreenBG");
+                    tbtrayTop.Background = (Brush)this.FindResource("colorGreenBG");
+                    break;
             }
         }
 
@@ -671,8 +726,8 @@ namespace NoteyWriteWPF
 
         private void miDebug_Click(object sender, RoutedEventArgs e)
         {
-            //var resourceIcons = new ResourceDictionary();
-            //resourceIcons.Source = new Uri("icons.xaml", UriKind.RelativeOrAbsolute);
+            var resourceIcons = new ResourceDictionary();
+            resourceIcons.Source = new Uri("icons.xaml", UriKind.RelativeOrAbsolute);
             settings settings = new settings();
             if (settings.ShowDialog() == true)
                 applySettings();

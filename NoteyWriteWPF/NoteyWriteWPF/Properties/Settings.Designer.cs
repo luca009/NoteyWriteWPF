@@ -58,5 +58,17 @@ namespace NoteyWriteWPF.Properties {
                 this["autoDeleteLogsDays"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("blue")]
+        public string themeName {
+            get {
+                return ((string)(this["themeName"]));
+            }
+            set {
+                this["themeName"] = value;
+            }
+        }
     }
 }

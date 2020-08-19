@@ -27,6 +27,18 @@ namespace NoteyWriteWPF
             cbDoLogging.IsChecked = Properties.Settings.Default.doLogging;
             cbDeleteLogs.IsChecked = Properties.Settings.Default.autoDeleteLogs;
             logStoreDays = Properties.Settings.Default.autoDeleteLogsDays;
+            switch (Properties.Settings.Default.themeName)
+            {
+                case "white":
+                    rbThemeWhite.IsChecked = true;
+                    break;
+                case "blue":
+                    rbThemeBlue.IsChecked = true;
+                    break;
+                case "green":
+                    rbThemeGreen.IsChecked = true;
+                    break;
+            }
         }
 
         private void bApply_Click(object sender, RoutedEventArgs e)
@@ -34,6 +46,12 @@ namespace NoteyWriteWPF
             Properties.Settings.Default.doLogging = (bool)cbDoLogging.IsChecked;
             Properties.Settings.Default.autoDeleteLogs = (bool)cbDeleteLogs.IsChecked;
             Properties.Settings.Default.autoDeleteLogsDays = logStoreDays;
+            if (rbThemeWhite.IsChecked == true)
+                Properties.Settings.Default.themeName = "white";
+            else if (rbThemeBlue.IsChecked == true)
+                Properties.Settings.Default.themeName = "blue";
+            else if (rbThemeGreen.IsChecked == true)
+                Properties.Settings.Default.themeName = "green";
 
             Properties.Settings.Default.Save();
             this.DialogResult = true;

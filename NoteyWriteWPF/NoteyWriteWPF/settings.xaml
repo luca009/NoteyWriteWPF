@@ -27,6 +27,21 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
+            <TabItem Header="Appearance">
+                <Grid Background="White">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <Grid>
+                            <GroupBox Header="Theme" Height="58" VerticalAlignment="Top">
+                                <Grid>
+                                    <RadioButton x:Name="rbThemeWhite" Content="White" HorizontalAlignment="Left" Margin="160,10,0,0" VerticalAlignment="Top"/>
+                                    <RadioButton x:Name="rbThemeBlue" Content="Blue (default)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                                    <RadioButton x:Name="rbThemeGreen" Content="Green" HorizontalAlignment="Left" Margin="104,10,0,0" VerticalAlignment="Top"/>
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

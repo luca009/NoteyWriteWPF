@@ -803,9 +803,8 @@
     <!--#endregion-->
 
     <!--#region Colors-->
+    <SolidColorBrush x:Key="colorWhiteBG" Color="White" />
     <SolidColorBrush x:Key="colorBlueBG" Color="#FFE9F3FF" />
-    <SolidColorBrush x:Key="colorLightBorderFG" Color="Black" />
-    <SolidColorBrush x:Key="colorLightPrimaryFG" Color="White" />
-    <SolidColorBrush x:Key="colorLightSecondaryFG" Color="#808080" />
+    <SolidColorBrush x:Key="colorGreenBG" Color="#FFE9FFEB" />
     <!--#endregion-->
 </ResourceDictionary>
