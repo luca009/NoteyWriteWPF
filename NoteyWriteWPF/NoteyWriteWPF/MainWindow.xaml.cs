@@ -31,6 +31,7 @@ namespace NoteyWriteWPF
         public string currentVersion = "Alpha 0.4.2";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
+        private OpenFileDialog ofdImage = new OpenFileDialog();
         public string currentlyOpenPath;
         private bool unsavedChanges = false;
         private string[] arguments;
@@ -93,8 +94,10 @@ namespace NoteyWriteWPF
             mainWindow.Title = "NoteyWriteWPF " + currentVersion;
             sfdSave.Filter = "XML Document (*.xml)|*.xml|Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
             sfdSave.Title = "Save a document | NoteyWriteWPF";
-            ofdOpen.Filter = "XML Document (*.xml)|*.xml|Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
+            ofdOpen.Filter = "Known Documents (*.xml, *.rtf, *.txt)|*.xml;*.rtf;*.txt|XML Document (*.xml)|*.xml|Rich Text File (*.rtf)|*.rtf|Plain Text File (*.txt)|*.txt|All files (*.*)|*.*";
             ofdOpen.Title = "Open a document | NoteyWriteWPF";
+            ofdImage.Filter = "Known Image Formats (*.png, *.jpg, *.jpeg, *.bmp)|*.png;*.jpg;*.jpeg;*.bmp";
+            ofdImage.Title = "Open an image | NoteyWrite";
 
             List<string> fonts = new List<string>();
             foreach (System.Drawing.FontFamily font in System.Drawing.FontFamily.Families)
@@ -296,7 +299,56 @@ namespace NoteyWriteWPF
                         control.Background = (Brush)this.FindResource("colorGreenBG");
                     tbtrayTop.Background = (Brush)this.FindResource("colorGreenBG");
                     break;
+                case "adaptive":
+                    try
+                    {
+                        ImageBrush imgBG = new ImageBrush(new BitmapImage(new Uri(Properties.Settings.Default.themeBG)));
+                        imgBG.Stretch = Stretch.UniformToFill;
+                        tbtrayTop.Background = imgBG;
+                        System.Drawing.Color avgColor = getAverageColor((System.Drawing.Bitmap)System.Drawing.Image.FromFile(Properties.Settings.Default.themeBG));
+                        SolidColorBrush bgBrush = new SolidColorBrush(Color.FromRgb(avgColor.R, avgColor.G, avgColor.B));
+                        foreach (Control control in skinables)
+                            control.Background = bgBrush;
+                    }
+                    catch (Exception ex)
+                    {
+                        messageBox = new customMessageBox();
+                        messageBox.SetupMsgBox(ex.Message + errorPreset + "\nTheme will be reset to Blue.", "Error!", this.FindResource("iconError"));
+                        messageBox.ShowDialog();
+                        nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                        Properties.Settings.Default.themeName = "blue";
+                        Properties.Settings.Default.Save();
+                    }
+                    break;
             }
+        }
+
+        private System.Drawing.Color getAverageColor(System.Drawing.Bitmap bm)
+        {
+            var list = new Dictionary<System.Drawing.Color, int>();
+            int addR = 0;
+            int addG = 0;
+            int addB = 0;
+            System.Drawing.Bitmap myImage = new System.Drawing.Bitmap(bm, new System.Drawing.Size(50, 50));
+            for (int x = 0; x < myImage.Width; x++)
+            {
+                for (int y = 0; y < myImage.Height; y++)
+                {
+                    System.Drawing.Color color = myImage.GetPixel(x, y);
+                    if (!list.ContainsKey(color))
+                        list.Add(color, 1);
+                    else
+                        list[color]++;
+                }
+            }
+            System.Drawing.Color keyOfMaxValue = list.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            if (keyOfMaxValue.GetBrightness() < 0.5F)
+            {
+                Color higherBrightness = ColorFromHSV(keyOfMaxValue.GetHue(), keyOfMaxValue.GetSaturation(), 0.85F);
+                keyOfMaxValue = System.Drawing.Color.FromArgb(higherBrightness.R, higherBrightness.G, higherBrightness.B);
+            }
+            System.Drawing.Color returnColor = System.Drawing.Color.FromArgb((int)keyOfMaxValue.R + addR, (int)keyOfMaxValue.G + addG, (int)keyOfMaxValue.B + addB);
+            return returnColor;
         }
 
         private void anyNew_Click(object sender, RoutedEventArgs e)
@@ -416,11 +468,14 @@ namespace NoteyWriteWPF
         {
             //Change the formatting options accordingly to the selected text
             object temp = rtbMain.Selection.GetPropertyValue(Inline.FontWeightProperty);
-            miBold.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontWeights.Bold));
+            if (temp != null)
+                miBold.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontWeights.Bold));
             temp = rtbMain.Selection.GetPropertyValue(Inline.FontStyleProperty);
-            miItalic.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontStyles.Italic));
+            if (temp != null)
+                miItalic.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontStyles.Italic));
             temp = rtbMain.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
-            miUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
+            if (temp != null)
+                miUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
 
             checkForAlignment();
 
@@ -459,7 +514,10 @@ namespace NoteyWriteWPF
                 exit.mWRichTextBox = XamlReader.Parse(XamlWriter.Save(rtbMain)) as RichTextBox;
                 exit.mWCurrentlyOpenFile = currentlyOpenPath;
                 if (exit.ShowDialog() == true)
+                {
                     e.Cancel = true;
+                    return;
+                }
                 Application.Current.Shutdown();
             }
             else
@@ -592,7 +650,7 @@ namespace NoteyWriteWPF
                 return;
 
             //Animate the Opacity & Margin of the formatting bar & RichTextBox
-            DoubleAnimation fadeIn = new DoubleAnimation(0.0, 1.0, new Duration(TimeSpan.FromSeconds(0.8)));
+            /*DoubleAnimation fadeIn = new DoubleAnimation(0.0, 1.0, new Duration(TimeSpan.FromSeconds(0.8)));
             ThicknessAnimation increaseMargin = new ThicknessAnimation(new Thickness(0, 56, 0, 0), new Duration(TimeSpan.FromSeconds(0.5)));
             animationStoryboard = new Storyboard();
             animationStoryboard.Children.Add(fadeIn);
@@ -602,7 +660,8 @@ namespace NoteyWriteWPF
             Storyboard.SetTargetName(increaseMargin, rtbMain.Name);
             Storyboard.SetTargetProperty(increaseMargin, new PropertyPath(RichTextBox.MarginProperty));
             animationStoryboard.Begin(this);
-            tbFormatting.IsHitTestVisible = true;
+            tbFormatting.IsHitTestVisible = true;*/
+            tbFormatting.Visibility = Visibility.Visible;
         }
 
         private void miFormattingBar_Unchecked(object sender, RoutedEventArgs e)
@@ -611,7 +670,7 @@ namespace NoteyWriteWPF
                 return;
 
             //Animate the Opacity & Margin of the formatting bar & RichTextBox
-            DoubleAnimation fadeOut = new DoubleAnimation(1.0, 0.0, new Duration(TimeSpan.FromSeconds(0.8)));
+            /*DoubleAnimation fadeOut = new DoubleAnimation(1.0, 0.0, new Duration(TimeSpan.FromSeconds(0.8)));
             ThicknessAnimation decreaseMargin = new ThicknessAnimation(new Thickness(0, 26, 0, 0), new Duration(TimeSpan.FromSeconds(0.8)));
             animationStoryboard = new Storyboard();
             animationStoryboard.Children.Add(fadeOut);
@@ -621,7 +680,8 @@ namespace NoteyWriteWPF
             Storyboard.SetTargetName(decreaseMargin, rtbMain.Name);
             Storyboard.SetTargetProperty(decreaseMargin, new PropertyPath(RichTextBox.MarginProperty));
             animationStoryboard.Begin(this);
-            tbFormatting.IsHitTestVisible = false;
+            tbFormatting.IsHitTestVisible = false;*/
+            tbFormatting.Visibility = Visibility.Collapsed;
         }
 
         private void rtbMain_DragOver(object sender, DragEventArgs e)
@@ -726,11 +786,24 @@ namespace NoteyWriteWPF
 
         private void miDebug_Click(object sender, RoutedEventArgs e)
         {
-            var resourceIcons = new ResourceDictionary();
+            /*var resourceIcons = new ResourceDictionary();
             resourceIcons.Source = new Uri("icons.xaml", UriKind.RelativeOrAbsolute);
+            var resourceKeys = resourceIcons.Keys;*/
+        }
+
+        private void miSettings_Click(object sender, RoutedEventArgs e)
+        {
             settings settings = new settings();
             if (settings.ShowDialog() == true)
                 applySettings();
+        }
+
+        private void miInsertImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (ofdImage.ShowDialog() == true)
+            {
+                rtbMain.Document.Blocks.Add(new BlockUIContainer(new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.None } ));
+            }
         }
     }
 }

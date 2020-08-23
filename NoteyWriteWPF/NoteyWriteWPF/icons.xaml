@@ -788,6 +788,25 @@
             </Canvas>
         </Canvas>
     </Viewbox>
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconSettings">
+        <Canvas Name="svg8553" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Canvas Name="g8949">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.909091 0 0 0.909091 0.272727 0.272727"/>
+                </Canvas.RenderTransform>
+                <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="3" Canvas.Top="3" Width="11" Height="11" Name="circle847" Fill="#ffffff" StrokeMiterLimit="2" StrokeLineJoin="Round"/>
+            </Canvas>
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8521" Fill="#000000" StrokeMiterLimit="2" StrokeLineJoin="Round">
+                <Path.Data>
+                    <PathGeometry Figures="M9.014 1.074C8.341 0.975 7.659 0.975 6.986 1.074L7.065 2.585C6.261 2.724 5.499 3.039 4.832 3.509L3.819 2.386C3.274 2.791 2.791 3.274 2.386 3.819L3.509 4.832C3.039 5.499 2.724 6.261 2.585 7.065L1.074 6.986C0.975 7.659 0.975 8.341 1.074 9.014L2.585 8.935C2.724 9.739 3.039 10.501 3.509 11.168L2.386 12.181C2.791 12.726 3.274 13.209 3.819 13.614L4.832 12.491C5.499 12.961 6.261 13.276 7.065 13.415L6.986 14.926C7.659 15.025 8.341 15.025 9.014 14.926L8.935 13.415C9.739 13.276 10.501 12.961 11.168 12.491L12.181 13.614C12.726 13.209 13.209 12.726 13.614 12.181L12.491 11.168C12.961 10.501 13.276 9.739 13.415 8.935L14.926 9.014C15.025 8.341 15.025 7.659 14.926 6.986L13.415 7.065C13.276 6.261 12.961 5.499 12.491 4.832L13.614 3.819C13.209 3.274 12.726 2.791 12.181 2.386L11.168 3.509C10.501 3.039 9.739 2.724 8.935 2.585L9.014 1.074ZM8 3.766C10.337 3.766 12.234 5.663 12.234 8C12.234 10.337 10.337 12.234 8 12.234C5.663 12.234 3.766 10.337 3.766 8C3.766 5.663 5.663 3.766 8 3.766Z" FillRule="EvenOdd"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Viewbox>
     <!--#endregion-->
 
     <!--#region ToolTips-->

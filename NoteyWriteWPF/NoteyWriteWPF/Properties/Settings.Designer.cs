@@ -70,5 +70,17 @@ namespace NoteyWriteWPF.Properties {
                 this["themeName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string themeBG {
+            get {
+                return ((string)(this["themeBG"]));
+            }
+            set {
+                this["themeBG"] = value;
+            }
+        }
     }
 }

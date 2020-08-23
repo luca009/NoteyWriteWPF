@@ -14,5 +14,8 @@
     <Setting Name="themeName" Type="System.String" Scope="User">
       <Value Profile="(Default)">blue</Value>
     </Setting>
+    <Setting Name="themeBG" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

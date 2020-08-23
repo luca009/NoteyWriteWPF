@@ -33,7 +33,7 @@ namespace NoteyWriteWPF
             textTitle.Visibility = Visibility.Hidden;
             bSecond.Visibility = Visibility.Hidden;
             bThird.Visibility = Visibility.Hidden;
-            textDescription.Margin = new Thickness(10, 10, 10, 45);
+            scrviewerDescription.Margin = new Thickness(10, 10, 10, 45);
             textDescription.Text = content;
         }
         public void SetupMsgBox(string content, string title)

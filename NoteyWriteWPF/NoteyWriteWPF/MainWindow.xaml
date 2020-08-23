@@ -20,14 +20,16 @@
 
         <DockPanel LastChildFill="False" Margin="0,0,0,-0.2">
             <ToolBarTray x:Name="tbtrayTop" Margin="0" VerticalAlignment="Top" DockPanel.Dock="Top" Background="{DynamicResource colorBlueBG}" Tag="skinable">
-                <ToolBar x:Name="tbFile" Height="26" VerticalAlignment="Top" Background="{DynamicResource colorBlueBG}" Foreground="Black" Tag="skinable">
-                    <Menu x:Name="menu" VerticalAlignment="Top" Background="#00F0F0F0">
+                <ToolBar x:Name="tbFile" Height="30" VerticalAlignment="Top" Background="{DynamicResource colorBlueBG}" Foreground="Black" Tag="skinable" BorderBrush="Black">
+                    <Menu Background="#00F0F0F0" VerticalAlignment="Center">
                         <MenuItem x:Name="miFile" Header="File" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
-                            <MenuItem x:Name="miNew" Header="New" Margin="0" Click="anyNew_Click" Icon="{StaticResource iconNew}"/>
+                            <MenuItem x:Name="miNew" Header="New" Margin="0" Click="anyNew_Click" Icon="{StaticResource iconNew}" Background="{x:Null}"/>
                             <MenuItem x:Name="miOpen" Header="Open..." Margin="0,0,-2,0" Click="anyOpen_Click" Icon="{StaticResource iconOpen}"/>
                             <MenuItem x:Name="miSave" Header="Save" Margin="0" Click="anySave_Click" Icon="{StaticResource iconSave}"/>
                             <MenuItem x:Name="miSaveAs" Header="Save As..." Click="anySaveAs_Click" Margin="0,1,-2,0" Background="Transparent" Foreground="Black" Icon="{StaticResource iconSaveAs}"/>
                             <MenuItem x:Name="miExit" Header="Exit" Margin="0,1,-2,0" Click="anyExit_Click" Icon="{StaticResource iconExit}"/>
+                            <Separator/>
+                            <MenuItem x:Name="miSettings" Header="Settings" Icon="{DynamicResource iconSettings}" Click="miSettings_Click"/>
                         </MenuItem>
                         <MenuItem x:Name="miEdit" Header="Edit" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22" GotFocus="miEdit_Focus" GotKeyboardFocus="miEdit_Focus">
                             <MenuItem x:Name="miUndo" Header="Undo" Click="anyUndo_Click" Icon="{StaticResource iconUndo}"/>
@@ -45,6 +47,9 @@
                             <MenuItem x:Name="miPerformanceMode" Header="Performance Mode" Icon="{StaticResource iconPerformance}" Click="miPerformanceMode_Click"/>
                             <MenuItem x:Name="miError" Header="Error (example)" Click="miError_Click" Margin="0"/>
                             <MenuItem x:Name="miDebug" Header="Magic Button" Margin="0" Click="miDebug_Click"/>
+                        </MenuItem>
+                        <MenuItem x:Name="miInsert" Header="Insert" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
+                            <MenuItem x:Name="miInsertImage" Header="Image" Margin="0" Click="miInsertImage_Click"/>
                         </MenuItem>
                     </Menu>
                 </ToolBar>
@@ -73,11 +78,7 @@
                 </ToolBar>
             </ToolBarTray>
 
-            <RichTextBox x:Name="rtbMain" Margin="0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" SpellCheck.IsEnabled="True" AcceptsTab="True" RenderTransformOrigin="0.5,0.5" AutomationProperties.Name="rtbMain" AllowDrop="True" DragOver="rtbMain_DragOver" Drop="rtbMain_Drop" DragLeave="rtbMain_DragLeave" DragEnter="rtbMain_DragEnter" Panel.ZIndex="2" Background="White" >
-                <FlowDocument>
-                    <Paragraph/>
-                </FlowDocument>
-            </RichTextBox>
+            <RichTextBox x:Name="rtbMain" Margin="0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" SpellCheck.IsEnabled="True" AcceptsTab="True" RenderTransformOrigin="0.5,0.5" AutomationProperties.Name="rtbMain" AllowDrop="True" DragOver="rtbMain_DragOver" Drop="rtbMain_Drop" DragLeave="rtbMain_DragLeave" DragEnter="rtbMain_DragEnter" Panel.ZIndex="2" Background="White" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
         </DockPanel>
     </Grid>
 </Window>
