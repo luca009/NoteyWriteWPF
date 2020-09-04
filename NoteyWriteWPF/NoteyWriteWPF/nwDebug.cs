@@ -10,8 +10,16 @@ namespace NoteyWriteWPF
 {
     public class nwDebug
     {
+        public enum Severity
+        {
+            Error,
+            Info,
+            Warning,
+            Minimal
+        }
+
         /// <summary>
-        /// Shows MessageBox with content of info + extra details.
+        /// Shows MessageBox with content of info + extra details. Not in use anymore.
         /// level is 0 by default.
         /// level = 0 = Error, level = 1 = Info, level = 2 = Warning, level = 3 = Only info
         /// </summary>
@@ -37,12 +45,12 @@ namespace NoteyWriteWPF
         }
 
         /// <summary>
-        /// Logs info with extra informnation to a text file. Work in progress.
-        /// level is 0 by default.
-        /// level = 0 = Error, level = 1 = Info, level = 2 = Warning
+        /// Logs info with extra information to a text file.
+        /// severity is Error by default.
         /// </summary>
-        public static bool nwLog(string info, int level = 0, string filePath = "/log.txt", string special = null)
+        public static bool nwLog(string info, Severity severity = Severity.Error, string filePath = "/log.txt", string special = null)
         {
+            int level = (int)severity;
             if (filePath == null)
                 return false;
             if (!File.Exists(filePath))

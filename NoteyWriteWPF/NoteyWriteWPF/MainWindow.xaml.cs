@@ -40,6 +40,8 @@ namespace NoteyWriteWPF
         string errorPreset = "\nNoteyWrite will attempt to continue normal operation.";
         string logFile;
         bool canDrop = true;
+        Image insertImage;
+        BlockUIContainer insertImageUIContainer;
 
         public MainWindow()
         {
@@ -47,27 +49,27 @@ namespace NoteyWriteWPF
             InitializeComponent();
             applySettings();
             //logFile = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            nwDebug.nwLog("NoteyWrite started.", 1, logFile);
+            nwDebug.nwLog("NoteyWrite started.", nwDebug.Severity.Info, logFile);
             arguments = getArguments();
             if (arguments.Length > 1)
             {
-                nwDebug.nwLog("Opening from argument.", 0, logFile);
+                nwDebug.nwLog("Opening from argument.", nwDebug.Severity.Info, logFile);
                 if (File.Exists(arguments[1]))
                 {
-                    nwDebug.nwLog("Argument file exists.", 1, logFile);
+                    nwDebug.nwLog("Argument file exists.", nwDebug.Severity.Info, logFile);
                     try
                     {
                         long length = new FileInfo(arguments[1]).Length;
                         if (length > performanceModeMinSize)
                         {
-                            nwDebug.nwLog("File is above performance treshold.", 1, logFile);
+                            nwDebug.nwLog("File is above performance treshold.", nwDebug.Severity.Info, logFile);
                             messageBox = new customMessageBox();
                             messageBox.SetupMsgBox("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "Performance Mode", this.FindResource("iconWarning"), "Yes", "No", "Cancel");
                             messageBox.ShowDialog();
                             switch (messageBox.result.ToString())
                             {
                                 case "Yes":
-                                    nwDebug.nwLog("Attempting to open file in Performance Mode.", 1, logFile);
+                                    nwDebug.nwLog("Attempting to open file in Performance Mode.", nwDebug.Severity.Info, logFile);
                                     performanceMode performanceMode = new performanceMode();
                                     performanceMode.openDocument(arguments[1]);
                                     performanceMode.Show();
@@ -83,7 +85,7 @@ namespace NoteyWriteWPF
                     }
                     catch (Exception ex)
                     {
-                        nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                        nwDebug.nwLog("Exception " + ex.Message, nwDebug.Severity.Error, logFile);
                         messageBox = new customMessageBox();
                         messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
                         messageBox.ShowDialog();
@@ -104,7 +106,7 @@ namespace NoteyWriteWPF
             {
                 fonts.Add(font.Name);
             }
-            nwDebug.nwLog("Added all fonts.", 1, logFile);
+            nwDebug.nwLog("Added all fonts.", nwDebug.Severity.Info, logFile);
 
             cbFont.ItemsSource = fonts;
             cbFontSize.ItemsSource = new List<Double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72, 102, 144, 288 };
@@ -147,7 +149,7 @@ namespace NoteyWriteWPF
             else
                 rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
 
-            nwDebug.nwLog("Opened File.", 1, logFile);
+            nwDebug.nwLog("Opened File.", nwDebug.Severity.Info, logFile);
             unsavedChanges = false;
             return true;
         }
@@ -172,7 +174,7 @@ namespace NoteyWriteWPF
             else
                 rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
 
-            nwDebug.nwLog("Saved File.", 1, logFile);
+            nwDebug.nwLog("Saved File.", nwDebug.Severity.Info, logFile);
             unsavedChanges = false;
             currentlyOpenPath = filePath;
             //while (stream Length != stream.Position){}
@@ -315,7 +317,7 @@ namespace NoteyWriteWPF
                         messageBox = new customMessageBox();
                         messageBox.SetupMsgBox(ex.Message + errorPreset + "\nTheme will be reset to Blue.", "Error!", this.FindResource("iconError"));
                         messageBox.ShowDialog();
-                        nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                        nwDebug.nwLog("Exception " + ex.Message, nwDebug.Severity.Error, logFile);
                         Properties.Settings.Default.themeName = "blue";
                         Properties.Settings.Default.Save();
                     }
@@ -357,7 +359,7 @@ namespace NoteyWriteWPF
             rtbMain.Selection.Text = "";
             unsavedChanges = false;
             currentlyOpenPath = "";
-            nwDebug.nwLog("New Document", 1, logFile);
+            nwDebug.nwLog("New Document", nwDebug.Severity.Info, logFile);
         }
 
         private void anyOpen_Click(object sender, RoutedEventArgs e)
@@ -365,20 +367,20 @@ namespace NoteyWriteWPF
             Nullable<bool> result = ofdOpen.ShowDialog();
             if (result == true)
             {
-                nwDebug.nwLog("Opening from Open.", 1, logFile);
+                nwDebug.nwLog("Opening from Open.", nwDebug.Severity.Info, logFile);
                 try
                 {
                     long length = new FileInfo(ofdOpen.FileName).Length;
                     if (length > performanceModeMinSize)
                     {
-                        nwDebug.nwLog("File is above performance treshold.", 1, logFile);
+                        nwDebug.nwLog("File is above performance treshold.", nwDebug.Severity.Info, logFile);
                         messageBox = new customMessageBox();
                         messageBox.SetupMsgBox("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "Performance Mode", this.FindResource("iconWarning"), "Yes", "No", "Cancel");
                         messageBox.ShowDialog();
                         switch (messageBox.result.ToString())
                         {
                             case "Yes":
-                                nwDebug.nwLog("Attempting to open file in Performance Mode.", 1, logFile);
+                                nwDebug.nwLog("Attempting to open file in Performance Mode.", nwDebug.Severity.Info, logFile);
                                 performanceMode performanceMode = new performanceMode();
                                 performanceMode.openDocument(ofdOpen.FileName);
                                 performanceMode.Show();
@@ -397,7 +399,7 @@ namespace NoteyWriteWPF
                     messageBox = new customMessageBox();
                     messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
                     messageBox.ShowDialog();
-                    nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                    nwDebug.nwLog("Exception " + ex.Message, nwDebug.Severity.Error, logFile);
                 }
             }
         }
@@ -417,7 +419,7 @@ namespace NoteyWriteWPF
                     messageBox = new customMessageBox();
                     messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
                     messageBox.ShowDialog();
-                    nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                    nwDebug.nwLog("Exception " + ex.Message, nwDebug.Severity.Error, logFile);
                 }
             }
         }
@@ -427,7 +429,7 @@ namespace NoteyWriteWPF
             Nullable<bool> result = sfdSave.ShowDialog();
             if (result == true)
             {
-                nwDebug.nwLog("Saving from Save.", 1, logFile);
+                nwDebug.nwLog("Saving from Save.", nwDebug.Severity.Info, logFile);
                 try
                 {
                     saveDocument(sfdSave.FileName, rtbMain);
@@ -437,7 +439,7 @@ namespace NoteyWriteWPF
                     messageBox = new customMessageBox();
                     messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
                     messageBox.ShowDialog();
-                    nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                    nwDebug.nwLog("Exception " + ex.Message, nwDebug.Severity.Error, logFile);
                 }
             }
         }
@@ -445,7 +447,7 @@ namespace NoteyWriteWPF
         private void anyExit_Click(object sender, RoutedEventArgs e)
         {
             //If there are unsaved changes, the "Unsaved Changes" dialog openes, if not, close the application
-            nwDebug.nwLog("Exiting", 1, logFile);
+            nwDebug.nwLog("Exiting", nwDebug.Severity.Info, logFile);
             if (unsavedChanges)
             {
                 exit exit = new exit();
@@ -467,6 +469,23 @@ namespace NoteyWriteWPF
         private void rtbMain_SelectionChanged(object sender, RoutedEventArgs e)
         {
             //Change the formatting options accordingly to the selected text
+            //if (rtbMain.Selection.Start.Paragraph != null)
+            //{
+            //if (rtbMain.Selection.Start.Paragraph.NextBlock != null)
+            //{ 
+            /*string temps = null;
+            var curCaret = rtbMain.CaretPosition;
+            var curBlock = rtbMain.Document.Blocks.Where(x => x.ContentStart.CompareTo(curCaret) == -1 || x.ContentEnd.CompareTo(curCaret) == 1).FirstOrDefault();
+
+            rtbMain.Document.
+
+            if (curBlock != null)
+                temps = curBlock.Name;
+            if (temps == "Image")
+                Console.WriteLine("image");*/
+                //}
+            //}
+
             object temp = rtbMain.Selection.GetPropertyValue(Inline.FontWeightProperty);
             if (temp != null)
                 miBold.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontWeights.Bold));
@@ -507,7 +526,7 @@ namespace NoteyWriteWPF
         private void mainWindow_Close(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //If there are unsaved changes, the "Unsaved Changes" dialog openes, if not, close the application
-            nwDebug.nwLog("Exiting", 1, logFile);
+            nwDebug.nwLog("Exiting", nwDebug.Severity.Info, logFile);
             if (unsavedChanges)
             {
                 exit exit = new exit();
@@ -529,7 +548,7 @@ namespace NoteyWriteWPF
             //Apply the selected font family
             if (cbFont.SelectedItem != null)
                 rtbMain.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cbFont.SelectedItem);
-            nwDebug.nwLog("Changed font.", 1, logFile);
+            nwDebug.nwLog("Changed font.", nwDebug.Severity.Info, logFile);
             rtbMain.Focus();
         }
 
@@ -538,7 +557,7 @@ namespace NoteyWriteWPF
             //Apply the selected font size
             if (cbFontSize.SelectedItem != null)
                 rtbMain.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cbFontSize.SelectedItem);
-            nwDebug.nwLog("Canged font size.", 1, logFile);
+            nwDebug.nwLog("Changed font size.", nwDebug.Severity.Info, logFile);
             rtbMain.Focus();
         }
 
@@ -649,18 +668,6 @@ namespace NoteyWriteWPF
             if (tbFormatting == null || rtbMain == null)
                 return;
 
-            //Animate the Opacity & Margin of the formatting bar & RichTextBox
-            /*DoubleAnimation fadeIn = new DoubleAnimation(0.0, 1.0, new Duration(TimeSpan.FromSeconds(0.8)));
-            ThicknessAnimation increaseMargin = new ThicknessAnimation(new Thickness(0, 56, 0, 0), new Duration(TimeSpan.FromSeconds(0.5)));
-            animationStoryboard = new Storyboard();
-            animationStoryboard.Children.Add(fadeIn);
-            animationStoryboard.Children.Add(increaseMargin);
-            Storyboard.SetTargetName(fadeIn, tbFormatting.Name);
-            Storyboard.SetTargetProperty(fadeIn, new PropertyPath(ToolBar.OpacityProperty));
-            Storyboard.SetTargetName(increaseMargin, rtbMain.Name);
-            Storyboard.SetTargetProperty(increaseMargin, new PropertyPath(RichTextBox.MarginProperty));
-            animationStoryboard.Begin(this);
-            tbFormatting.IsHitTestVisible = true;*/
             tbFormatting.Visibility = Visibility.Visible;
         }
 
@@ -669,18 +676,6 @@ namespace NoteyWriteWPF
             if (tbFormatting == null || rtbMain == null)
                 return;
 
-            //Animate the Opacity & Margin of the formatting bar & RichTextBox
-            /*DoubleAnimation fadeOut = new DoubleAnimation(1.0, 0.0, new Duration(TimeSpan.FromSeconds(0.8)));
-            ThicknessAnimation decreaseMargin = new ThicknessAnimation(new Thickness(0, 26, 0, 0), new Duration(TimeSpan.FromSeconds(0.8)));
-            animationStoryboard = new Storyboard();
-            animationStoryboard.Children.Add(fadeOut);
-            animationStoryboard.Children.Add(decreaseMargin);
-            Storyboard.SetTargetName(fadeOut, tbFormatting.Name);
-            Storyboard.SetTargetProperty(fadeOut, new PropertyPath(ToolBar.OpacityProperty)); 
-            Storyboard.SetTargetName(decreaseMargin, rtbMain.Name);
-            Storyboard.SetTargetProperty(decreaseMargin, new PropertyPath(RichTextBox.MarginProperty));
-            animationStoryboard.Begin(this);
-            tbFormatting.IsHitTestVisible = false;*/
             tbFormatting.Visibility = Visibility.Collapsed;
         }
 
@@ -709,7 +704,7 @@ namespace NoteyWriteWPF
             //Check if the dropped data is a file to not override the existing functionality
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                nwDebug.nwLog("Opening from DragDrop.", 1, logFile);
+                nwDebug.nwLog("Opening from DragDrop.", nwDebug.Severity.Info, logFile);
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 animate(new DoubleAnimation(0, new Duration(TimeSpan.FromSeconds(0.25))), new PropertyPath(RichTextBox.OpacityProperty), animationStoryboard, canvasDragDrop.Name);
                 //Until multiple documents can be opened, only open the first one
@@ -718,14 +713,14 @@ namespace NoteyWriteWPF
                     long length = new FileInfo(files[0]).Length;
                     if (length > performanceModeMinSize)
                     {
-                        nwDebug.nwLog("File is above performance treshold.", 1, logFile);
+                        nwDebug.nwLog("File is above performance treshold.", nwDebug.Severity.Info, logFile);
                         messageBox = new customMessageBox();
                         messageBox.SetupMsgBox("Opening this file may cause performance issues. Do you wish to open it using Performance Mode?", "Performance Mode", this.FindResource("iconWarning"), "Yes", "No", "Cancel");
                         messageBox.ShowDialog();
                         switch (messageBox.result.ToString())
                         {
                             case "Yes":
-                                nwDebug.nwLog("Attempting to open file in Performance Mode.", 1, logFile);
+                                nwDebug.nwLog("Attempting to open file in Performance Mode.", nwDebug.Severity.Info, logFile);
                                 performanceMode performanceMode = new performanceMode();
                                 performanceMode.openDocument(files[0]);
                                 performanceMode.Show();
@@ -735,7 +730,7 @@ namespace NoteyWriteWPF
                             case "Cancel":
                                 return;
                             default:
-                                nwDebug.nwLog("Unknown result returned.", 2, logFile);
+                                nwDebug.nwLog("Unknown result returned.", nwDebug.Severity.Warning, logFile);
                                 return;
                         }
                     }
@@ -747,7 +742,7 @@ namespace NoteyWriteWPF
                     messageBox = new customMessageBox();
                     messageBox.SetupMsgBox(ex.Message + errorPreset, "Error!", this.FindResource("iconError"));
                     messageBox.ShowDialog();
-                    nwDebug.nwLog("Exception " + ex.Message, 0, logFile);
+                    nwDebug.nwLog("Exception " + ex.Message, nwDebug.Severity.Error, logFile);
                 }
             }
             e.Handled = true;
@@ -772,7 +767,7 @@ namespace NoteyWriteWPF
         {
             performanceMode performanceMode = new performanceMode();
             performanceMode.Show();
-            nwDebug.nwLog("Show Performance Mode.", 1, logFile);
+            nwDebug.nwLog("Show Performance Mode.", nwDebug.Severity.Info, logFile);
         }
 
         private void miError_Click(object sender, RoutedEventArgs e)
@@ -802,8 +797,20 @@ namespace NoteyWriteWPF
         {
             if (ofdImage.ShowDialog() == true)
             {
-                rtbMain.Document.Blocks.Add(new BlockUIContainer(new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.None } ));
+                insertImage = new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.Uniform, Width = rtbMain.ActualWidth };
+                insertImageUIContainer = new BlockUIContainer(insertImage);
+                insertImage.Loaded += new RoutedEventHandler(insertImageLoaded);
+                rtbMain.Document.Blocks.Add(insertImageUIContainer);
+                //rtbMain.Document.Blocks.Add(new BlockUIContainer(new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.Uniform, Width = rtbMain.ActualWidth, MaxWidth = rtbMain.ActualWidth, MinWidth = rtbMain.ActualWidth } ));
+                //uiContainer.
             }
+        }
+
+        private void insertImageLoaded(object sender, RoutedEventArgs e)
+        {
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(insertImage);
+            if (adornerLayer != null)
+                adornerLayer.Add(new imageResizeAdorner(insertImage));
         }
     }
 }

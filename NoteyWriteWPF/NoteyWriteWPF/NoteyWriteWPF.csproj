@@ -95,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="adorners.cs" />
     <Compile Include="detailEdit.xaml.cs">
       <DependentUpon>detailEdit.xaml</DependentUpon>
     </Compile>
