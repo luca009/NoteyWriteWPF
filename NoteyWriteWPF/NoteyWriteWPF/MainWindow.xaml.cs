@@ -101,14 +101,15 @@ namespace NoteyWriteWPF
             ofdImage.Filter = "Known Image Formats (*.png, *.jpg, *.jpeg, *.bmp)|*.png;*.jpg;*.jpeg;*.bmp";
             ofdImage.Title = "Open an image | NoteyWrite";
 
-            List<string> fonts = new List<string>();
+            //List<string> fonts = new List<string>();
             foreach (System.Drawing.FontFamily font in System.Drawing.FontFamily.Families)
             {
-                fonts.Add(font.Name);
+                //fonts.Add(font.Name);
+                cbFont.Items.Add(new ComboBoxItem() { Content = font.Name, FontFamily = new FontFamily(font.Name) });
             }
             nwDebug.nwLog("Added all fonts.", nwDebug.Severity.Info, logFile);
 
-            cbFont.ItemsSource = fonts;
+            //cbFont.ItemsSource = fonts;
             cbFontSize.ItemsSource = new List<Double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72, 102, 144, 288 };
 
             //Override the default RichTextBox Events
@@ -545,9 +546,9 @@ namespace NoteyWriteWPF
 
         private void anyFont_DropDownClosed(object sender, EventArgs e)
         {
-            //Apply the selected font family
+            //Apply the selected font family with some questionable code
             if (cbFont.SelectedItem != null)
-                rtbMain.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cbFont.SelectedItem);
+                rtbMain.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, ((ComboBoxItem)cbFont.SelectedItem).FontFamily);
             nwDebug.nwLog("Changed font.", nwDebug.Severity.Info, logFile);
             rtbMain.Focus();
         }
