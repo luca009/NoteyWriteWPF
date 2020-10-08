@@ -10,6 +10,6 @@
         <TextBlock x:Name="textInfo" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Something's wrong." VerticalAlignment="Top" Width="224" Margin="10,10,0,0"/>
         <TextBox x:Name="tbInput" HorizontalAlignment="Left" Height="23" Margin="10,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="224" TextChanged="tbInput_TextChanged" UndoLimit="5"/>
         <Button x:Name="bOK" Content="OK" HorizontalAlignment="Left" Margin="114,54,0,0" VerticalAlignment="Top" Width="120" Click="bOK_Click" IsDefault="True"/>
-        <Button x:Name="bCancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" Width="40" Click="bCancel_Click"/>
+        <Button x:Name="bCancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" Width="40" Click="bCancel_Click" IsCancel="True"/>
     </Grid>
 </Window>

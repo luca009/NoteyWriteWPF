@@ -13,6 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+
     <Grid x:Name="gridMain">
         <Canvas x:Name="canvasDragDrop" Background="#FFBDBDBD" Panel.ZIndex="5" Opacity="0" IsHitTestVisible="False" Visibility="Hidden" AutomationProperties.Name="canvasDragDrop" Margin="0,56,0,0" >
             <TextBlock TextWrapping="Wrap" Foreground="Black" Panel.ZIndex="1" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Drop to open file."/><LineBreak/><Run Text="This will overwrite anything else!"/></TextBlock>
@@ -20,12 +21,12 @@
 
         <DockPanel LastChildFill="False" Margin="0,0,0,-0.2">
             <ToolBarTray x:Name="tbtrayTop" Margin="0" VerticalAlignment="Top" DockPanel.Dock="Top" Background="{DynamicResource colorBlueBG}" Tag="skinable">
-                <ToolBar x:Name="tbFile" Height="30" VerticalAlignment="Top" Background="{DynamicResource colorBlueBG}" Foreground="Black" Tag="skinable" BorderBrush="Black">
+                <ToolBar x:Name="tbFile" Height="30" VerticalAlignment="Top" Background="{DynamicResource colorBlueBG}" Foreground="Black" Tag="skinable" BorderBrush="Black" MinWidth="220" MinHeight="30">
                     <Menu Background="#00F0F0F0" VerticalAlignment="Center">
                         <MenuItem x:Name="miFile" Header="File" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
                             <MenuItem x:Name="miNew" Header="New" Margin="0" Click="anyNew_Click" Icon="{StaticResource iconNew}" Background="{x:Null}"/>
                             <MenuItem x:Name="miOpen" Header="Open..." Margin="0,0,-2,0" Click="anyOpen_Click" Icon="{StaticResource iconOpen}"/>
-                            <MenuItem x:Name="miSave" Header="Save" Margin="0" Click="anySave_Click" Icon="{StaticResource iconSave}"/>
+                            <MenuItem x:Name="miSave" Header="Save" Margin="0" Click="anySave_Click" Icon="{StaticResource iconSave}" />
                             <MenuItem x:Name="miSaveAs" Header="Save As..." Click="anySaveAs_Click" Margin="0,1,-2,0" Background="Transparent" Foreground="Black" Icon="{StaticResource iconSaveAs}"/>
                             <MenuItem x:Name="miExit" Header="Exit" Margin="0,1,-2,0" Click="anyExit_Click" Icon="{StaticResource iconExit}"/>
                             <Separator/>
@@ -53,7 +54,7 @@
                         </MenuItem>
                     </Menu>
                 </ToolBar>
-                <ToolBar x:Name="tbFormatting" Height="30" VerticalAlignment="Top" AutomationProperties.Name="tbFormatting" Background="{DynamicResource colorBlueBG}" Band="1" BandIndex="1" Foreground="Black" Tag="skinable">
+                <ToolBar x:Name="tbFormatting" Height="30" VerticalAlignment="Top" AutomationProperties.Name="tbFormatting" Background="{DynamicResource colorBlueBG}" Band="1" BandIndex="1" Foreground="Black" Tag="skinable" MinHeight="30">
                     <MenuItem x:Name="miNewBar" Icon="{StaticResource iconNewBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyNew_Click" ToolTip="Create a new document."/>
                     <MenuItem x:Name="miOpenBar" Icon="{StaticResource iconOpenBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anyOpen_Click" ToolTip="Open an existing document."/>
                     <MenuItem x:Name="miSaveBar" Icon="{StaticResource iconSaveBar}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Click="anySave_Click" ToolTip="Save this document."/>
@@ -76,6 +77,7 @@
                     <MenuItem x:Name="miIncreaseIndent" Icon="{StaticResource iconIncreaseIndent}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.IncreaseIndentation" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Increase the line indentation. (Ctrl+T)"/>
                     <MenuItem x:Name="miDecreaseIndent" Icon="{StaticResource iconDecreaseIndent}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.DecreaseIndentation" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Decrease the line indentation. (Ctrl+Shift+T)" Header="DecreaseIndentation"/>
                 </ToolBar>
+                <!--<ToolBar x:Name="tbFormattingExtra" Band="2" MinHeight="30"></ToolBar>-->
             </ToolBarTray>
 
             <RichTextBox x:Name="rtbMain" Margin="0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" SpellCheck.IsEnabled="True" AcceptsTab="True" RenderTransformOrigin="0.5,0.5" AutomationProperties.Name="rtbMain" AllowDrop="True" DragOver="rtbMain_DragOver" Drop="rtbMain_Drop" DragLeave="rtbMain_DragLeave" DragEnter="rtbMain_DragEnter" Panel.ZIndex="2" Background="White" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />

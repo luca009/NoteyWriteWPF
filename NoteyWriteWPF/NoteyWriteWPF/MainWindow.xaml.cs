@@ -136,19 +136,24 @@ namespace NoteyWriteWPF
 
             if (!append)
                 rtbLoad.SelectAll();
-            if (fileExtension == ".rtf")
-                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Rtf);
-            else if (fileExtension == ".txt")
-                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
-            else if (fileExtension == ".xml")
+            switch (fileExtension)
             {
-                XmlReader xmlReader = XmlReader.Create(filePath);
-                XamlReader xamlReader = new XamlReader();
-                rtbLoad.Document = new FlowDocument();
-                rtbLoad.Document = (FlowDocument)(XamlReader.Load(xmlReader));
+                case ".rtf":
+                    rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Rtf);
+                    break;
+                case ".txt":
+                    rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
+                    break;
+                case ".xml":
+                    XmlReader xmlReader = XmlReader.Create(filePath);
+                    XamlReader xamlReader = new XamlReader();
+                    rtbLoad.Document = new FlowDocument();
+                    rtbLoad.Document = (FlowDocument)(XamlReader.Load(xmlReader));
+                    break;
+                default:
+                    rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
+                    break;
             }
-            else
-                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
 
             nwDebug.nwLog("Opened File.", nwDebug.Severity.Info, logFile);
             unsavedChanges = false;
@@ -162,18 +167,23 @@ namespace NoteyWriteWPF
             FileStream stream;
             rtbSave.SelectAll();
 
-            if (fileExtension == ".rtf")
-                rtbSave.Selection.Save(new FileStream(filePath, FileMode.Create), DataFormats.Rtf);
-            else if (fileExtension == ".txt")
-                rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
-            else if (fileExtension == ".xml")
+            switch (fileExtension)
             {
-                XmlDocument xdoc = new XmlDocument();
-                xdoc.LoadXml(XamlWriter.Save(rtbSave.Document));
-                xdoc.Save(filePath);
+                case ".rtf":
+                    rtbSave.Selection.Save(new FileStream(filePath, FileMode.Create), DataFormats.Rtf);
+                    break;
+                case ".txt":
+                    rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
+                    break;
+                case ".xml":
+                    XmlDocument xdoc = new XmlDocument();
+                    xdoc.LoadXml(XamlWriter.Save(rtbSave.Document));
+                    xdoc.Save(filePath);
+                    break;
+                default:
+                    rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
+                    break;
             }
-            else
-                rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
 
             nwDebug.nwLog("Saved File.", nwDebug.Severity.Info, logFile);
             unsavedChanges = false;
@@ -800,14 +810,14 @@ namespace NoteyWriteWPF
             {
                 insertImage = new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.Uniform, Width = rtbMain.ActualWidth };
                 insertImageUIContainer = new BlockUIContainer(insertImage);
-                insertImage.Loaded += new RoutedEventHandler(insertImageLoaded);
+                insertImage.Loaded += new RoutedEventHandler(insertImage_Loaded);
                 rtbMain.Document.Blocks.Add(insertImageUIContainer);
                 //rtbMain.Document.Blocks.Add(new BlockUIContainer(new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.Uniform, Width = rtbMain.ActualWidth, MaxWidth = rtbMain.ActualWidth, MinWidth = rtbMain.ActualWidth } ));
                 //uiContainer.
             }
         }
 
-        private void insertImageLoaded(object sender, RoutedEventArgs e)
+        private void insertImage_Loaded(object sender, RoutedEventArgs e)
         {
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(insertImage);
             if (adornerLayer != null)

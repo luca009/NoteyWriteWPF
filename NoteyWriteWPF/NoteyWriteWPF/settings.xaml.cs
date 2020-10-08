@@ -90,7 +90,7 @@ namespace NoteyWriteWPF
         private void textAutoDeleteTime_MouseDown(object sender, MouseButtonEventArgs e)
         {
             detailEdit detailEdit = new detailEdit();
-            detailEdit.SetupMsgBox("Time to delete logs after (in days).", "Input", true);
+            detailEdit.SetupMsgBox("Time to delete logs after (in days).", Properties.Settings.Default.autoDeleteLogsDays.ToString(), "Input", true);
             if (detailEdit.ShowDialog() == true)
                 logStoreDays = Int32.Parse(detailEdit.text);
         }

@@ -30,6 +30,13 @@ namespace NoteyWriteWPF
             this.Title = title;
             allowNumbers = !filterNumbers;
         }
+        public void SetupMsgBox(string info, string value, string title = "Input", bool filterNumbers = false)
+        {
+            textInfo.Text = info;
+            this.Title = title;
+            allowNumbers = !filterNumbers;
+            tbInput.Text = value;
+        }
 
         private void tbInput_TextChanged(object sender, TextChangedEventArgs e)
         {
