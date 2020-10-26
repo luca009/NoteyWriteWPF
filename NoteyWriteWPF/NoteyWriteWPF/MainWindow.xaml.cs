@@ -28,7 +28,7 @@ namespace NoteyWriteWPF
     {
         // Define Variables
         private Storyboard animationStoryboard;
-        public string currentVersion = "Alpha 0.4.2";
+        public string currentVersion = "Alpha 0.5";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
         private OpenFileDialog ofdImage = new OpenFileDialog();
