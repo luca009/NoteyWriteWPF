@@ -136,6 +136,19 @@ namespace NoteyWriteWPF
 
             if (!append)
                 rtbLoad.SelectAll();
+            /*if (fileExtension == ".rtf")
+                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Rtf);
+            else if (fileExtension == ".txt")
+                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
+            else if (fileExtension == ".xml")
+            {
+                XmlReader xmlReader = XmlReader.Create(filePath);
+                XamlReader xamlReader = new XamlReader();
+                rtbLoad.Document = new FlowDocument();
+                rtbLoad.Document = (FlowDocument)(XamlReader.Load(xmlReader));
+            }
+            else
+                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);*/
             switch (fileExtension)
             {
                 case ".rtf":
@@ -149,11 +162,16 @@ namespace NoteyWriteWPF
                     XamlReader xamlReader = new XamlReader();
                     rtbLoad.Document = new FlowDocument();
                     rtbLoad.Document = (FlowDocument)(XamlReader.Load(xmlReader));
-                    break;
+                    /*foreach (Image image in rtbLoad.Document.Blocks)
+                    {
+
+                    }*/
+                        break;
                 default:
                     rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
                     break;
             }
+            
 
             nwDebug.nwLog("Opened File.", nwDebug.Severity.Info, logFile);
             unsavedChanges = false;
@@ -167,6 +185,18 @@ namespace NoteyWriteWPF
             FileStream stream;
             rtbSave.SelectAll();
 
+            /*if (fileExtension == ".rtf")
+                rtbSave.Selection.Save(new FileStream(filePath, FileMode.Create), DataFormats.Rtf);
+            else if (fileExtension == ".txt")
+                rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);
+            else if (fileExtension == ".xml")
+            {
+                XmlDocument xdoc = new XmlDocument();
+                xdoc.LoadXml(XamlWriter.Save(rtbSave.Document));
+                xdoc.Save(filePath);
+            }
+            else
+                rtbSave.Selection.Save(stream = new FileStream(filePath, FileMode.Create), DataFormats.Text);*/
             switch (fileExtension)
             {
                 case ".rtf":
@@ -506,6 +536,19 @@ namespace NoteyWriteWPF
             temp = rtbMain.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
             if (temp != null)
                 miUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
+            var ttemp = rtbMain.Selection.Start.Parent;
+            if (ttemp.GetType().Name == "BlockUIContainer") 
+                AddBlockUIContainerAdorner((BlockUIContainer)ttemp);
+            //ttemp.ReadLocalValue()
+            /*foreach (var child in rtbMain.Selection.Start.Parent)
+            {
+
+            }
+            if (rtbMain.Selection.Start.Parent)
+            {
+
+            }*/
+           //if (ttemp.GetValue(Child))
 
             checkForAlignment();
 
@@ -721,6 +764,13 @@ namespace NoteyWriteWPF
                 //Until multiple documents can be opened, only open the first one
                 try
                 {
+                    if (Path.GetExtension(files[0]) == ".jpg" || Path.GetExtension(files[0]) == ".png")
+                    {
+                        insertImage = new Image() { Source = new BitmapImage(new Uri(files[0])), Stretch = Stretch.Uniform, Width = rtbMain.ActualWidth - 50 };
+                        insertImageUIContainer = new BlockUIContainer(insertImage);
+                        rtbMain.Document.Blocks.Add(insertImageUIContainer);
+                        return;
+                    }
                     long length = new FileInfo(files[0]).Length;
                     if (length > performanceModeMinSize)
                     {
@@ -795,6 +845,7 @@ namespace NoteyWriteWPF
             /*var resourceIcons = new ResourceDictionary();
             resourceIcons.Source = new Uri("icons.xaml", UriKind.RelativeOrAbsolute);
             var resourceKeys = resourceIcons.Keys;*/
+            RemoveBlockUIContainerAdorner((BlockUIContainer)rtbMain.Selection.Start.Parent);
         }
 
         private void miSettings_Click(object sender, RoutedEventArgs e)
@@ -808,20 +859,27 @@ namespace NoteyWriteWPF
         {
             if (ofdImage.ShowDialog() == true)
             {
-                insertImage = new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.Uniform, Width = rtbMain.ActualWidth };
+                insertImage = new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.Uniform, Width = rtbMain.ActualWidth - 50 };
                 insertImageUIContainer = new BlockUIContainer(insertImage);
-                insertImage.Loaded += new RoutedEventHandler(insertImage_Loaded);
                 rtbMain.Document.Blocks.Add(insertImageUIContainer);
                 //rtbMain.Document.Blocks.Add(new BlockUIContainer(new Image() { Source = new BitmapImage(new Uri(ofdImage.FileName)), Stretch = Stretch.Uniform, Width = rtbMain.ActualWidth, MaxWidth = rtbMain.ActualWidth, MinWidth = rtbMain.ActualWidth } ));
                 //uiContainer.
             }
         }
 
-        private void insertImage_Loaded(object sender, RoutedEventArgs e)
+        private void AddBlockUIContainerAdorner(BlockUIContainer container)
         {
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(insertImage);
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(container.Child);
             if (adornerLayer != null)
-                adornerLayer.Add(new imageResizeAdorner(insertImage));
+                adornerLayer.Add(new imageResizeAdorner(container.Child));
+        }
+
+        private void RemoveBlockUIContainerAdorner(BlockUIContainer container)
+        {
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(container.Child);
+            if (adornerLayer != null)
+                foreach (Adorner adorner in adornerLayer.GetAdorners(container.Child))
+                    adornerLayer.Remove(adorner);
         }
     }
 }

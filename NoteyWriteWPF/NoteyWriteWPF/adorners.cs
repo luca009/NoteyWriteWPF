@@ -4,34 +4,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace NoteyWriteWPF
 {
     class imageResizeAdorner : Adorner
     {
         Thumb topLeft, topRight, bottomLeft, bottomRight;
+        Button alignLeft, alignCenter, alignRight, cancel, stretch, fit;
         VisualCollection visualChildren;
 
         public imageResizeAdorner(UIElement adornedElement) : base(adornedElement)
         {
             visualChildren = new VisualCollection(this);
-
+            MainWindow mainWindow = new MainWindow();
             // Call a helper method to initialize the Thumbs 
             // with a customized cursors. 
-            BuildAdornerCorner(ref topLeft, Cursors.SizeNWSE);
-            BuildAdornerCorner(ref topRight, Cursors.SizeNESW);
-            BuildAdornerCorner(ref bottomLeft, Cursors.SizeNESW);
+            //BuildAdornerCorner(ref topLeft, Cursors.SizeNWSE);
+            //BuildAdornerCorner(ref topRight, Cursors.SizeNESW);
+            //BuildAdornerCorner(ref bottomLeft, Cursors.SizeNESW);
             BuildAdornerCorner(ref bottomRight, Cursors.SizeNWSE);
+            alignLeft = new Button() { Content = mainWindow.Resources["iconAlignLeft"], Width = 20, Height = 20 };
+            alignCenter = new Button() { Content = mainWindow.Resources["iconAlignCenter"], Width = 20, Height = 20 };
+            alignRight = new Button() { Content = mainWindow.Resources["iconAlignRight"], Width = 20, Height = 20 };
+            cancel = new Button() { Content = "X", Width = 20, Height = 20 };
+            stretch = new Button() { Content = mainWindow.Resources["iconStretch"], Width = 20, Height = 20 };
+            fit = new Button() { Content = mainWindow.Resources["iconFit"], Width = 20, Height = 20 };
+            visualChildren.Add(alignLeft);
+            visualChildren.Add(alignCenter);
+            visualChildren.Add(alignRight);
+            visualChildren.Add(cancel);
+            visualChildren.Add(stretch);
+            visualChildren.Add(fit);
 
             // Add handlers for resizing. 
-            bottomLeft.DragDelta += new DragDeltaEventHandler(HandleBottomLeft);
+            //bottomLeft.DragDelta += new DragDeltaEventHandler(HandleBottomLeft);
             bottomRight.DragDelta += new DragDeltaEventHandler(HandleBottomRight);
-            topLeft.DragDelta += new DragDeltaEventHandler(HandleTopLeft);
-            topRight.DragDelta += new DragDeltaEventHandler(HandleTopRight);
+            //topLeft.DragDelta += new DragDeltaEventHandler(HandleTopLeft);
+            //topRight.DragDelta += new DragDeltaEventHandler(HandleTopRight);
+            alignLeft.Click += new RoutedEventHandler(alignLeft_Click);
+            alignCenter.Click += new RoutedEventHandler(alignCenter_Click);
+            alignRight.Click += new RoutedEventHandler(alignRight_Click);
+            cancel.Click += new RoutedEventHandler(cancel_Click);
+            stretch.Click += new RoutedEventHandler(stretch_Click);
+            fit.Click += new RoutedEventHandler(fit_Click);
         }
 
         /*protected override void OnRender(DrawingContext drawingContext)
@@ -120,6 +141,44 @@ namespace NoteyWriteWPF
             adornedElement.Height = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
         }
 
+        void alignLeft_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            adornedElement.HorizontalAlignment = HorizontalAlignment.Left;
+        }
+
+        void alignCenter_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            adornedElement.HorizontalAlignment = HorizontalAlignment.Center;
+        }
+
+        void alignRight_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            adornedElement.HorizontalAlignment = HorizontalAlignment.Right;
+        }
+
+        void cancel_Click(object sender, RoutedEventArgs e)
+        {
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this.AdornedElement);
+            if (adornerLayer != null)
+                foreach (Adorner adorner in adornerLayer.GetAdorners(this.AdornedElement))
+                    adornerLayer.Remove(adorner);
+        }
+
+        private void fit_Click(object sender, RoutedEventArgs e)
+        {
+            Image adornedElement = this.AdornedElement as Image;
+            adornedElement.Stretch = Stretch.Uniform;
+        }
+
+        private void stretch_Click(object sender, RoutedEventArgs e)
+        {
+            Image adornedElement = this.AdornedElement as Image;
+            adornedElement.Stretch = Stretch.Fill;
+        }
+
         // Arrange the Adorners. 
         protected override Size ArrangeOverride(Size finalSize)
         {
@@ -131,9 +190,15 @@ namespace NoteyWriteWPF
             double adornerWidth = this.DesiredSize.Width;
             double adornerHeight = this.DesiredSize.Height;
 
-            topLeft.Arrange(new Rect(-adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
-            topRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
-            bottomLeft.Arrange(new Rect(-adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
+            //topLeft.Arrange(new Rect(-adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
+            alignLeft.Arrange(new Rect(-adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
+            alignCenter.Arrange(new Rect(-adornerWidth / 2 + 20, -adornerHeight / 2, adornerWidth, adornerHeight));
+            alignRight.Arrange(new Rect(-adornerWidth / 2 + 40, -adornerHeight / 2, adornerWidth, adornerHeight));
+            stretch.Arrange(new Rect(-adornerWidth / 2 + 70, -adornerHeight / 2, adornerWidth, adornerHeight));
+            fit.Arrange(new Rect(-adornerWidth / 2 + 90, -adornerHeight / 2, adornerWidth, adornerHeight));
+            cancel.Arrange(new Rect(-adornerWidth / 2 + 120, -adornerHeight / 2, adornerWidth, adornerHeight));
+            //topRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
+            //bottomLeft.Arrange(new Rect(-adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
             bottomRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
 
             // Return the final size. 
@@ -151,8 +216,8 @@ namespace NoteyWriteWPF
             // Set some arbitrary visual characteristics. 
             cornerThumb.Cursor = customizedCursor;
             cornerThumb.Height = cornerThumb.Width = 10;
-            cornerThumb.Opacity = 0.40;
-            cornerThumb.Background = new SolidColorBrush(Colors.MediumBlue);
+            cornerThumb.Opacity = 0.80;
+            cornerThumb.Background = new SolidColorBrush(Colors.White);
 
             visualChildren.Add(cornerThumb);
         }
