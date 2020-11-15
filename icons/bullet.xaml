@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg857" Width="16" Height="16">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: metadata-->
+    <!--Unknown tag: sodipodi:namedview-->
+    <Canvas Name="g835">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.909091 0 0 1 1.36364 0"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path833" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+        <Path.Data>
+          <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+    <Canvas Name="g839">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.909091 0 0 1 1.36364 6"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path837" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+        <Path.Data>
+          <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+    <Canvas Name="g843">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="0.909091 0 0 1 1.36364 12"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path841" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+        <Path.Data>
+          <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+    <Canvas Name="g847">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="1.5 0 0 1.5 -1 11"/>
+      </Canvas.RenderTransform>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1" Canvas.Top="1" Width="2" Height="2" Name="circle845" Fill="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    </Canvas>
+    <Canvas Name="g851">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="1.5 0 0 1.5 -1 5"/>
+      </Canvas.RenderTransform>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1" Canvas.Top="1" Width="2" Height="2" Name="circle849" Fill="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    </Canvas>
+    <Canvas Name="g855">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="1.5 0 0 1.5 -1 -1"/>
+      </Canvas.RenderTransform>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1" Canvas.Top="1" Width="2" Height="2" Name="circle853" Fill="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    </Canvas>
+  </Canvas>
+</Viewbox>

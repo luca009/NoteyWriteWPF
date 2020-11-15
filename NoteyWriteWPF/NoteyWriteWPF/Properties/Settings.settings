@@ -17,5 +17,11 @@
     <Setting Name="themeBG" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="delaySpellcheckExecution" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="spellcheckExecutionDelay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2500</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

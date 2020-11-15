@@ -482,7 +482,7 @@
                 <Canvas.RenderTransform>
                     <MatrixTransform Matrix="-1 -2.24519e-16 2.69422e-16 -1 16.75 16"/>
                 </Canvas.RenderTransform>
-                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path877" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8277" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
                     <Path.Data>
                         <PathGeometry Figures="M11 3L16 8L11 13" FillRule="EvenOdd"/>
                     </Path.Data>
@@ -850,6 +850,118 @@
                 </Path>
             </Canvas>
             <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1" Canvas.Top="1" Width="7" Height="7" Name="rect8435" Fill="#ffffff" StrokeThickness="1" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+        </Canvas>
+    </Viewbox>
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconBullet">
+        <Canvas Name="svg8587" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Canvas Name="g8235">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.909091 0 0 1 1.36364 0"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8333" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g8369">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.909091 0 0 1 1.36364 6"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8367" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g8643">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.909091 0 0 1 1.36364 12"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8341" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g8447">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1.5 0 0 1.5 -1 11"/>
+                </Canvas.RenderTransform>
+                <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1" Canvas.Top="1" Width="2" Height="2" Name="circle845" Fill="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+            <Canvas Name="g8351">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1.5 0 0 1.5 -1 5"/>
+                </Canvas.RenderTransform>
+                <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1" Canvas.Top="1" Width="2" Height="2" Name="circle849" Fill="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+            <Canvas Name="g8755">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1.5 0 0 1.5 -1 -1"/>
+                </Canvas.RenderTransform>
+                <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="1" Canvas.Top="1" Width="2" Height="2" Name="circle853" Fill="#808080" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Key="iconNumbered">
+        <Canvas Name="svg8757" Width="16" Height="16">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Canvas Name="g835">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.909091 0 0 1 1.40901 0"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path833" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g839">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.909091 0 0 1 1.40901 6"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path837" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g843">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.909091 0 0 1 1.40901 12"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path841" StrokeThickness="1.05" Stroke="#000000" StrokeMiterLimit="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                    <Path.Data>
+                        <PathGeometry Figures="M4 2L15 2" FillRule="EvenOdd"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Name="g847">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1 0 0 1 0.112891 1.35613"/>
+                </Canvas.RenderTransform>
+                <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="6" FontFamily="ArialMT, Arial, sans-serif" Foreground="#808080" Canvas.Left="0.699" Canvas.Top="-2.2" Name="text845">1</TextBlock>
+            </Canvas>
+            <Canvas Name="g8751">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1 0 0 1 -0.0301953 6.35613"/>
+                </Canvas.RenderTransform>
+                <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="6" FontFamily="ArialMT, Arial, sans-serif" Foreground="#808080" Canvas.Left="0.699" Canvas.Top="-2.2" Name="text8469">2</TextBlock>
+            </Canvas>
+            <Canvas Name="g8255">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="1 0 0 1 -0.100977 11.318"/>
+                </Canvas.RenderTransform>
+                <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="6" FontFamily="ArialMT, Arial, sans-serif" Foreground="#808080" Canvas.Left="0.699" Canvas.Top="-2.2" Name="text8533">3</TextBlock>
+            </Canvas>
         </Canvas>
     </Viewbox>
     <!--#endregion-->

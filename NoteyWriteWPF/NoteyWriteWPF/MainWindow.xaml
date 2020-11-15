@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteyWriteWPF"
         mc:Ignorable="d"
-        Title="NoteyWriteWPF" Height="480" Width="640" MinWidth="256" MinHeight="144" Closing="mainWindow_Close" AllowDrop="True">
+        Title="NoteyWriteWPF" Height="480" Width="640" MinWidth="256" MinHeight="144" Closing="mainWindow_Close" AllowDrop="True" HorizontalContentAlignment="Stretch">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,14 +13,19 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <!--<Window.InputBindings>
+        <KeyBinding Modifiers="Control"
+                    Key="S"
+                    Command="{Binding CreateCustomerCommand}" />
+    </Window.InputBindings>-->
 
     <Grid x:Name="gridMain">
-        <Canvas x:Name="canvasDragDrop" Background="#FFBDBDBD" Panel.ZIndex="5" Opacity="0" IsHitTestVisible="False" Visibility="Hidden" AutomationProperties.Name="canvasDragDrop" Margin="0,56,0,0" >
+        <Canvas x:Name="canvasDragDrop" Background="#FFBDBDBD" Panel.ZIndex="5" Opacity="0" IsHitTestVisible="False" Visibility="Hidden" AutomationProperties.Name="canvasDragDrop" Margin="0,61,0,0" >
             <TextBlock TextWrapping="Wrap" Foreground="Black" Panel.ZIndex="1" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Drop to open file."/><LineBreak/><Run Text="This will overwrite anything else!"/></TextBlock>
         </Canvas>
 
         <DockPanel LastChildFill="False" Margin="0,0,0,-0.2">
-            <ToolBarTray x:Name="tbtrayTop" Margin="0" VerticalAlignment="Top" DockPanel.Dock="Top" Background="{DynamicResource colorBlueBG}" Tag="skinable">
+            <ToolBarTray x:Name="tbtrayTop" Margin="0" VerticalAlignment="Top" DockPanel.Dock="Top" Tag="skinable">
                 <ToolBar x:Name="tbFile" Height="30" VerticalAlignment="Top" Background="{DynamicResource colorBlueBG}" Foreground="Black" Tag="skinable" BorderBrush="Black" MinWidth="220" MinHeight="30">
                     <Menu Background="#00F0F0F0" VerticalAlignment="Center">
                         <MenuItem x:Name="miFile" Header="File" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
@@ -42,7 +47,8 @@
                             <MenuItem x:Name="miIgnoreSpelling" Header="Ignore Spelling Error" Command="EditingCommands.IgnoreSpellingError"/>
                         </MenuItem>
                         <MenuItem x:Name="miView" Header="View" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
-                            <MenuItem x:Name="miFormattingBar" Header="Formatting Bar" IsCheckable="True" IsChecked="True" Checked="miFormattingBar_Checked" Unchecked="miFormattingBar_Unchecked"/>
+                            <MenuItem x:Name="miFormattingBar" Header="Formatting Bar" IsCheckable="True" IsChecked="True" Checked="miAnyBar_Checked" Unchecked="miAnyBar_Unchecked"/>
+                            <MenuItem x:Name="miParagraphBar" Header="Paragraph Bar" IsCheckable="True" IsChecked="True" Checked="miAnyBar_Checked" Unchecked="miAnyBar_Unchecked"/>
                         </MenuItem>
                         <MenuItem x:Name="miTools" Header="Tools" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
                             <MenuItem x:Name="miPerformanceMode" Header="Performance Mode" Icon="{StaticResource iconPerformance}" Click="miPerformanceMode_Click"/>
@@ -73,14 +79,18 @@
                     <MenuItem x:Name="miAlignCenter" Icon="{StaticResource iconAlignCenter}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignCenter" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" IsCheckable="True" ToolTip="Align the selected text to the center. (Ctrl+E)"/>
                     <MenuItem x:Name="miAlignRight" Icon="{StaticResource iconAlignRight}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignRight" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Align the selected text to the right. (Ctrl+R)"/>
                     <MenuItem x:Name="miAlignJustify" Icon="{StaticResource iconAlignJustify}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.AlignJustify" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Align the selected text justified. (Ctrl+J)"/>
-                    <Separator Margin="0,2"/>
+                </ToolBar>
+                <ToolBar x:Name="tbParagraph" Height="30" VerticalAlignment="Top" AutomationProperties.Name="tbFormatting" Background="{DynamicResource colorBlueBG}" Band="2" BandIndex="1" Foreground="Black" Tag="skinable" MinHeight="30">
                     <MenuItem x:Name="miIncreaseIndent" Icon="{StaticResource iconIncreaseIndent}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.IncreaseIndentation" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Increase the line indentation. (Ctrl+T)"/>
                     <MenuItem x:Name="miDecreaseIndent" Icon="{StaticResource iconDecreaseIndent}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.DecreaseIndentation" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Decrease the line indentation. (Ctrl+Shift+T)" Header="DecreaseIndentation"/>
+                    <Separator Margin="0,2"/>
+                    <MenuItem x:Name="miBulletList" Icon="{StaticResource iconBullet}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.ToggleBullets" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Enable Bullet List. (Ctrl+Shift+L)" />
+                    <MenuItem x:Name="miNumberedList" Icon="{StaticResource iconNumbered}" Width="23" Margin="0,2,0,0" RenderTransformOrigin="0.5,0.5" Command="EditingCommands.ToggleNumbering" Click="anyFormat_Click" MouseDown="anyFormat_MouseDown" ToolTip="Enable Numbered List. (Ctrl+Shift+N)" />
                 </ToolBar>
                 <!--<ToolBar x:Name="tbFormattingExtra" Band="2" MinHeight="30"></ToolBar>-->
             </ToolBarTray>
 
-            <RichTextBox x:Name="rtbMain" Margin="0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" SpellCheck.IsEnabled="True" AcceptsTab="True" RenderTransformOrigin="0.5,0.5" AutomationProperties.Name="rtbMain" AllowDrop="True" DragOver="rtbMain_DragOver" Drop="rtbMain_Drop" DragLeave="rtbMain_DragLeave" DragEnter="rtbMain_DragEnter" Panel.ZIndex="2" Background="White" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+            <RichTextBox x:Name="rtbMain" Margin="0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" AcceptsTab="True" RenderTransformOrigin="0.5,0.5" AutomationProperties.Name="rtbMain" AllowDrop="True" DragOver="rtbMain_DragOver" Drop="rtbMain_Drop" DragLeave="rtbMain_DragLeave" DragEnter="rtbMain_DragEnter" Panel.ZIndex="2" Background="White" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" SpellCheck.IsEnabled="True" />
         </DockPanel>
     </Grid>
 </Window>

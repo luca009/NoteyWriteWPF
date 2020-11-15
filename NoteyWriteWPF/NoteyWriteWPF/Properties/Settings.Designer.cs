@@ -82,5 +82,29 @@ namespace NoteyWriteWPF.Properties {
                 this["themeBG"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool delaySpellcheckExecution {
+            get {
+                return ((bool)(this["delaySpellcheckExecution"]));
+            }
+            set {
+                this["delaySpellcheckExecution"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2500")]
+        public int spellcheckExecutionDelay {
+            get {
+                return ((int)(this["spellcheckExecutionDelay"]));
+            }
+            set {
+                this["spellcheckExecutionDelay"] = value;
+            }
+        }
     }
 }

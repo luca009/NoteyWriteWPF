@@ -42,6 +42,8 @@ namespace NoteyWriteWPF
         bool canDrop = true;
         Image insertImage;
         BlockUIContainer insertImageUIContainer;
+        System.Windows.Forms.Timer spellcheckTimer = new System.Windows.Forms.Timer() { Enabled = false, Interval = 2000 };
+        bool delaySpellcheckExecution = true;
 
         public MainWindow()
         {
@@ -117,6 +119,8 @@ namespace NoteyWriteWPF
             rtbMain.AddHandler(RichTextBox.DropEvent, new DragEventHandler(rtbMain_Drop), true);
             rtbMain.AddHandler(RichTextBox.DragEnterEvent, new DragEventHandler(rtbMain_DragEnter), true);
             rtbMain.AddHandler(RichTextBox.DragLeaveEvent, new DragEventHandler(rtbMain_DragLeave), true);
+
+            spellcheckTimer.Tick += SpellcheckTimer_Tick;
         }
 
         private string[] getArguments()
@@ -364,6 +368,23 @@ namespace NoteyWriteWPF
                     }
                     break;
             }
+            spellcheckTimer.Interval = Properties.Settings.Default.spellcheckExecutionDelay;
+            delaySpellcheckExecution = Properties.Settings.Default.delaySpellcheckExecution;
+
+            List<RoutedCommand> commands = new List<RoutedCommand>();
+
+            RoutedCommand commandNew = new RoutedCommand();
+            commandNew.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(commandNew, anyNew_Click));
+            RoutedCommand commandOpen = new RoutedCommand();
+            commandOpen.InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(commandOpen, anyOpen_Click));
+            RoutedCommand commandSave = new RoutedCommand();
+            commandSave.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(commandSave, anySave_Click));
+            RoutedCommand commandSaveAs = new RoutedCommand();
+            commandSaveAs.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control ^ ModifierKeys.Shift));
+            CommandBindings.Add(new CommandBinding(commandSaveAs, anySaveAs_Click));
         }
 
         private System.Drawing.Color getAverageColor(System.Drawing.Bitmap bm)
@@ -505,6 +526,17 @@ namespace NoteyWriteWPF
         private void rtbMain_TextChanged(object sender, TextChangedEventArgs e)
         {
             unsavedChanges = true;
+            if (delaySpellcheckExecution)
+            {
+                rtbMain.SpellCheck.IsEnabled = false;
+                spellcheckTimer.Enabled = true;
+            }
+        }
+
+        private void SpellcheckTimer_Tick(object sender, EventArgs e)
+        {
+            spellcheckTimer.Enabled = false;
+            rtbMain.SpellCheck.IsEnabled = true;
         }
 
         private void rtbMain_SelectionChanged(object sender, RoutedEventArgs e)
@@ -717,20 +749,42 @@ namespace NoteyWriteWPF
             }
         }
 
-        private void miFormattingBar_Checked(object sender, RoutedEventArgs e)
+        private void miAnyBar_Checked(object sender, RoutedEventArgs e)
         {
-            if (tbFormatting == null || rtbMain == null)
+            if (sender == null || rtbMain == null)
                 return;
 
-            tbFormatting.Visibility = Visibility.Visible;
+            switch (((MenuItem)sender).Name)
+            {
+                case "miFormattingBar":
+                    tbFormatting.Visibility = Visibility.Visible;
+                    break;
+                case "miParagraphBar":
+                    tbParagraph.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    nwDebug.nwLog("Unknown Bar Visibility", nwDebug.Severity.Warning, logFile);
+                    break;
+            }
         }
 
-        private void miFormattingBar_Unchecked(object sender, RoutedEventArgs e)
+        private void miAnyBar_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (tbFormatting == null || rtbMain == null)
+            if (sender == null || rtbMain == null)
                 return;
 
-            tbFormatting.Visibility = Visibility.Collapsed;
+            switch (((MenuItem)sender).Name)
+            {
+                case "miFormattingBar":
+                    tbFormatting.Visibility = Visibility.Collapsed;
+                    break;
+                case "miParagraphBar":
+                    tbParagraph.Visibility = Visibility.Collapsed;
+                    break;
+                default:
+                    nwDebug.nwLog("Unknown Bar Visibility", nwDebug.Severity.Warning, logFile);
+                    break;
+            }
         }
 
         private void rtbMain_DragOver(object sender, DragEventArgs e)

@@ -24,13 +24,16 @@ namespace NoteyWriteWPF
         int logStoreDays;
         customMessageBox messageBox;
         string filePathBG;
+        int spellcheckExecutionDelay;
 
         public settings()
         {
             InitializeComponent();
             cbDoLogging.IsChecked = Properties.Settings.Default.doLogging;
             cbDeleteLogs.IsChecked = Properties.Settings.Default.autoDeleteLogs;
+            cbDelaySpellcheckExecution.IsChecked = Properties.Settings.Default.delaySpellcheckExecution;
             logStoreDays = Properties.Settings.Default.autoDeleteLogsDays;
+            spellcheckExecutionDelay = Properties.Settings.Default.spellcheckExecutionDelay;
             switch (Properties.Settings.Default.themeName)
             {
                 case "white":
@@ -70,7 +73,9 @@ namespace NoteyWriteWPF
         {
             Properties.Settings.Default.doLogging = (bool)cbDoLogging.IsChecked;
             Properties.Settings.Default.autoDeleteLogs = (bool)cbDeleteLogs.IsChecked;
+            Properties.Settings.Default.delaySpellcheckExecution = (bool)cbDelaySpellcheckExecution.IsChecked;
             Properties.Settings.Default.autoDeleteLogsDays = logStoreDays;
+            Properties.Settings.Default.spellcheckExecutionDelay = spellcheckExecutionDelay;
             if (rbThemeWhite.IsChecked == true)
                 Properties.Settings.Default.themeName = "white";
             else if (rbThemeBlue.IsChecked == true)
@@ -138,6 +143,14 @@ namespace NoteyWriteWPF
         private void rbThemeAdaptive_Checked(object sender, RoutedEventArgs e)
         {
             frameAdaptiveWarning.Visibility = Visibility.Hidden;
+        }
+
+        private void textSpellcheckExecutionDelay_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            detailEdit detailEdit = new detailEdit();
+            detailEdit.SetupMsgBox("Time to delay Spellcheck execution (in ms).", Properties.Settings.Default.spellcheckExecutionDelay.ToString(), "Input", true);
+            if (detailEdit.ShowDialog() == true)
+                spellcheckExecutionDelay = Int32.Parse(detailEdit.text);
         }
     }
 }
