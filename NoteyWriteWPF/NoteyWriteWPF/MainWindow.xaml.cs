@@ -46,9 +46,7 @@ namespace NoteyWriteWPF
         System.Windows.Forms.Timer spellcheckTimer = new System.Windows.Forms.Timer() { Enabled = false, Interval = 2000 };
         System.Windows.Forms.Timer timerAutosave = new System.Windows.Forms.Timer() { Enabled = false, Interval = 300000 };
         bool delaySpellcheckExecution = true;
-        bool sidebarOpen = false;
         bool findReplaceChanges = true;
-        int nextIndex = 0;
         FindAndReplaceManager findAndReplace = new FindAndReplaceManager(new FlowDocument());
 
         public MainWindow()
@@ -147,19 +145,6 @@ namespace NoteyWriteWPF
 
             if (!append)
                 rtbLoad.SelectAll();
-            /*if (fileExtension == ".rtf")
-                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Rtf);
-            else if (fileExtension == ".txt")
-                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);
-            else if (fileExtension == ".xml")
-            {
-                XmlReader xmlReader = XmlReader.Create(filePath);
-                XamlReader xamlReader = new XamlReader();
-                rtbLoad.Document = new FlowDocument();
-                rtbLoad.Document = (FlowDocument)(XamlReader.Load(xmlReader));
-            }
-            else
-                rtbLoad.Selection.Load(new FileStream(filePath, FileMode.Open), DataFormats.Text);*/
             switch (fileExtension)
             {
                 case ".rtf":
@@ -269,43 +254,6 @@ namespace NoteyWriteWPF
                 return Color.FromArgb(255, t, p, v);
             else
                 return Color.FromArgb(255, v, p, q);
-        }
-
-        internal void selectFromIndex(RichTextBox rtb, int index, int length)
-        {
-            //Select using an index and length
-            if (index < 0)
-                return;
-            RichTextBox rtbTemp = XamlReader.Parse(XamlWriter.Save(rtbMain)) as RichTextBox;
-            rtbTemp.SelectAll();
-            string shortenedText = rtbTemp.Selection.Text.Remove(index);
-            int carriageReturnCount = shortenedText.Count(x => x == '\n');
-            index += carriageReturnCount * 2;
-            if (index + length > rtbTemp.Selection.Text.Length)
-                return;
-            /*if (rtbTemp.Selection.Text.IndexOf("\r") != -1)
-            {
-                int tempIndex = index;
-                for (int i = 1; i < tempIndex; i++)
-                {
-                    if (rtbTemp.Selection.Text.IndexOf("\r", i) == -1)
-                        break;
-                    else
-                        if (rtbTemp.Selection.Text.IndexOf("\r", i, 1) != -1)
-                            index += 2;
-                }
-            }*/
-            //string sanitizedText = rtbTemp.Selection.Text.Replace(@"\r\n", @"\n");
-            TextRange textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-
-            if (textRange.Text.Length >= (index + length))
-            {
-                TextPointer start = textRange.Start.GetPositionAtOffset(index, LogicalDirection.Forward);
-                TextPointer end = textRange.Start.GetPositionAtOffset(index + length, LogicalDirection.Backward);
-                textRange = new TextRange(start, end);
-                rtb.Selection.Select(start, end);
-            }
-            return;
         }
 
         private void animate(DoubleAnimation animation, PropertyPath propertyPath, Storyboard storyboard, string objectName)
@@ -431,6 +379,9 @@ namespace NoteyWriteWPF
             RoutedCommand commandSaveAs = new RoutedCommand();
             commandSaveAs.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control ^ ModifierKeys.Shift));
             CommandBindings.Add(new CommandBinding(commandSaveAs, anySaveAs_Click));
+            RoutedCommand commandFindReplace = new RoutedCommand();
+            commandFindReplace.InputGestures.Add(new KeyGesture(Key.F, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(commandFindReplace, miFindReplace_Click));
         }
 
         private System.Drawing.Color getAverageColor(System.Drawing.Bitmap bm)
@@ -726,23 +677,31 @@ namespace NoteyWriteWPF
                 miRedo.IsEnabled = true;
         }
 
-        private void SidebarToggle(Uri uri)
+        private void SidebarOpen(Uri uri)
         {
             frameSidebar.Source = uri;
             float width = 200f;
             EasingMode easing = EasingMode.EaseOut;
-            if (sidebarOpen)
-            {
-                width = -200f;
-                sidebarOpen = false;
-                easing = EasingMode.EaseIn;
-            }
-            else
-                sidebarOpen = true;
             ThicknessAnimation sidebar = new ThicknessAnimation(new Thickness(-width, 0f, 0f, 0f), new Duration(TimeSpan.FromSeconds(0.6f))) { EasingFunction = new QuinticEase() { EasingMode = easing } };
             ThicknessAnimation textBox = new ThicknessAnimation(new Thickness(0f, 0f, width, 0f), new Duration(TimeSpan.FromSeconds(0.6f))) { EasingFunction = new QuinticEase() { EasingMode = easing } };
+            DoubleAnimation closeButton = new DoubleAnimation(100f, new Duration(TimeSpan.FromSeconds(0.6f)));
             animate(sidebar, new PropertyPath(Canvas.MarginProperty), animationStoryboard, "canvasSidebar");
             animate(textBox, new PropertyPath(RichTextBox.MarginProperty), animationStoryboard, "rtbMain");
+            bCloseSidebar.IsHitTestVisible = true;
+            animate(closeButton, new PropertyPath(Button.OpacityProperty), animationStoryboard, "bCloseSidebar");
+        }
+
+        private void SidebarClose()
+        {
+            float width = -200f;
+            EasingMode easing = EasingMode.EaseIn;
+            ThicknessAnimation sidebar = new ThicknessAnimation(new Thickness(-width, 0f, 0f, 0f), new Duration(TimeSpan.FromSeconds(0.6f))) { EasingFunction = new QuinticEase() { EasingMode = easing } };
+            ThicknessAnimation textBox = new ThicknessAnimation(new Thickness(0f, 0f, width, 0f), new Duration(TimeSpan.FromSeconds(0.6f))) { EasingFunction = new QuinticEase() { EasingMode = easing } };
+            DoubleAnimation closeButton = new DoubleAnimation(0f, new Duration(TimeSpan.FromSeconds(0.6f)));
+            animate(sidebar, new PropertyPath(Canvas.MarginProperty), animationStoryboard, "canvasSidebar");
+            animate(textBox, new PropertyPath(RichTextBox.MarginProperty), animationStoryboard, "rtbMain");
+            bCloseSidebar.IsHitTestVisible = false;
+            animate(closeButton, new PropertyPath(Button.OpacityProperty), animationStoryboard, "bCloseSidebar");
         }
 
         private void frameSidebar_ContentRendered(object sender, EventArgs e)
@@ -753,72 +712,77 @@ namespace NoteyWriteWPF
             {
                 case "FindReplace":
                     Button bFind = (Button)grid.Children[5];
-                    bFind.Click += bFind_Click;
+                    Button bReplace = (Button)grid.Children[6];
+                    Button bReplaceNext = (Button)grid.Children[7];
+                    Button bCount = (Button)grid.Children[8];
+                    bFind.Click += bFindReplace_Click;
+                    bReplace.Click += bFindReplace_Click;
+                    bReplaceNext.Click += bFindReplace_Click;
+                    bCount.Click += bFindReplace_Click;
                     break;
                 default:
                     break;
             }
         }
 
-        private void miFindReplace_Click(object sender, RoutedEventArgs e)
+        private void bCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-            SidebarToggle(new Uri("/SidebarPages/FindReplace.xaml", UriKind.Relative));
-            
-            //var temp = frameSidebar.CanGoBack;
-            
-            /*int nextIndex = 0;
-            int lastIndex = -1;
-            find find = new find();
-            string comparisonString = "";
-            rtbMain.SelectAll();
-            find.richTextBox = XamlReader.Parse(XamlWriter.Save(rtbMain)) as RichTextBox;
-            bool result = true;
-            while (result)
-            {
-                result = (bool)find.ShowDialog();
-                //rtbMain.Selection.Select(find.textRange.Start, find.textRange.End);
-                comparisonString = find.tbFind.Text;
-                find.searchString = rtbMain.Selection.Text;
-                comparisonString = find.tbFind.Text;
-                rtbMain.SelectAll();
-                lastIndex = rtbMain.Selection.Text.IndexOf(comparisonString, nextIndex, StringComparison.OrdinalIgnoreCase);
-               if (nextIndex != -1)
-               {
-                    //rtbMain.Selection.Text.Substring(rtbMain.Selection.Text.IndexOf(comparisonString, StringComparison.OrdinalIgnoreCase), comparisonString.Length);
-                    selectFromIndex(rtbMain, lastIndex, comparisonString.Length);
-                    nextIndex = lastIndex + comparisonString.Length;
-                    rtbMain.Focus();
-               }
-            }
-
-            /*comparisonString = find.tbFind.Text;
-            find.searchString = rtbMain.Selection.Text;
-            if (find.ShowDialog() == true)
-            {
-                comparisonString = find.tbFind.Text;
-                rtbMain.SelectAll();
-                lastIndex = rtbMain.Selection.Text.IndexOf(comparisonString, nextIndex, StringComparison.OrdinalIgnoreCase);
-                if (nextIndex != -1)
-                {
-                    //rtbMain.Selection.Text.Substring(rtbMain.Selection.Text.IndexOf(comparisonString, StringComparison.OrdinalIgnoreCase), comparisonString.Length);
-                    selectFromIndex(rtbMain, lastIndex, comparisonString.Length);
-                    nextIndex = lastIndex + comparisonString.Length;
-                }
-            }*/
+            SidebarClose();
         }
 
-        private void bFind_Click(object sender, RoutedEventArgs e)
+        private void miFindReplace_Click(object sender, RoutedEventArgs e)
+        {
+            SidebarOpen(new Uri("/SidebarPages/FindReplace.xaml", UriKind.Relative));
+        }
+
+        private void bFindReplace_Click(object sender, RoutedEventArgs e)
         {
             var content = frameSidebar.Content as Page;
             var grid = content.Content as Grid;
             TextBox tbFind = (TextBox)grid.Children[2];
             TextBox tbReplace = (TextBox)grid.Children[4];
+            var expander = (Expander)grid.Children[9];
+            CheckBox cbMatchCase = (CheckBox)((Grid)expander.Content).Children[0];
+            CheckBox cbMatchWord = (CheckBox)((Grid)expander.Content).Children[1];
+            TextRange textRange = null;
+            FindOptions findOptions = FindOptions.None;
+            if (cbMatchCase.IsChecked == true)
+                findOptions = FindOptions.MatchCase;
+            if (cbMatchWord.IsChecked == true)
+                findOptions ^= FindOptions.MatchWholeWord;
             if (findReplaceChanges)
             {
                 findAndReplace = new FindAndReplaceManager(rtbMain.Document);
                 findReplaceChanges = false;
             }
-            TextRange textRange = findAndReplace.FindNext(tbFind.Text, FindOptions.None);
+            switch (((Button)sender).Content.ToString())
+            {
+                case "Find Next":
+                    textRange = findAndReplace.FindNext(tbFind.Text, findOptions);
+                    break;
+                case "Replace All":
+                    int results = findAndReplace.ReplaceAll(tbFind.Text, tbReplace.Text, findOptions, null);
+                    customMessageBox customMessageBox = new customMessageBox();
+                    customMessageBox.SetupMsgBox($"Replaced {results} occurences.", "Replace All", this.FindResource("iconInformation"));
+                    customMessageBox.ShowDialog();
+                    rtbMain.Focus();
+                    return;
+                case "Replace Next":
+                    textRange = findAndReplace.Replace(tbFind.Text, tbReplace.Text, findOptions);
+                    break;
+                case "Count":
+                    RichTextBox rtbTemp = XamlReader.Parse(XamlWriter.Save(rtbMain)) as RichTextBox;
+                    findAndReplace = new FindAndReplaceManager(rtbTemp.Document);
+                    int count = findAndReplace.ReplaceAll(tbFind.Text, "", findOptions, null);
+                    customMessageBox customMessageBox2 = new customMessageBox();
+                    customMessageBox2.SetupMsgBox($"\"{tbFind.Text}\" appeared {count} times.", "Count", this.FindResource("iconInformation"));
+                    customMessageBox2.ShowDialog();
+                    findReplaceChanges = true;
+                    return;
+                default:
+                    break;
+            }
+            
             if (textRange == null)
             {
                 customMessageBox customMessageBox = new customMessageBox();
@@ -828,59 +792,13 @@ namespace NoteyWriteWPF
                 {
                     findAndReplace = new FindAndReplaceManager(rtbMain.Document);
                     findReplaceChanges = false;
-                    textRange = findAndReplace.FindNext(tbFind.Text, FindOptions.None);
+                    textRange = findAndReplace.FindNext(tbFind.Text, findOptions);
                 }
                 else
                     return;
             }
             rtbMain.Selection.Select(textRange.Start, textRange.End);
             rtbMain.Focus();
-            /*rtbMain.SelectAll();
-            int lastIndex = rtbMain.Selection.Text.IndexOf(tbFind.Text, nextIndex, StringComparison.OrdinalIgnoreCase);
-            if (nextIndex == -1)
-            {
-                MessageBox.Show("yo");
-            }
-            else
-            {
-                selectFromIndex(rtbMain, lastIndex, tbFind.Text.Length);
-                //rtbMain.Selection.Select(rtbMain.Document.ContentStart.GetPositionAtOffset(4), rtbMain.Document.ContentEnd);
-                /*TextRange text = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
-                TextPointer current = text.Start.GetInsertionPosition(LogicalDirection.Forward);
-                TextPointer selectionStart = current.GetPositionAtOffset(lastIndex, LogicalDirection.Forward);
-                TextPointer selectionEnd = selectionStart.GetPositionAtOffset(tbFind.Text.Length, LogicalDirection.Forward);
-                TextRange selection = new TextRange(selectionStart, selectionEnd);
-                rtbMain.Selection.Select(selection.Start, selection.End);
-                rtbMain.Focus();
-                nextIndex = lastIndex + tbFind.Text.Length;
-                
-                /*TextPointer selectionStart = current.GetPositionAtOffset(index, LogicalDirection.Forward);
-                TextPointer selectionEnd = selectionStart.GetPositionAtOffset(keyword.Length, LogicalDirection.Forward);
-                TextRange selection = new TextRange(selectionStart, selectionEnd);
-                selection.Text = newString;
-                selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
-                rtbMain.Selection.Select(selection.Start, selection.End);
-                rtbMain.Focus();
-            }
-            /*string keyword = tbFind.Text;
-            string newString = tbFind.Text;
-            TextRange text = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
-            TextPointer current = text.Start.GetInsertionPosition(LogicalDirection.Forward);
-                string textInRun = current.GetTextInRun(LogicalDirection.Forward);
-                if (!string.IsNullOrWhiteSpace(textInRun))
-                {
-                    int index = textInRun.IndexOf(keyword);
-                    if (index != -1)
-                    {
-                        TextPointer selectionStart = current.GetPositionAtOffset(index, LogicalDirection.Forward);
-                        TextPointer selectionEnd = selectionStart.GetPositionAtOffset(keyword.Length, LogicalDirection.Forward);
-                        TextRange selection = new TextRange(selectionStart, selectionEnd);
-                        selection.Text = newString;
-                        rtbMain.Selection.Select(selection.Start, selection.End);
-                        rtbMain.Focus();
-                    }
-                }
-                current = current.GetNextContextPosition(LogicalDirection.Forward);*/
         }
 
         private void miForeground_Click(object sender, RoutedEventArgs e)

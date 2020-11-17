@@ -8,13 +8,23 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="FindReplace" Width="200">
 
-    <Grid>
+    <Grid ScrollViewer.CanContentScroll="True">
         <TextBlock TextWrapping="Wrap" Text="Find &amp; Replace" FontSize="14" Margin="10,10,10,0" VerticalAlignment="Top"/>
         <TextBlock TextWrapping="Wrap" Text="Find what:" Margin="10,34,10,0" VerticalAlignment="Top"/>
         <TextBox x:Name="tbFind" Height="22" Margin="10,50,10,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="5"/>
         <TextBlock TextWrapping="Wrap" Text="Replace with:" Margin="10,77,10,0" VerticalAlignment="Top"/>
         <TextBox x:Name="tbReplace" Height="22" Margin="10,94,10,0" TextWrapping="Wrap" VerticalAlignment="Top" UndoLimit="5"/>
-        <Button x:Name="bFind" Content="Button" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Width="76"/>
+        <Button x:Name="bFind" Content="Find Next" HorizontalAlignment="Left" Margin="100,121,0,0" VerticalAlignment="Top" Width="90" IsDefault="True"/>
+        <Button x:Name="bReplace" Content="Replace All" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Width="85"/>
+        <Button x:Name="bReplaceNext" Content="Replace Next" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="85"/>
+        <Button x:Name="bCount" Content="Count" HorizontalAlignment="Left" Margin="100,141,0,0" VerticalAlignment="Top" Width="90"/>
+        <Expander Header="Options" Margin="10,166,10,0" VerticalAlignment="Top">
+            <Grid Height="55">
+                <CheckBox x:Name="cbMatchCase" Content="Match Case" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <CheckBox x:Name="cbMatchWord" Content="Match entire word" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </Expander>
+
 
     </Grid>
 </Page>

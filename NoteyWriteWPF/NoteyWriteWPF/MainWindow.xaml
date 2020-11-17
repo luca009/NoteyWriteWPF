@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteyWriteWPF"
         mc:Ignorable="d"
-        Title="NoteyWriteWPF" Height="480" Width="640" MinWidth="336" MinHeight="280" Closing="mainWindow_Close" AllowDrop="True" HorizontalContentAlignment="Stretch">
+        Title="NoteyWriteWPF" Height="480" Width="640" MinWidth="412" MinHeight="292" Closing="mainWindow_Close" AllowDrop="True" HorizontalContentAlignment="Stretch">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -41,7 +41,7 @@
                             <MenuItem x:Name="miUndo" Header="Undo" Click="anyUndo_Click" Icon="{StaticResource iconUndo}"/>
                             <MenuItem x:Name="miRedo" Header="Redo" Click="anyRedo_Click" Margin="0" Icon="{StaticResource iconRedo}"/>
                             <Separator/>
-                            <MenuItem x:Name="miFindReplace" Header="Find &amp; Replace (non-functional)" Click="miFindReplace_Click"/>
+                            <MenuItem x:Name="miFindReplace" Header="Find &amp; Replace" Click="miFindReplace_Click"/>
                             <Separator/>
                             <MenuItem x:Name="miCorrectSpelling" Header="Correct Spelling Error" Command="EditingCommands.CorrectSpellingError"/>
                             <MenuItem x:Name="miIgnoreSpelling" Header="Ignore Spelling Error" Command="EditingCommands.IgnoreSpellingError"/>
@@ -97,6 +97,7 @@
                     <DropShadowEffect Direction="180" ShadowDepth="1"/>
                 </Canvas.Effect>
                 <Frame x:Name="frameSidebar" Panel.ZIndex="6" ContentRendered="frameSidebar_ContentRendered" />
+                <Button x:Name="bCloseSidebar" Content="X" Canvas.Left="-20" Canvas.Top="10" Width="20" AutomationProperties.Name="bCloseSidebar" Click="bCloseSidebar_Click" Opacity="0" IsHitTestVisible="False"/>
             </Canvas>
         </DockPanel>
     </Grid>
