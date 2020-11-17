@@ -25,15 +25,18 @@ namespace NoteyWriteWPF
         customMessageBox messageBox;
         string filePathBG;
         int spellcheckExecutionDelay;
+        int autosaveInterval;
 
         public settings()
         {
             InitializeComponent();
             cbDoLogging.IsChecked = Properties.Settings.Default.doLogging;
             cbDeleteLogs.IsChecked = Properties.Settings.Default.autoDeleteLogs;
+            cbAutosave.IsChecked = Properties.Settings.Default.doAutosave;
             cbDelaySpellcheckExecution.IsChecked = Properties.Settings.Default.delaySpellcheckExecution;
             logStoreDays = Properties.Settings.Default.autoDeleteLogsDays;
             spellcheckExecutionDelay = Properties.Settings.Default.spellcheckExecutionDelay;
+            autosaveInterval = Properties.Settings.Default.autosaveInterval;
             switch (Properties.Settings.Default.themeName)
             {
                 case "white":
@@ -74,8 +77,10 @@ namespace NoteyWriteWPF
             Properties.Settings.Default.doLogging = (bool)cbDoLogging.IsChecked;
             Properties.Settings.Default.autoDeleteLogs = (bool)cbDeleteLogs.IsChecked;
             Properties.Settings.Default.delaySpellcheckExecution = (bool)cbDelaySpellcheckExecution.IsChecked;
+            Properties.Settings.Default.doAutosave = (bool)cbAutosave.IsChecked;
             Properties.Settings.Default.autoDeleteLogsDays = logStoreDays;
             Properties.Settings.Default.spellcheckExecutionDelay = spellcheckExecutionDelay;
+            Properties.Settings.Default.autosaveInterval = autosaveInterval;
             if (rbThemeWhite.IsChecked == true)
                 Properties.Settings.Default.themeName = "white";
             else if (rbThemeBlue.IsChecked == true)
@@ -151,6 +156,14 @@ namespace NoteyWriteWPF
             detailEdit.SetupMsgBox("Time to delay Spellcheck execution (in ms).", Properties.Settings.Default.spellcheckExecutionDelay.ToString(), "Input", true);
             if (detailEdit.ShowDialog() == true)
                 spellcheckExecutionDelay = Int32.Parse(detailEdit.text);
+        }
+
+        private void textAutosaveInterval_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            detailEdit detailEdit = new detailEdit();
+            detailEdit.SetupMsgBox("Save documents every (in min).", (Properties.Settings.Default.autosaveInterval / 60000).ToString(), "Input", true);
+            if (detailEdit.ShowDialog() == true)
+                autosaveInterval = Int32.Parse(detailEdit.text) * 60000;
         }
     }
 }

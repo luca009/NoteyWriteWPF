@@ -18,6 +18,7 @@ using System.Net;
 using System.Windows.Media.Animation;
 using System.Windows.Markup;
 using System.Xml;
+using NoteyWriteWPF.Classes;
 
 namespace NoteyWriteWPF
 {
@@ -43,7 +44,12 @@ namespace NoteyWriteWPF
         Image insertImage;
         BlockUIContainer insertImageUIContainer;
         System.Windows.Forms.Timer spellcheckTimer = new System.Windows.Forms.Timer() { Enabled = false, Interval = 2000 };
+        System.Windows.Forms.Timer timerAutosave = new System.Windows.Forms.Timer() { Enabled = false, Interval = 300000 };
         bool delaySpellcheckExecution = true;
+        bool sidebarOpen = false;
+        bool findReplaceChanges = true;
+        int nextIndex = 0;
+        FindAndReplaceManager findAndReplace = new FindAndReplaceManager(new FlowDocument());
 
         public MainWindow()
         {
@@ -121,6 +127,7 @@ namespace NoteyWriteWPF
             rtbMain.AddHandler(RichTextBox.DragLeaveEvent, new DragEventHandler(rtbMain_DragLeave), true);
 
             spellcheckTimer.Tick += SpellcheckTimer_Tick;
+            timerAutosave.Tick += timerAutosave_Click;
         }
 
         private string[] getArguments()
@@ -267,6 +274,28 @@ namespace NoteyWriteWPF
         internal void selectFromIndex(RichTextBox rtb, int index, int length)
         {
             //Select using an index and length
+            if (index < 0)
+                return;
+            RichTextBox rtbTemp = XamlReader.Parse(XamlWriter.Save(rtbMain)) as RichTextBox;
+            rtbTemp.SelectAll();
+            string shortenedText = rtbTemp.Selection.Text.Remove(index);
+            int carriageReturnCount = shortenedText.Count(x => x == '\n');
+            index += carriageReturnCount * 2;
+            if (index + length > rtbTemp.Selection.Text.Length)
+                return;
+            /*if (rtbTemp.Selection.Text.IndexOf("\r") != -1)
+            {
+                int tempIndex = index;
+                for (int i = 1; i < tempIndex; i++)
+                {
+                    if (rtbTemp.Selection.Text.IndexOf("\r", i) == -1)
+                        break;
+                    else
+                        if (rtbTemp.Selection.Text.IndexOf("\r", i, 1) != -1)
+                            index += 2;
+                }
+            }*/
+            //string sanitizedText = rtbTemp.Selection.Text.Replace(@"\r\n", @"\n");
             TextRange textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
 
             if (textRange.Text.Length >= (index + length))
@@ -280,6 +309,14 @@ namespace NoteyWriteWPF
         }
 
         private void animate(DoubleAnimation animation, PropertyPath propertyPath, Storyboard storyboard, string objectName)
+        {
+            storyboard = new Storyboard();
+            storyboard.Children.Add(animation);
+            Storyboard.SetTargetName(animation, objectName);
+            Storyboard.SetTargetProperty(animation, propertyPath);
+            storyboard.Begin(this);
+        }
+        private void animate(ThicknessAnimation animation, PropertyPath propertyPath, Storyboard storyboard, string objectName)
         {
             storyboard = new Storyboard();
             storyboard.Children.Add(animation);
@@ -319,12 +356,19 @@ namespace NoteyWriteWPF
             
             if (Properties.Settings.Default.autoDeleteLogs)
             {
-                //Delete all logs older than 2 days
+                //Delete all logs older than autoDeleteLogsDays days
                 foreach (var file in directoryInfo.GetFiles("*.nwlog"))
                 {
                     if (file.CreationTimeUtc < DateTime.UtcNow.AddDays(-Properties.Settings.Default.autoDeleteLogsDays))
                         file.Delete();
                 }
+            }
+
+            //Delete all logs older than 2 days
+            foreach (var file in directoryInfo.GetFiles("autosave*.xml"))
+            {
+                if (file.CreationTimeUtc < DateTime.UtcNow.AddDays(-2))
+                    file.Delete();
             }
 
             //Apply skins
@@ -368,11 +412,13 @@ namespace NoteyWriteWPF
                     }
                     break;
             }
+
             spellcheckTimer.Interval = Properties.Settings.Default.spellcheckExecutionDelay;
             delaySpellcheckExecution = Properties.Settings.Default.delaySpellcheckExecution;
+            timerAutosave.Interval = Properties.Settings.Default.autosaveInterval;
+            timerAutosave.Enabled = Properties.Settings.Default.doAutosave;
 
-            List<RoutedCommand> commands = new List<RoutedCommand>();
-
+            //Add Keyboard Shortcuts
             RoutedCommand commandNew = new RoutedCommand();
             commandNew.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(commandNew, anyNew_Click));
@@ -526,6 +572,7 @@ namespace NoteyWriteWPF
         private void rtbMain_TextChanged(object sender, TextChangedEventArgs e)
         {
             unsavedChanges = true;
+            findReplaceChanges = true;
             if (delaySpellcheckExecution)
             {
                 rtbMain.SpellCheck.IsEnabled = false;
@@ -537,6 +584,15 @@ namespace NoteyWriteWPF
         {
             spellcheckTimer.Enabled = false;
             rtbMain.SpellCheck.IsEnabled = true;
+        }
+
+        private void timerAutosave_Click(object sender, EventArgs e)
+        {
+            if (unsavedChanges)
+            {
+                string runningPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                saveDocument(runningPath + "\\autosave" + DateTime.UtcNow.ToString().Replace(' ', '_').Replace('/', '-').Replace(':', '-') + ".xml", rtbMain);
+            }
         }
 
         private void rtbMain_SelectionChanged(object sender, RoutedEventArgs e)
@@ -670,9 +726,47 @@ namespace NoteyWriteWPF
                 miRedo.IsEnabled = true;
         }
 
+        private void SidebarToggle(Uri uri)
+        {
+            frameSidebar.Source = uri;
+            float width = 200f;
+            EasingMode easing = EasingMode.EaseOut;
+            if (sidebarOpen)
+            {
+                width = -200f;
+                sidebarOpen = false;
+                easing = EasingMode.EaseIn;
+            }
+            else
+                sidebarOpen = true;
+            ThicknessAnimation sidebar = new ThicknessAnimation(new Thickness(-width, 0f, 0f, 0f), new Duration(TimeSpan.FromSeconds(0.6f))) { EasingFunction = new QuinticEase() { EasingMode = easing } };
+            ThicknessAnimation textBox = new ThicknessAnimation(new Thickness(0f, 0f, width, 0f), new Duration(TimeSpan.FromSeconds(0.6f))) { EasingFunction = new QuinticEase() { EasingMode = easing } };
+            animate(sidebar, new PropertyPath(Canvas.MarginProperty), animationStoryboard, "canvasSidebar");
+            animate(textBox, new PropertyPath(RichTextBox.MarginProperty), animationStoryboard, "rtbMain");
+        }
+
+        private void frameSidebar_ContentRendered(object sender, EventArgs e)
+        {
+            var content = frameSidebar.Content as Page;
+            var grid = content.Content as Grid;
+            switch (content.Title)
+            {
+                case "FindReplace":
+                    Button bFind = (Button)grid.Children[5];
+                    bFind.Click += bFind_Click;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void miFindReplace_Click(object sender, RoutedEventArgs e)
         {
-            int nextIndex = 0;
+            SidebarToggle(new Uri("/SidebarPages/FindReplace.xaml", UriKind.Relative));
+            
+            //var temp = frameSidebar.CanGoBack;
+            
+            /*int nextIndex = 0;
             int lastIndex = -1;
             find find = new find();
             string comparisonString = "";
@@ -711,6 +805,82 @@ namespace NoteyWriteWPF
                     nextIndex = lastIndex + comparisonString.Length;
                 }
             }*/
+        }
+
+        private void bFind_Click(object sender, RoutedEventArgs e)
+        {
+            var content = frameSidebar.Content as Page;
+            var grid = content.Content as Grid;
+            TextBox tbFind = (TextBox)grid.Children[2];
+            TextBox tbReplace = (TextBox)grid.Children[4];
+            if (findReplaceChanges)
+            {
+                findAndReplace = new FindAndReplaceManager(rtbMain.Document);
+                findReplaceChanges = false;
+            }
+            TextRange textRange = findAndReplace.FindNext(tbFind.Text, FindOptions.None);
+            if (textRange == null)
+            {
+                customMessageBox customMessageBox = new customMessageBox();
+                customMessageBox.SetupMsgBox("No (more) results.\nDo you wish to start at the top again?", "Reset search?", this.FindResource("iconInformation"), "Yes", "No");
+                customMessageBox.ShowDialog();
+                if (customMessageBox.result.ToString() == "Yes")
+                {
+                    findAndReplace = new FindAndReplaceManager(rtbMain.Document);
+                    findReplaceChanges = false;
+                    textRange = findAndReplace.FindNext(tbFind.Text, FindOptions.None);
+                }
+                else
+                    return;
+            }
+            rtbMain.Selection.Select(textRange.Start, textRange.End);
+            rtbMain.Focus();
+            /*rtbMain.SelectAll();
+            int lastIndex = rtbMain.Selection.Text.IndexOf(tbFind.Text, nextIndex, StringComparison.OrdinalIgnoreCase);
+            if (nextIndex == -1)
+            {
+                MessageBox.Show("yo");
+            }
+            else
+            {
+                selectFromIndex(rtbMain, lastIndex, tbFind.Text.Length);
+                //rtbMain.Selection.Select(rtbMain.Document.ContentStart.GetPositionAtOffset(4), rtbMain.Document.ContentEnd);
+                /*TextRange text = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
+                TextPointer current = text.Start.GetInsertionPosition(LogicalDirection.Forward);
+                TextPointer selectionStart = current.GetPositionAtOffset(lastIndex, LogicalDirection.Forward);
+                TextPointer selectionEnd = selectionStart.GetPositionAtOffset(tbFind.Text.Length, LogicalDirection.Forward);
+                TextRange selection = new TextRange(selectionStart, selectionEnd);
+                rtbMain.Selection.Select(selection.Start, selection.End);
+                rtbMain.Focus();
+                nextIndex = lastIndex + tbFind.Text.Length;
+                
+                /*TextPointer selectionStart = current.GetPositionAtOffset(index, LogicalDirection.Forward);
+                TextPointer selectionEnd = selectionStart.GetPositionAtOffset(keyword.Length, LogicalDirection.Forward);
+                TextRange selection = new TextRange(selectionStart, selectionEnd);
+                selection.Text = newString;
+                selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                rtbMain.Selection.Select(selection.Start, selection.End);
+                rtbMain.Focus();
+            }
+            /*string keyword = tbFind.Text;
+            string newString = tbFind.Text;
+            TextRange text = new TextRange(rtbMain.Document.ContentStart, rtbMain.Document.ContentEnd);
+            TextPointer current = text.Start.GetInsertionPosition(LogicalDirection.Forward);
+                string textInRun = current.GetTextInRun(LogicalDirection.Forward);
+                if (!string.IsNullOrWhiteSpace(textInRun))
+                {
+                    int index = textInRun.IndexOf(keyword);
+                    if (index != -1)
+                    {
+                        TextPointer selectionStart = current.GetPositionAtOffset(index, LogicalDirection.Forward);
+                        TextPointer selectionEnd = selectionStart.GetPositionAtOffset(keyword.Length, LogicalDirection.Forward);
+                        TextRange selection = new TextRange(selectionStart, selectionEnd);
+                        selection.Text = newString;
+                        rtbMain.Selection.Select(selection.Start, selection.End);
+                        rtbMain.Focus();
+                    }
+                }
+                current = current.GetNextContextPosition(LogicalDirection.Forward);*/
         }
 
         private void miForeground_Click(object sender, RoutedEventArgs e)

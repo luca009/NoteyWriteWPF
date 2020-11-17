@@ -106,5 +106,29 @@ namespace NoteyWriteWPF.Properties {
                 this["spellcheckExecutionDelay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool doAutosave {
+            get {
+                return ((bool)(this["doAutosave"]));
+            }
+            set {
+                this["doAutosave"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300000")]
+        public int autosaveInterval {
+            get {
+                return ((int)(this["autosaveInterval"]));
+            }
+            set {
+                this["autosaveInterval"] = value;
+            }
+        }
     }
 }

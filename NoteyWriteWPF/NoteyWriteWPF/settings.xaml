@@ -30,6 +30,12 @@
                                     <TextBlock x:Name="textAutoDeleteTime" TextWrapping="Wrap" Text="Edit time to delete after" Margin="0,25,0,0" Foreground="#FF0097FF" HorizontalAlignment="Right" TextDecorations="Underline" Cursor="Hand" MouseDown="textAutoDeleteTime_MouseDown" VerticalAlignment="Top"/>
                                 </Grid>
                             </GroupBox>
+                            <GroupBox Header="Autosave" Height="58" VerticalAlignment="Top" Margin="0,71,0,0">
+                                <Grid Margin="0">
+                                    <CheckBox x:Name="cbAutosave" Content="Autosave documents" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                                    <TextBlock x:Name="textAutosaveInterval" TextWrapping="Wrap" Text="Autosave Interval" Margin="0,9,-1,0" Foreground="#FF0097FF" HorizontalAlignment="Right" TextDecorations="Underline" Cursor="Hand" VerticalAlignment="Top" MouseDown="textAutosaveInterval_MouseDown"/>
+                                </Grid>
+                            </GroupBox>
                         </Grid>
                     </ScrollViewer>
                 </Grid>
@@ -66,7 +72,7 @@
                 <Grid Background="White">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <Grid>
-                            <GroupBox Header="Spellcheck" Height="66" VerticalAlignment="Top">
+                            <GroupBox Header="Spellcheck" Height="58" VerticalAlignment="Top">
                                 <Grid>
                                     <CheckBox x:Name="cbDelaySpellcheckExecution" Content="Delay execution" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
                                     <TextBlock x:Name="textSpellcheckExecutionDelay" TextWrapping="Wrap" Text="Edit delay time" Margin="0,9,9,0" Foreground="#FF0097FF" HorizontalAlignment="Right" TextDecorations="Underline" Cursor="Hand" VerticalAlignment="Top" MouseDown="textSpellcheckExecutionDelay_MouseDown"/>

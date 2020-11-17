@@ -95,12 +95,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="adorners.cs" />
+    <Compile Include="Classes\adorners.cs" />
+    <Compile Include="Classes\RtbFindReplace.cs" />
     <Compile Include="detailEdit.xaml.cs">
       <DependentUpon>detailEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="settings.xaml.cs">
       <DependentUpon>settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidebarPages\FindReplace.xaml.cs">
+      <DependentUpon>FindReplace.xaml</DependentUpon>
     </Compile>
     <Page Include="ColorPicker.xaml">
       <SubType>Designer</SubType>
@@ -160,9 +164,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SidebarPages\FindReplace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="nwDebug.cs" />
+    <Compile Include="Classes\nwDebug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

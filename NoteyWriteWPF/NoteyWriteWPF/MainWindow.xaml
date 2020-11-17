@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteyWriteWPF"
         mc:Ignorable="d"
-        Title="NoteyWriteWPF" Height="480" Width="640" MinWidth="256" MinHeight="144" Closing="mainWindow_Close" AllowDrop="True" HorizontalContentAlignment="Stretch">
+        Title="NoteyWriteWPF" Height="480" Width="640" MinWidth="336" MinHeight="280" Closing="mainWindow_Close" AllowDrop="True" HorizontalContentAlignment="Stretch">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,7 +25,7 @@
         </Canvas>
 
         <DockPanel LastChildFill="False" Margin="0,0,0,-0.2">
-            <ToolBarTray x:Name="tbtrayTop" Margin="0" VerticalAlignment="Top" DockPanel.Dock="Top" Tag="skinable">
+            <ToolBarTray x:Name="tbtrayTop" Margin="0" VerticalAlignment="Top" DockPanel.Dock="Top" Tag="skinable" Panel.ZIndex="5">
                 <ToolBar x:Name="tbFile" Height="30" VerticalAlignment="Top" Background="{DynamicResource colorBlueBG}" Foreground="Black" Tag="skinable" BorderBrush="Black" MinWidth="220" MinHeight="30">
                     <Menu Background="#00F0F0F0" VerticalAlignment="Center">
                         <MenuItem x:Name="miFile" Header="File" Margin="0" BorderThickness="0" ClipToBounds="True" Height="22">
@@ -90,7 +90,14 @@
                 <!--<ToolBar x:Name="tbFormattingExtra" Band="2" MinHeight="30"></ToolBar>-->
             </ToolBarTray>
 
-            <RichTextBox x:Name="rtbMain" Margin="0" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" AcceptsTab="True" RenderTransformOrigin="0.5,0.5" AutomationProperties.Name="rtbMain" AllowDrop="True" DragOver="rtbMain_DragOver" Drop="rtbMain_Drop" DragLeave="rtbMain_DragLeave" DragEnter="rtbMain_DragEnter" Panel.ZIndex="2" Background="White" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" SpellCheck.IsEnabled="True" />
+            <RichTextBox x:Name="rtbMain" IsDocumentEnabled="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbMain_TextChanged" SelectionChanged="rtbMain_SelectionChanged" AcceptsTab="True" RenderTransformOrigin="0.5,0.5" AutomationProperties.Name="rtbMain" AllowDrop="True" DragOver="rtbMain_DragOver" Drop="rtbMain_Drop" DragLeave="rtbMain_DragLeave" DragEnter="rtbMain_DragEnter" Panel.ZIndex="2" Background="White" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" SpellCheck.IsEnabled="True" />
+
+            <Canvas x:Name="canvasSidebar" DockPanel.Dock="Right" Margin="0" Panel.ZIndex="4" Background="#FFF4F4F4" Tag="skinable" AutomationProperties.Name="canvasSidebar" >
+                <Canvas.Effect>
+                    <DropShadowEffect Direction="180" ShadowDepth="1"/>
+                </Canvas.Effect>
+                <Frame x:Name="frameSidebar" Panel.ZIndex="6" ContentRendered="frameSidebar_ContentRendered" />
+            </Canvas>
         </DockPanel>
     </Grid>
 </Window>
