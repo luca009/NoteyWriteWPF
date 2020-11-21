@@ -29,7 +29,7 @@ namespace NoteyWriteWPF
     {
         // Define Variables
         private Storyboard animationStoryboard;
-        public string currentVersion = "Alpha 0.5.1";
+        public string currentVersion = "Alpha 0.5.1.1";
         public SaveFileDialog sfdSave = new SaveFileDialog();
         public OpenFileDialog ofdOpen = new OpenFileDialog();
         private OpenFileDialog ofdImage = new OpenFileDialog();
@@ -793,6 +793,8 @@ namespace NoteyWriteWPF
                     findAndReplace = new FindAndReplaceManager(rtbMain.Document);
                     findReplaceChanges = false;
                     textRange = findAndReplace.FindNext(tbFind.Text, findOptions);
+                    if (textRange == null)
+                        return;
                 }
                 else
                     return;
