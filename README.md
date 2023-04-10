@@ -40,7 +40,4 @@ NoteyWriteWPF is a portable software, so you can use it without having to instal
 Do note that NoteyWriteWPF saves Logs and Autosaves in the running directory and also saves settings in the user's AppData.
 
 ## License
-NoteyWriteWPF is licensed under the GPLv3, which in short means:
-  - You may use this software for commercial or private use.
-  - You may modify or distribute this software.
-  - I am not liable for this software.
+NoteyWriteWPF is licensed under the GPLv3.
